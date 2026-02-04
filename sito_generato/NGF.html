@@ -1,0 +1,131 @@
+
+    <!DOCTYPE html><html><head><title>Natural Gas</title>
+<meta name="author" content="Market Insider Inc. - All Rights Reserved">
+<meta name="copyright" content="Market Insider Inc. - All Rights Reserved">
+<meta name="robots" content="index, follow">
+<meta property="og:site_name" content="Market Insider">
+<meta name="description" content="Advanced Financial Tracker, AI Analysis and Educational Resources.">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&family=JetBrains+Mono:wght@400&display=swap');
+    
+    :root { --primary: #007aff; --bg: #09090b; --card-bg: #121214; --text: #eee; --green: #34c759; --red: #ff3b30; --gold: #ffd700; --congress: #7058ff; --whale: #bd00ff; }
+    
+    body { font-family: 'Manrope', sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; }
+    a { text-decoration: none; color: inherit; transition: 0.2s; }
+    
+    /* TOP BAR & NAV */
+    .top-bar { background: #000; border-bottom: 1px solid #222; padding: 8px 20px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8em; font-family: 'JetBrains Mono', monospace; }
+    .live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; display:inline-block; animation: blink 1s infinite; margin-right:5px; }
+    header { background: rgba(9,9,11, 0.95); padding: 20px; text-align: center; border-bottom: 1px solid #222; position: sticky; top: 0; z-index: 99; backdrop-filter: blur(10px); }
+    .brand { font-weight: 800; font-size: 1.5em; letter-spacing: -1px; text-transform: uppercase; }
+    .brand span { color: var(--primary); }
+    .nav-menu { margin-top: 15px; display: flex; justify-content: center; gap: 20px; font-size: 0.9em; font-weight: bold; }
+    .nav-item { color: #888; text-transform: uppercase; letter-spacing: 1px; }
+    .nav-item:hover, .nav-item.active { color: var(--primary); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 20px; min-height: 80vh; }
+
+    /* CONGRESS TRACKER */
+    .congress-box { background: linear-gradient(145deg, #1a1a2e, #121214); border: 1px solid var(--congress); border-radius: 12px; padding: 20px; margin: 40px 0; overflow-x: auto; }
+    .congress-title { color: var(--congress); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
+    .congress-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+    .congress-table th { text-align: left; padding: 10px; border-bottom: 1px solid #333; color: #888; }
+    .congress-table td { padding: 12px 10px; border-bottom: 1px solid #222; }
+
+    /* ASSET CARDS & BADGES */
+    .market-card { background: var(--card-bg); border: 1px solid #222; border-radius: 8px; padding: 15px 20px; margin-bottom: 10px; display: grid; grid-template-columns: 2fr 1.5fr 0.5fr; align-items: center; }
+    .market-card:hover { border-color: var(--primary); background: #161616; cursor: pointer; }
+    .badge { font-family: 'JetBrains Mono', monospace; font-size: 0.7em; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; display: inline-block; margin-right:5px; }
+    .bull { background: rgba(52, 199, 89, 0.1); color: var(--green); border: 1px solid var(--green); }
+    .bear { background: rgba(255, 59, 48, 0.1); color: var(--red); border: 1px solid var(--red); }
+    .whale { background: linear-gradient(90deg, #4b0082, #bd00ff); color: white; border: 1px solid #bd00ff; box-shadow: 0 0 10px rgba(189,0,255,0.4); animation: pulse 2s infinite; }
+
+    /* ACADEMY STYLES */
+    .lesson-container { background: #111; padding: 40px; border-radius: 12px; border: 1px solid #222; max-width: 800px; margin: 0 auto; }
+    .progress-track { background: #222; height: 6px; border-radius: 3px; margin-bottom: 30px; }
+    .progress-fill { background: var(--primary); height: 100%; border-radius: 3px; }
+    .cta-box { background: linear-gradient(135deg, #111, #1a1a1a); border: 1px solid var(--primary); border-radius: 12px; padding: 30px; text-align: center; margin: 40px 0; }
+    .cta-btn { display: inline-block; background: var(--primary); color: white; padding: 15px 40px; border-radius: 50px; font-weight: bold; margin-top: 15px; }
+
+    /* CHAT SECURITY */
+    .chat-wrapper { background: #000; border: 1px solid #333; border-radius: 12px; height: 75vh; position: relative; overflow:hidden; }
+    #security-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+    .rules-box { background: #111; border: 1px solid var(--red); padding: 30px; border-radius: 12px; max-width: 500px; }
+    .accept-btn { background: var(--red); color: white; border: none; padding: 15px 30px; font-weight: bold; cursor: pointer; border-radius: 6px; margin-top: 15px; }
+    .accept-btn:disabled { background: #444; cursor: not-allowed; }
+
+    /* DATA GRID (Money Flow) */
+    .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin: 20px 0; }
+    .data-box { background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333; text-align: center; }
+    .data-val { font-size: 1.3em; font-weight: 800; font-family: 'JetBrains Mono'; }
+
+    /* FOOTER LEGALE */
+    footer { background: #050505; border-top: 1px solid #222; padding: 50px 20px; margin-top: 80px; color: #555; font-size: 0.75em; text-align: center; }
+    .legal-text { max-width: 800px; margin: 0 auto; line-height: 1.6; }
+    
+    @keyframes blink { 50% { opacity: 0.3; } }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(189,0,255,0.7); } 100% { box-shadow: 0 0 0 10px rgba(189,0,255,0); } }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></head><body>
+        
+<div class="top-bar">
+    <div><span class="live-dot"></span><span id="user-count">...</span> TRADERS ONLINE</div>
+    <div>NEW YORK: <span style="color:var(--green)">OPEN</span></div>
+</div>
+<header>
+    <div class="brand">MARKET<span>INSIDER</span></div>
+    <div class="nav-menu">
+        <a href="index.html" class="nav-item">Dashboard</a>
+        <a href="chat.html" class="nav-item" style="color:var(--green);">SECRET ROOM 💬</a>
+        <a href="academy.html" class="nav-item">Academy 🎓</a>
+    </div>
+</header>
+<script>
+    function updateCount() {
+        let count = parseInt(localStorage.getItem('m_users')) || 1204;
+        count += Math.floor(Math.random() * 5) - 2; 
+        if (count < 800) count = 800;
+        localStorage.setItem('m_users', count);
+        document.getElementById('user-count').innerText = count.toLocaleString();
+    }
+    setInterval(updateCount, 4000);
+    updateCount();
+</script>
+
+        <div class="container">
+            <h1 style="font-size: 2.5em; margin: 10px 0;">Natural Gas <span style="font-size:0.4em; color:#666; vertical-align:middle;">NG=F</span></h1>
+            
+            <div class="data-grid">
+                <div class="data-box"><div style="font-size:0.8em; color:#888;">MONEY FLOW</div><div class="data-val" style="color:var(--gold)">$106,336</div></div>
+                <div class="data-box"><div style="font-size:0.8em; color:#888;">RSI SNIPER</div><div class="data-val">51.3</div></div>
+                <div class="data-box"><div style="font-size:0.8em; color:#888;">AI TARGET</div><div class="data-val" style="color:var(--primary)">$3.55</div></div>
+                <div class="data-box"><div style="font-size:0.8em; color:#888;">STATUS</div><div class="data-val"><span class="badge bear">BEARISH</span></div></div>
+            </div>
+
+            <div class="tradingview-widget-container" style="height:500px; margin-top:20px; border:1px solid #222; border-radius:12px; overflow:hidden;">
+              <div class="tradingview-widget-container__widget" style="height:100%"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>{ "autosize": true, "symbol": "NG", "theme": "dark", "interval": "D" }</script>
+            </div>
+            
+            <div style="margin-top:30px; display:flex; gap:10px; flex-wrap:wrap;">
+                 <a href="https://t.me/share/url?url=https://market-insider-official.netlify.app/NGF.html&text=Analisi Natural Gas: RSI 51.3 - Money Flow $106,336" target="_blank" style="flex:1; background:#0088cc; padding:10px; border-radius:6px; text-align:center; color:white; font-weight:bold;"><i class="fa-brands fa-telegram"></i> Telegram</a>
+                 <a href="https://wa.me/?text=Analisi Natural Gas: RSI 51.3 - Money Flow $106,336 https://market-insider-official.netlify.app/NGF.html" target="_blank" style="flex:1; background:#25D366; padding:10px; border-radius:6px; text-align:center; color:white; font-weight:bold;"><i class="fa-brands fa-whatsapp"></i> Whatsapp</a>
+            </div>
+
+            <div class="cta-box">
+                <h3>Vuoi sfruttare il Money Flow su Natural Gas?</h3>
+                <p>Non rischiare. Usa un conto demo.</p>
+                <a href="https://www.etoro.com/demo" class="cta-btn">APRI DEMO &rarr;</a>
+            </div>
+        </div>
+        <footer>
+            <div class="legal-text">
+                <strong>DISCLAIMER LEGALE & COPYRIGHT:</strong><br>
+                © 2026 Market Insider Inc. - All Rights Reserved. Tutti i diritti riservati.<br>
+                Le informazioni fornite sono a scopo puramente educativo e non costituiscono consulenza finanziaria. Il trading comporta rischi di perdita del capitale.
+                <br>Questo sito partecipa a programmi di affiliazione (eToro, Binance, Amazon) e potrebbe ricevere commissioni.
+            </div>
+        </footer>
+    </body></html>
+    
