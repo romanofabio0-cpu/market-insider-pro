@@ -1,0 +1,37 @@
+name: Autopilot Update 🚀
+
+on:
+  schedule:
+    # Si attiva ogni giorno alle 08:00 UTC (che sono le 09:00 o 10:00 in Italia)
+    - cron: '0 8 * * *'
+  workflow_dispatch: # Ti permette di lanciarlo anche a mano quando vuoi
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write # Diamo il permesso al robot di salvare le modifiche
+
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v3
+
+      - name: Installa Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Installa librerie
+        run: pip install pandas yfinance
+
+      - name: Esegui Analisi AI e Genera Sito
+        run: python main.py
+
+      - name: Salva e Pubblica Aggiornamenti
+        run: |
+          git config --global user.name "Insider Bot"
+          git config --global user.email "bot@marketinsider.pro"
+          git add .
+          git commit -m "🤖 Aggiornamento Automatico Mercati" || echo "Nessuna modifica da salvare"
+          git push
