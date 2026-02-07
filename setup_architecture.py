@@ -3,12 +3,12 @@ import os
 # --- DEFINIZIONE ARCHITETTURA MODULARE (FIXED) ---
 
 def create_file(path, content):
-    # FIX: Crea la cartella solo se il file non è nella root (come main.py)
+    # FIX IMPORTANTE: Crea la cartella SOLO se il file è in una sottocartella
     directory = os.path.dirname(path)
     if directory:
         os.makedirs(directory, exist_ok=True)
         
-    # FIX: Scrittura in UTF-8 forzata per evitare errori di encoding su Windows
+    # FIX: Scrittura in UTF-8 forzata
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)
     print(f"✅ Creato: {path}")
@@ -44,7 +44,6 @@ except AttributeError:
 # ==========================================
 # 2. CORE/STYLES.PY
 # ==========================================
-# Usiamo r''' per evitare conflitti con le virgolette doppie del CSS
 code_styles = r'''
 """
 Modulo contenente lo stile CSS dell'applicazione.
