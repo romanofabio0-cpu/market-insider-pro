@@ -1,0 +1,9 @@
+# Ignora la cartella generata (la ricostruiamo ogni volta)
+public/
+
+# Ignora file di sistema e cache Python
+__pycache__/
+*.pyc
+.DS_Store
+.vscode/
+.env
