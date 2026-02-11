@@ -1,0 +1,17 @@
+name: Autopilot Update 🤖
+
+on:
+  schedule:
+    # Esegue l'aggiornamento ogni 4 ore (puoi cambiare la frequenza)
+    - cron: '0 */4 * * *'
+  # Ti permette di avviarlo anche a mano quando vuoi
+  workflow_dispatch:
+
+jobs:
+  refresh_site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Rebuild
+        run: |
+          curl -X POST "${{ secrets.DEPLOY_HOOK_URL }}"
+          echo "✅ Segnale inviato! Cloudflare sta aggiornando il sito..."
