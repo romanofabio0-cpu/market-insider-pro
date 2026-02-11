@@ -1,2 +1,2 @@
-# Nessuna dipendenza esterna per ora (usiamo standard library)
-# In futuro qui metteremo: requests, pandas, ecc.
+requests
+yfinance
