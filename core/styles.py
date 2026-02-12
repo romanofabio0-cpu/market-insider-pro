@@ -71,7 +71,6 @@ CSS_CORE = """
 
     footer { text-align: center; padding: 60px 20px; color: #666; font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 80px; background: #080808; }
     .legal-links a { color: #888; margin: 0 15px; }
-</style>
 /* --- NUOVI BOTTONI CTA --- */
 .btn-trade {
     background: linear-gradient(90deg, #00C853, #64DD17);
@@ -103,4 +102,5 @@ CSS_CORE = """
 
 @keyframes flashGreen { 0% { color: #00FF00; text-shadow:0 0 10px #00FF00; } 100% { color: inherit; } }
 @keyframes flashRed { 0% { color: #FF0000; text-shadow:0 0 10px #FF0000; } 100% { color: inherit; } }
+</style>
 """
