@@ -12,7 +12,7 @@ logger = get_logger("DataEngine")
 def scarica_crypto_live() -> Dict[str, Any]:
     """Scarica i prezzi reali da CoinGecko API"""
     logger.info("📡 Scaricando dati Crypto Live...")
-    ids = "bitcoin,ethereum,binancecoin,solana,ripple,cardano,dogecoin,polkadot,tron,chainlink,matic-network,shiba-inu,litecoin,uniswap,stellar,ai16z,render-token,fetch-ai,singularitynet"
+    ids = "bitcoin,ethereum,binancecoin,solana,ripple,cardano,dogecoin,polkadot,tron,chainlink,matic-network,shiba-inu,litecoin,uniswap,stellar,render-token,fetch-ai,singularitynet"
     url = f"https://api.coingecko.com/api/v3/simple/price?ids={ids}&vs_currencies=usd&include_24hr_change=true"
     
     try:
