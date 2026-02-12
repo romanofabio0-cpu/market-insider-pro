@@ -72,4 +72,35 @@ CSS_CORE = """
     footer { text-align: center; padding: 60px 20px; color: #666; font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 80px; background: #080808; }
     .legal-links a { color: #888; margin: 0 15px; }
 </style>
+/* --- NUOVI BOTTONI CTA --- */
+.btn-trade {
+    background: linear-gradient(90deg, #00C853, #64DD17);
+    color: #000;
+    font-weight: 800;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.75rem;
+    display: inline-block;
+    box-shadow: 0 0 10px rgba(100, 221, 23, 0.4);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+.btn-trade:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(100, 221, 23, 0.8);
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(100, 221, 23, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(100, 221, 23, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(100, 221, 23, 0); }
+}
+
+/* Effetto Flash per aggiornamento prezzi */
+.flash-up { animation: flashGreen 1s; }
+.flash-down { animation: flashRed 1s; }
+
+@keyframes flashGreen { 0% { color: #00FF00; text-shadow:0 0 10px #00FF00; } 100% { color: inherit; } }
+@keyframes flashRed { 0% { color: #FF0000; text-shadow:0 0 10px #FF0000; } 100% { color: inherit; } }
 """
