@@ -15,63 +15,74 @@ def scrivi_file(nome_file: str, contenuto: str) -> None:
     except IOError as e:
         logger.error(f"❌ Errore scrittura {nome_file}: {e}")
 
-# 🔥 MODIFICA QUI: Aggiunto parametro 'news'
+def format_price(price):
+    """Formatta il prezzo: se < 1 usa 6 decimali, altrimenti 2"""
+    if price < 0.01:
+        return f"${price:.6f}" 
+    elif price < 1:
+        return f"${price:.4f}"
+    else:
+        return f"${price:,.2f}"
+
 def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict]):
     
-    # --- 1. GRIGLIA ASSET (Come prima) ---
+    # --- 1. GRIGLIA ASSET ---
     grid_html = ""
     for a in assets:
         color = "green" if a['change'] >= 0 else "red"
         sign = "+" if a['change'] >= 0 else ""
+        
+        # FIX NOME e PREZZO
+        formatted_price = format_price(a['price'])
+        
         grid_html += f'''
         <a href="chart_{a['id']}.html" class="card-link">
             <div class="card">
-                <div class="card-head"><span class="symbol">{a['symbol']}</span><span class="name">{a['type']}</span></div>
-                <div class="price">${a['price']:,}</div>
+                <div class="card-head">
+                    <span class="symbol">{a['symbol']}</span>
+                    <span class="name" style="color:#888; font-size:0.8rem;">{a['name']}</span> 
+                </div>
+                <div class="price">{formatted_price}</div>
                 <div class="change {color}">{sign}{a['change']}%</div>
                 <div class="signal-box"><span>AI SIGNAL:</span><strong style="color:{a['sig_col']}">{a['signal']}</strong></div>
             </div>
         </a>
         '''
     
-    # --- 🔥🔥 NUOVO: GENERAZIONE RIGHE NEWS ---
+    # --- 2. SEZIONE NEWS ---
     news_rows = ""
     for n in news:
-        # Icona diversa se è crypto o finanza classica
         icon = "₿" if "Coin" in n['source'] else "🏛️"
-        
-        # Creiamo la riga della tabella
         news_rows += f'''
-        <tr>
-            <td style="width:50px; text-align:center; font-size:1.2rem;">{icon}</td>
-            <td>
-                <a href="{n['link']}" target="_blank" style="font-weight:bold; color:#fff; display:block; margin-bottom:4px; text-decoration:none;">
+        <tr style="border-bottom: 1px solid #333;">
+            <td style="padding:10px; width:40px; text-align:center; font-size:1.2rem;">{icon}</td>
+            <td style="padding:10px;">
+                <a href="{n['link']}" target="_blank" style="font-weight:600; color:#eee; text-decoration:none; display:block; margin-bottom:4px; font-size:0.95rem;">
                     {n['title']}
                 </a>
                 <span style="font-size:0.75rem; color:#888;">{n['source']} • {n['published']}</span>
             </td>
-            <td style="text-align:right;">
-                <a href="{n['link']}" target="_blank" class="vip-btn" style="padding: 5px 10px; font-size: 0.7rem;">READ ↗</a>
+            <td style="padding:10px; text-align:right;">
+                <a href="{n['link']}" target="_blank" class="vip-btn" style="padding: 4px 12px; font-size: 0.7rem;">READ</a>
             </td>
         </tr>
         '''
 
-    # --- 3. TABELLA MACRO (Come prima) ---
+    # --- 3. TABELLA MACRO ---
     cal_rows = ""
     for ev in calendar:
-        cal_rows += f'<tr><td><strong style="color:#fff">{ev["evento"]}</strong></td><td>{ev["impatto"]}</td><td>{ev["previsto"]}</td><td>{ev["precedente"]}</td><td>{ev["data"]}</td></tr>'
+        cal_rows += f'<tr style="border-bottom: 1px solid #333;"><td style="padding:10px;"><strong style="color:#fff">{ev["evento"]}</strong></td><td style="padding:10px;">{ev["impatto"]}</td><td style="padding:10px;">{ev["previsto"]}</td><td style="padding:10px; color:#888;">{ev["precedente"]}</td><td style="padding:10px;">{ev["data"]}</td></tr>'
 
-    # --- ASSEMBLY FINALE HTML ---
-    html = f'''<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}</head><body>
+    # --- ASSEMBLY HTML ---
+    html = f'''<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Market Insider Pro</title>{CSS_CORE}</head><body>
     {get_header('home')}
     <div class="container">
         
         <h2 class="section-title">GLOBAL MARKETS PULSE ({len(assets)} Live Assets) ⚡</h2>
         <div class="grid">{grid_html}</div>
         
-        <div class="split-layout" style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px;">
-            
-            <div>
+        <div class="split-layout">
+            <div class="panel">
                 <h2 class="section-title">📰 BREAKING INSIDER NEWS</h2>
                 <div class="table-wrapper">
                     <table style="width:100%; border-collapse: collapse;">
@@ -80,35 +91,28 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict]):
                 </div>
             </div>
             
-            <div>
+            <div class="panel">
                 <h2 class="section-title">📅 MACRO CALENDAR</h2>
                 <div class="table-wrapper">
                     <table style="width:100%; border-collapse: collapse;">
                         <thead>
-                            <tr style="text-align:left; color:#888;">
-                                <th>EVENT</th><th>IMPACT</th><th>FCAST</th><th>PREV</th><th>DATE</th>
+                            <tr style="text-align:left; color:#888; border-bottom:1px solid #444;">
+                                <th style="padding:10px;">EVENT</th><th style="padding:10px;">IMPACT</th><th style="padding:10px;">FCAST</th><th style="padding:10px;">PREV</th><th style="padding:10px;">DATE</th>
                             </tr>
                         </thead>
                         <tbody>{cal_rows}</tbody>
                     </table>
                 </div>
             </div>
-            
         </div>
     </div>
     {get_footer()}
     </body></html>'''
-    
     scrivi_file("index.html", html)
-
-# --- LE ALTRE FUNZIONI (Chart, Academy, Chat) RIMANGONO UGUALI ---
-# Le rimetto qui per comodità, così copiando tutto il file non perdi pezzi.
 
 def build_chart_pages(assets: List[Dict]):
     for a in assets:
-        # TradingView Widget
         widget = f'<div class="tradingview-widget-container" style="height:100%;width:100%"><div id="tv_{a["id"]}" style="height:100%;width:100%"></div><script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script><script type="text/javascript">new TradingView.widget({{"autosize": true, "symbol": "{a["tv"]}", "interval": "D", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "toolbar_bg": "#f1f3f6", "enable_publishing": false, "allow_symbol_change": true, "container_id": "tv_{a["id"]}"}});</script></div>'
-        
         html = f'''<!DOCTYPE html><html><head><meta charset="UTF-8"><title>{a['name']} Analysis</title>{CSS_CORE}</head><body>
         {get_header('home')}
         <div class="container">
@@ -122,13 +126,11 @@ def build_chart_pages(assets: List[Dict]):
 
 def build_academy():
     sidebar = ""
-    # Genera Sidebar
     for _, mod in ACADEMY_CONTENT.items():
         sidebar += f"<div class='module-title'>{mod['title']}</div>"
         for lez in mod['lessons']:
             sidebar += f'''<div onclick="window.location.href='academy_{lez['id']}.html'" class="lesson-link">📄 {lez['title']}</div>'''
-    
-    # Genera Pagine Lezioni
+            
     for _, mod in ACADEMY_CONTENT.items():
         for lez in mod['lessons']:
             html = f'''<!DOCTYPE html><html><head><meta charset="UTF-8"><title>{lez['title']}</title>{CSS_CORE}</head><body>
@@ -160,14 +162,13 @@ def build_chat():
     }
     document.getElementById('in').addEventListener("keypress", e => { if(e.key === "Enter") send(); });
     </script>'''
-    
     html = f'''<!DOCTYPE html><html><head><meta charset="UTF-8"><title>AI Analyst</title>{CSS_CORE}</head><body>
     {get_header('chat')}
     <div class="container">
         <h2 class="section-title">AI MARKET ANALYST 🤖</h2>
         <div class="chat-interface">
-            <div class="chat-history" id="hist"><div class="msg msg-ai">🤖 Hello! I am your Market Analyst. Ask me about trends.</div></div>
-            <div class="chat-input-area"><input type="text" class="chat-input" id="in" placeholder="Ask analysis (e.g., 'Is BTC bullish?')..."><button class="chat-btn" onclick="send()">ANALYZE</button></div>
+            <div class="chat-history" id="hist"><div class="msg msg-ai">🤖 Hello! I am your Market Analyst.</div></div>
+            <div class="chat-input-area"><input type="text" class="chat-input" id="in" placeholder="Ask analysis..."><button class="chat-btn" onclick="send()">ANALYZE</button></div>
         </div>
     </div>
     {js} {get_footer()}
