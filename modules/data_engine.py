@@ -28,17 +28,24 @@ def scarica_crypto_live() -> Dict[str, Any]:
         return {}
 
 def scarica_azioni_live() -> List[Dict]:
-    """Scarica i prezzi reali da Yahoo Finance"""
-    logger.info("📈 Scaricando dati Azionari Live...")
-    tickers = ["NVDA", "TSLA", "AAPL", "MSFT", "AMZN", "GOOGL", "META", "AMD", "COIN", "MSTR", "PLTR", "HOOD", "PYPL", "UBER", "DIS"]
+    """Scarica prezzi Azionari, Commodities e Forex da Yahoo Finance"""
+    logger.info("📈 Scaricando dati Multi-Asset Live...")
+    
+    # Abbiamo aggiunto Oro (GC=F), Petrolio (CL=F) e EUR/USD (EURUSD=X)
+    tickers_map = {
+        "NVDA": "Nvidia", "TSLA": "Tesla", "AAPL": "Apple", "MSFT": "Microsoft", 
+        "COIN": "Coinbase", "MSTR": "MicroStrategy",
+        "GC=F": "Gold", "CL=F": "Crude Oil", "EURUSD=X": "EUR/USD"
+    }
+    tickers_list = list(tickers_map.keys())
     dati_azioni = []
     
     try:
-        data = yf.download(tickers, period="2d", group_by='ticker', progress=False)
+        data = yf.download(tickers_list, period="2d", group_by='ticker', progress=False)
         
-        for symbol in tickers:
+        for symbol in tickers_list:
             try:
-                # Gestione robusta per yfinance
+                import pandas as pd
                 ticker_data = data
                 if isinstance(data.columns, pd.MultiIndex):
                     try:
@@ -54,15 +61,26 @@ def scarica_azioni_live() -> List[Dict]:
                     
                     sig_txt, sig_col = analizza_segnale_tecnico(change)
                     
+                    # Usa il nome bello dalla mappa
+                    display_name = tickers_map[symbol]
+                    # ID pulito per l'HTML (senza = o X)
+                    clean_id = symbol.replace("=", "").replace("X", "").lower()
+                    
+                    # TradingView symbol formatting
+                    tv_symbol = f"NASDAQ:{symbol}"
+                    if symbol == "GC=F": tv_symbol = "COMEX:GC1!"
+                    elif symbol == "CL=F": tv_symbol = "NYMEX:CL1!"
+                    elif symbol == "EURUSD=X": tv_symbol = "FX:EURUSD"
+                    
                     dati_azioni.append({
-                        "id": symbol.lower(),
-                        "cg_id": "stock", # Le azioni non usano CoinGecko
-                        "type": "STOCK",
-                        "name": symbol, 
-                        "symbol": symbol,
-                        "price": round(price, 2),
+                        "id": clean_id,
+                        "cg_id": "stock", 
+                        "type": "MACRO" if "=" in symbol else "STOCK",
+                        "name": display_name, 
+                        "symbol": symbol.replace("=F", "").replace("=X", ""),
+                        "price": round(price, 4) if "USD" in symbol else round(price, 2),
                         "change": round(change, 2),
-                        "tv": f"NASDAQ:{symbol}",
+                        "tv": tv_symbol,
                         "signal": sig_txt,
                         "sig_col": sig_col
                     })
