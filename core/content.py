@@ -130,3 +130,47 @@ ACADEMY_CONTENT = {
         ]
     }
 }
+def get_header(active_page: str) -> str:
+    return f'''
+    <header>
+        <div class="logo">MARKET<span>INSIDER</span> PRO</div>
+        <nav class="nav">
+            <a href="index.html" class="{'active' if active_page=='home' else ''}">Terminal</a>
+            <a href="signals.html" class="{'active' if active_page=='signals' else ''}">⚡ Signals</a>
+            <a href="wallet.html" class="{'active' if active_page=='wallet' else ''}">Wallet</a>
+            <a href="academy_lez1_1.html" class="{'active' if active_page=='academy' else ''}">Academy</a>
+            <a href="brokers.html" class="{'active' if active_page=='brokers' else ''}">Brokers</a>
+            <a href="chat.html" class="{'active' if active_page=='chat' else ''}">AI Analyst</a>
+            <span id="user-greeting" style="color:#00C853; font-weight:bold; display:none;"></span>
+            <button id="login-btn" class="vip-btn" onclick="openLogin()" style="background:#333;">LOGIN</button>
+            <button class="vip-btn" onclick="openWaitlist()" style="background: linear-gradient(45deg, #FFD700, #F57F17); color:#000;">VIP PASS 👑</button>
+        </nav>
+    </header>
+    '''
+
+def get_footer() -> str:
+    return '''
+    <footer>
+        <div class="legal-links"><a href="#">Privacy Policy</a> <a href="#">Terms of Service</a></div>
+        <p style="margin-top:20px; font-size:0.75rem; color:#555;">&copy; 2026 Market Insider Pro. Not financial advice.<br>*This site contains affiliate links.</p>
+    </footer>
+    '''
+
+MODALS_HTML = '''
+<div class="modal-overlay" id="waitlist-modal"><div class="modal-content"><span class="close-modal" onclick="closeModals()">&times;</span><h2 style="color:#FFD700; margin-top:0;">👑 VIP WAITLIST</h2><p style="color:#aaa; font-size:0.9rem;">Join the waitlist to get early access to institutional signals.</p><div id="waitlist-form"><input type="email" id="waitlist-email" class="modal-input" placeholder="Enter your email..."><button class="btn-trade" style="width:85%; padding:12px;" onclick="submitWaitlist()">JOIN WAITLIST</button></div><div id="waitlist-success" style="display:none; color:#00C853; font-weight:bold; margin-top:20px;">✅ You are on the list!</div></div></div>
+<div class="modal-overlay" id="login-modal"><div class="modal-content"><span class="close-modal" onclick="closeModals()">&times;</span><h2 style="margin-top:0;">Welcome Back</h2><p style="color:#aaa; font-size:0.9rem;">Create your local profile.</p><input type="text" id="login-name" class="modal-input" placeholder="Display name..."><button class="vip-btn" style="width:85%; padding:12px;" onclick="doLogin()">ACCESS TERMINAL</button></div></div>
+<script>
+    function openWaitlist() { document.getElementById('waitlist-modal').style.display = 'flex'; }
+    function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
+    function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+    function submitWaitlist() { let e = document.getElementById('waitlist-email').value; if(e.includes('@')) { document.getElementById('waitlist-form').style.display = 'none'; document.getElementById('waitlist-success').style.display = 'block'; } else { alert("Invalid email."); } }
+    function doLogin() { let n = document.getElementById('login-name').value; if(n) { localStorage.setItem('mip_user', n); closeModals(); checkLogin(); } }
+    function checkLogin() { let u = localStorage.getItem('mip_user'); if(u) { let g = document.getElementById('user-greeting'); let b = document.getElementById('login-btn'); if(g) { g.innerText = "👤 " + u; g.style.display = "inline"; } if(b) b.style.display = "none"; } }
+    document.addEventListener("DOMContentLoaded", checkLogin);
+</script>
+'''
+
+ACADEMY_CONTENT = {
+    "mod1": {"title": "MODULE 1: THE MINDSET 🧠", "lessons": [{"id": "lez1_1", "title": "1.1 Psychology of a Winner", "vip": False, "html": "<h1>Trading Psychology</h1><p>Trading is 20% strategy and 80% psychology.</p>"}]},
+    "mod3": {"title": "MODULE 3: WHALE TRACKING 🐳", "lessons": [{"id": "lez3_1", "title": "3.1 Institutional Strategy", "vip": True, "html": "<h1>The Whale Order Block</h1><p>Exact strategy used by institutional banks...</p>"}]}
+}
