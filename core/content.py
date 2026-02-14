@@ -36,7 +36,7 @@ def get_footer() -> str:
         <div class="stats-bar"><div class="stat-item"><div style="color:#00C853; font-size:0.8rem; font-weight:bold;">● LIVE TRADERS</div><div class="stat-value" id="live-users">---</div></div><div class="stat-item"><div style="color:#888; font-size:0.8rem; text-transform:uppercase;">Total Page Views</div><div class="stat-value" id="total-visits">---</div></div><div class="stat-item"><div style="color:#888; font-size:0.8rem; text-transform:uppercase;">System Status</div><div class="stat-value" style="color:#00C853;">100% SECURE</div></div></div>
         <div style="margin: 30px 0;"><a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:underline;">Privacy Policy</a> | <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:underline;">Terms of Service</a> | <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:underline;">Risk Disclaimer</a></div>
         <p style="color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;"><b>STRICT LEGAL WARNING</b></p>
-        <p style="text-align:justify; max-width:800px; margin: 0 auto; line-height:1.4;">© 2026 Market Insider Pro. All Rights Reserved.<br><strong>INTELLECTUAL PROPERTY:</strong> Unauthorized reproduction, scraping, or distribution is strictly prohibited.<br><strong>RISK DISCLAIMER:</strong> Trading involves significant risk. The information provided is for educational purposes only and does NOT constitute financial advice.</p>
+        <p style="text-align:justify; max-width:800px; margin: 0 auto; line-height:1.4;">© 2026 Market Insider Pro. All Rights Reserved.</p>
     </div>
     <div class="fomo-popup" id="fomo-box"><div class="fomo-icon">⚡</div><div id="fomo-text">User99 just upgraded to VIP Pass.</div></div>
     <div class="cookie-banner" id="cookie-banner"><div class="cookie-text">We use cookies to secure your session and provide real-time institutional data. By continuing to use this site, you consent to our <a href="legal.html" style="color:var(--accent);">Privacy Policy</a>.</div><button class="cookie-btn" onclick="acceptCookies()">ACCEPT</button></div>
@@ -76,7 +76,7 @@ MODALS_HTML = '''
             Connect Web3 Wallet
         </button>
         
-        <button class="auth-btn btn-google" onclick="loginGoogle()">
+        <button class="auth-btn btn-google" onclick="window.triggerGoogleLogin()">
             <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
             Continue with Google
         </button>
@@ -89,10 +89,47 @@ MODALS_HTML = '''
     </div>
 </div>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  // Le chiavi ufficiali che hai appena creato su Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyDKYdyh3y-SWCPSciwvVkmnpAoom8fTFM4",
+    authDomain: "market-insider-pro.firebaseapp.com",
+    projectId: "market-insider-pro",
+    storageBucket: "market-insider-pro.firebasestorage.app",
+    messagingSenderId: "1019243929111",
+    appId: "1:1019243929111:web:99815e309d933d0b2f8652",
+    measurementId: "G-431ECSCM9B"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  // Esponiamo la funzione al mondo HTML per farla scattare al click del bottone
+  window.triggerGoogleLogin = function() {
+      signInWithPopup(auth, provider)
+      .then((result) => {
+          const user = result.user;
+          // Estrapoliamo il vero nome o la prima parte della mail se non c'è nome
+          let displayName = user.displayName || user.email.split('@')[0];
+          localStorage.setItem('mip_user', displayName);
+          
+          closeModals();
+          checkLogin();
+          location.reload();
+      }).catch((error) => {
+          console.error("Errore Autenticazione Google:", error);
+          alert("Errore durante il login con Google. Dettagli: " + error.message);
+      });
+  };
+</script>
+
 <script>
-    // --- CONTROLLO EMAIL SEVERO (REGEX) ---
+    // --- FUNZIONI DI SUPPORTO JS ---
     function validateEmail(email) {
-        // Questa regola matematica accetta solo email strutturate correttamente (es. a@b.com) e rifiuta fake@fake
         const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
@@ -103,14 +140,13 @@ MODALS_HTML = '''
             document.getElementById('waitlist-form').style.display = 'none'; 
             document.getElementById('waitlist-success').style.display = 'block'; 
         } else { 
-            alert("Security Error: Please enter a valid and real email address format."); 
+            alert("Security Error: Please enter a valid email address format."); 
         } 
     }
 
     function loginEmail() { 
         let e = document.getElementById('login-email').value; 
         if(validateEmail(e)) { 
-            // Estrae il nome dall'email (es: "mario@gmail.com" -> "mario")
             let name = e.split('@')[0];
             localStorage.setItem('mip_user', name); 
             closeModals(); checkLogin(); location.reload(); 
@@ -119,14 +155,11 @@ MODALS_HTML = '''
         }
     }
 
-    // --- CONNESSIONE REALE WEB3 (METAMASK) ---
     async function loginWeb3() {
         if (typeof window.ethereum !== 'undefined') {
             try {
-                // Richiede l'apertura del portafoglio sul PC dell'utente
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 const wallet = accounts[0];
-                // Salva le prime e ultime lettere del wallet per privacy (es: 0x12...abcd)
                 let displayWallet = wallet.substring(0, 6) + '...' + wallet.substring(wallet.length - 4);
                 localStorage.setItem('mip_user', displayWallet);
                 closeModals(); checkLogin(); location.reload();
@@ -138,14 +171,9 @@ MODALS_HTML = '''
         }
     }
 
-    // --- PREDISPOSIZIONE GOOGLE LOGIN (Firebase Auth) ---
-    function loginGoogle() {
-        alert("Google Identity System is connecting. (Note for Admin: Requires Firebase Auth setup to verify Google Tokens securely on a static site).");
-    }
-
     function openStripe(plan, price) { document.getElementById('stripe-price-desc').innerText = `Subscribe for $${price}`; document.getElementById('stripe-modal').style.display = 'flex'; }
     function processPayment() { let btn = document.getElementById('stripe-pay-btn'); btn.innerText = "Processing..."; btn.style.opacity = "0.7"; setTimeout(() => { btn.innerText = "Payment Successful! ✅"; btn.style.background = "#00C853"; setTimeout(()=>{closeModals(); alert("Welcome to VIP! (This is a Sandbox Demo)");}, 1500); }, 2000); }
-    function openWaitlist(sourceText) { document.getElementById('waitlist-modal').style.display = 'flex'; }
+    function openWaitlist() { document.getElementById('waitlist-modal').style.display = 'flex'; }
     function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
     function closeModals() { document.querySelectorAll('.modal-overlay, .stripe-overlay').forEach(m => m.style.display = 'none'); }
     
@@ -155,7 +183,6 @@ MODALS_HTML = '''
             let g = document.getElementById('user-greeting'); 
             let b = document.getElementById('login-btn'); 
             if(g) { 
-                // Se è un wallet Web3 mettiamo un'icona diversa, altrimenti un utente
                 let icon = u.startsWith('0x') ? '🦊' : '👤';
                 g.innerText = icon + " " + u; 
                 g.style.display = "inline"; 
