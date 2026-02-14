@@ -19,6 +19,117 @@ def format_price(price):
     elif price < 1: return f"${price:.4f}"
     else: return f"${price:,.2f}"
 
+# ==============================================================================
+# NUOVE PAGINE: PRICING, LEADERBOARD, LEGAL
+# ==============================================================================
+
+def build_pricing_page():
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pricing - Market Insider Pro</title>{CSS_CORE}</head><body>{get_header('pricing')}
+    <div class="container">
+        <div style="text-align:center; margin-bottom:20px;">
+            <h1 style="font-size:3rem; margin-bottom:10px;">UPGRADE TO <span style="color:var(--gold);">VIP PASS</span></h1>
+            <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Stop trading blindly. Join the 1% of profitable traders with real-time institutional data, algorithmic signals, and AI analysis.</p>
+        </div>
+        
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3 style="color:#aaa; font-size:1.5rem; margin:0;">BASIC</h3>
+                <div class="price-tag">$0<span>/mo</span></div>
+                <div style="margin-bottom:30px;">
+                    <div class="plan-feature">Delayed Terminal Data (15m)</div>
+                    <div class="plan-feature">Basic Charts</div>
+                    <div class="plan-feature">Academy Module 1</div>
+                    <div class="plan-feature" style="color:#555;"><s>Real-Time Signals</s></div>
+                    <div class="plan-feature" style="color:#555;"><s>API Auto-Trading</s></div>
+                </div>
+                <button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT PLAN</button>
+            </div>
+            
+            <div class="pricing-card pro">
+                <h3 style="color:var(--gold); font-size:1.5rem; margin:0;">PRO TRADER</h3>
+                <div class="price-tag">$49<span>/mo</span></div>
+                <div style="margin-bottom:30px;">
+                    <div class="plan-feature" style="color:#fff;">Real-Time Terminal Data (6s)</div>
+                    <div class="plan-feature" style="color:#fff;">Full VIP Academy Access</div>
+                    <div class="plan-feature" style="color:#fff;">Institutional Signals Room</div>
+                    <div class="plan-feature" style="color:#fff;">Unlimited AI Analyst Chat</div>
+                    <div class="plan-feature" style="color:#fff;">API Auto-Trading Beta</div>
+                </div>
+                <button class="btn-trade" style="width:100%; padding:15px; font-size:1.2rem;" onclick="openStripe('PRO', '49.00')">START 7-DAY TRIAL</button>
+            </div>
+            
+            <div class="pricing-card">
+                <h3 style="color:#2962FF; font-size:1.5rem; margin:0;">WHALE (LIFETIME)</h3>
+                <div class="price-tag">$399<span>/once</span></div>
+                <div style="margin-bottom:30px;">
+                    <div class="plan-feature">Everything in PRO</div>
+                    <div class="plan-feature">1-on-1 Mentorship Session</div>
+                    <div class="plan-feature">Private Discord Access</div>
+                    <div class="plan-feature">Lifetime Updates</div>
+                    <div class="plan-feature">No Recurring Fees</div>
+                </div>
+                <button class="vip-btn" style="width:100%; padding:15px;" onclick="openStripe('LIFETIME', '399.00')">GET LIFETIME ACCESS</button>
+            </div>
+        </div>
+        
+        <p style="text-align:center; margin-top:40px; color:#666; font-size:0.8rem;">🔐 Payments securely processed by Stripe. 30-Day money-back guarantee.</p>
+    </div>
+    {MODALS_HTML} {get_footer()}</body></html>'''
+    scrivi_file("pricing.html", html)
+
+def build_leaderboard_page():
+    js = '''<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let user = localStorage.getItem('mip_user');
+        if(user) {
+            let row = `<tr class="user-row"><td class="rank-3">#8</td><td><strong>👤 ${user} (You)</strong></td><td>$14,250</td><td class="change green">+18.4%</td><td>Pro</td></tr>`;
+            document.getElementById('lb-body').innerHTML += row;
+        } else {
+            document.getElementById('lb-body').innerHTML += `<tr><td colspan="5" style="text-align:center; padding:20px;"><a href="#" onclick="openLogin()" style="color:var(--accent); text-decoration:underline;">Login to see your rank</a></td></tr>`;
+        }
+    });
+    </script>'''
+    
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Top Traders Leaderboard</title>{CSS_CORE}</head><body>{get_header('leaderboard')}
+    <div class="container">
+        <h2 class="section-title" style="text-align:center; font-size:2rem; border:none; margin-bottom:10px;">🏆 GLOBAL LEADERBOARD</h2>
+        <p style="text-align:center; color:#888; margin-bottom:40px;">Top performing accounts this month based on algorithmic execution ROI.</p>
+        
+        <div class="panel" style="max-width:900px; margin:0 auto;">
+            <table>
+                <thead><tr style="border-bottom:2px solid #333;"><th>RANK</th><th>TRADER</th><th>PORTFOLIO SIZE</th><th>30D ROI</th><th>TIER</th></tr></thead>
+                <tbody id="lb-body">
+                    <tr><td class="rank-1">🥇 #1</td><td><strong>WhaleHunter99</strong></td><td>$1.2M</td><td class="change green">+142.5%</td><td><span style="color:var(--gold);">Whale</span></td></tr>
+                    <tr><td class="rank-2">🥈 #2</td><td><strong>CryptoKing_LDN</strong></td><td>$450K</td><td class="change green">+89.2%</td><td>Pro</td></tr>
+                    <tr><td class="rank-3">🥉 #3</td><td><strong>SarahTradeX</strong></td><td>$89K</td><td class="change green">+64.8%</td><td>Pro</td></tr>
+                    <tr><td style="color:#aaa; font-weight:bold;">#4</td><td>AlphaAlgo_01</td><td>Hidden</td><td class="change green">+41.0%</td><td>Pro</td></tr>
+                    <tr><td style="color:#aaa; font-weight:bold;">#5</td><td>BerlinBull</td><td>$12K</td><td class="change green">+38.5%</td><td>Pro</td></tr>
+                    <tr style="border-bottom:2px solid #333;"><td style="color:#aaa; font-weight:bold;">#6</td><td>MiamiVice_BTC</td><td>$55K</td><td class="change green">+31.2%</td><td>Pro</td></tr>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    {MODALS_HTML} {get_footer()} {js}</body></html>'''
+    scrivi_file("leaderboard.html", html)
+
+def build_legal_page():
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Legal & Privacy</title>{CSS_CORE}</head><body>{get_header('legal')}
+    <div class="container" style="max-width:800px; color:#ccc;">
+        <h1 style="color:#fff;">Legal Information & Policies</h1><hr style="border-color:#333; margin-bottom:30px;">
+        <h3 style="color:var(--accent);">Privacy Policy (GDPR Compliant)</h3>
+        <p>Market Insider Pro utilizes LocalStorage to save your preferences, watchlist, and portfolio data directly on your device. We do NOT transmit this personal data to our servers. We use minimal cookies to manage session states and authentication.</p>
+        <h3 style="color:var(--accent);">Terms of Service</h3>
+        <p>By accessing the website, you agree to be bound by these terms. The data provided on this platform is for educational and informational purposes only. Simulated backtesting results and algorithmic signals do not guarantee future returns.</p>
+        <h3 style="color:var(--accent);">Risk Disclaimer</h3>
+        <p>Trading Forex, Cryptocurrencies, and Stocks carries a high level of risk and may not be suitable for all investors. You should carefully consider your investment objectives, level of experience, and risk appetite before deciding to trade.</p>
+    </div>
+    {MODALS_HTML} {get_footer()}</body></html>'''
+    scrivi_file("legal.html", html)
+
+# ==============================================================================
+# PAGINE ESISTENTI INVARIATE (Home, Signals, ecc.)
+# ==============================================================================
+
 def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng: Dict):
     grid_html = ""
     js_mapping = {}
@@ -26,155 +137,15 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         color = "green" if a['change'] >= 0 else "red"
         elem_id = a['id'].replace(" ", "-")
         if a['type'] == 'CRYPTO': js_mapping[a['cg_id']] = elem_id
-        
-        # AGGIUNTA STELLA WATCHLIST e data-id per l'ordinamento
-        grid_html += f'''
-        <div class="card-wrapper" data-id="{elem_id}">
-            <span class="star-icon" id="star-{elem_id}" onclick="toggleStar('{elem_id}')">★</span>
-            <a href="chart_{a["id"]}.html" class="card-link" style="display:block; height:100%;">
-                <div class="card">
-                    <div class="card-head"><span class="symbol">{a["symbol"]}</span><span class="name" style="color:#888; font-size:0.8rem;">{a["name"]}</span></div>
-                    <div class="price" id="price-{elem_id}">{format_price(a["price"])}</div>
-                    <div class="change {color}" id="change-{elem_id}">{( "+" if a["change"] >= 0 else "" )}{a["change"]}%</div>
-                    <div class="signal-box"><span>AI SIGNAL:</span><strong style="color:{a["sig_col"]}">{a["signal"]}</strong></div>
-                </div>
-            </a>
-        </div>'''
-    
+        grid_html += f'''<div class="card-wrapper" data-id="{elem_id}"><span class="star-icon" id="star-{elem_id}" onclick="toggleStar('{elem_id}')">★</span><a href="chart_{a["id"]}.html" class="card-link" style="display:block; height:100%;"><div class="card"><div class="card-head"><span class="symbol">{a["symbol"]}</span><span class="name" style="color:#888; font-size:0.8rem;">{a["name"]}</span></div><div class="price" id="price-{elem_id}">{format_price(a["price"])}</div><div class="change {color}" id="change-{elem_id}">{( "+" if a["change"] >= 0 else "" )}{a["change"]}%</div><div class="signal-box"><span>AI SIGNAL:</span><strong style="color:{a["sig_col"]}">{a["signal"]}</strong></div></div></a></div>'''
     fng_color = "#FF3D00" if fng['value'] < 40 else ("#00C853" if fng['value'] > 60 else "#FFD700")
     fng_html = f'<div class="fng-meter"><h3 style="margin:0; color:#888; text-transform:uppercase; font-size:0.9rem;">MARKET SENTIMENT</h3><div class="fng-value" style="color:{fng_color};">{fng["value"]}</div><div style="font-weight:bold; letter-spacing:1px;">{fng["text"]}</div><div class="fng-bar"><div class="fng-indicator" style="left: {fng["value"]}%;"></div></div></div>'
-    
-    # AGGIUNTO IL MOTORE DELLA WATCHLIST NEL JS GLOBALE
-    real_time_script = f'''<script>
-    const idMap = {json.dumps(js_mapping)}; const apiIds = "{",".join(js_mapping.keys())}"; 
-    const WL_KEY = "mip_watchlist_v1";
-
-    // WATCHLIST SYSTEM
-    function toggleStar(id) {{
-        let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]");
-        if(wl.includes(id)) {{ wl = wl.filter(x => x !== id); }} 
-        else {{ wl.push(id); }}
-        localStorage.setItem(WL_KEY, JSON.stringify(wl));
-        sortGrid();
-    }}
-
-    function sortGrid() {{
-        let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]");
-        let grid = document.getElementById("markets-grid");
-        let cards = Array.from(grid.children);
-        
-        cards.forEach(c => {{
-            let id = c.getAttribute("data-id");
-            let star = document.getElementById("star-"+id);
-            if(wl.includes(id)) {{ star.classList.add("active"); }} 
-            else {{ star.classList.remove("active"); }}
-        }});
-
-        cards.sort((a, b) => {{
-            let aStar = wl.includes(a.getAttribute("data-id")) ? 1 : 0;
-            let bStar = wl.includes(b.getAttribute("data-id")) ? 1 : 0;
-            return bStar - aStar; // Le stelle vanno in alto
-        }});
-        cards.forEach(c => grid.appendChild(c));
-    }}
-
-    // REAL-TIME ENGINE
-    async function updatePrices() {{ 
-        try {{ 
-            const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${{apiIds}}&vs_currencies=usd&include_24hr_change=true&_=${{new Date().getTime()}}`); 
-            const data = await res.json(); 
-            for (const [cgId, value] of Object.entries(data)) {{ 
-                let htmlId = idMap[cgId]; if (!htmlId) continue; 
-                let priceElem = document.getElementById(`price-${{htmlId}}`); 
-                let changeElem = document.getElementById(`change-${{htmlId}}`); 
-                if (priceElem) {{ 
-                    let oldPrice = parseFloat(priceElem.innerText.replace("$", "").replace(",", "")); 
-                    let newPrice = value.usd; 
-                    if(newPrice !== oldPrice && !isNaN(oldPrice)) {{ 
-                        priceElem.innerText = newPrice < 1 ? "$" + newPrice.toFixed(6) : "$" + newPrice.toLocaleString("en-US", {{minimumFractionDigits: 2, maximumFractionDigits: 2}}); 
-                        priceElem.classList.remove("flash-up", "flash-down"); void priceElem.offsetWidth; 
-                        priceElem.classList.add(newPrice > oldPrice ? "flash-up" : "flash-down"); 
-                    }} 
-                }} 
-                if (changeElem) {{ 
-                    let change = value.usd_24h_change.toFixed(2); 
-                    changeElem.innerText = (change >= 0 ? "+" : "") + change + "%"; 
-                    changeElem.className = "change " + (change >= 0 ? "green" : "red"); 
-                }} 
-            }} 
-        }} catch (e) {{}} 
-    }} 
-    
-    document.addEventListener("DOMContentLoaded", sortGrid);
-    setInterval(updatePrices, 6000); 
-    </script>'''
-    
+    real_time_script = f'''<script>const idMap = {json.dumps(js_mapping)}; const apiIds = "{",".join(js_mapping.keys())}"; const WL_KEY = "mip_watchlist_v1"; function toggleStar(id) {{ let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]"); if(wl.includes(id)) {{ wl = wl.filter(x => x !== id); }} else {{ wl.push(id); }} localStorage.setItem(WL_KEY, JSON.stringify(wl)); sortGrid(); }} function sortGrid() {{ let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]"); let grid = document.getElementById("markets-grid"); let cards = Array.from(grid.children); cards.forEach(c => {{ let id = c.getAttribute("data-id"); let star = document.getElementById("star-"+id); if(wl.includes(id)) {{ star.classList.add("active"); }} else {{ star.classList.remove("active"); }} }}); cards.sort((a, b) => {{ let aStar = wl.includes(a.getAttribute("data-id")) ? 1 : 0; let bStar = wl.includes(b.getAttribute("data-id")) ? 1 : 0; return bStar - aStar; }}); cards.forEach(c => grid.appendChild(c)); }} async function updatePrices() {{ try {{ const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${{apiIds}}&vs_currencies=usd&include_24hr_change=true&_=${{new Date().getTime()}}`); const data = await res.json(); for (const [cgId, value] of Object.entries(data)) {{ let htmlId = idMap[cgId]; if (!htmlId) continue; let priceElem = document.getElementById(`price-${{htmlId}}`); let changeElem = document.getElementById(`change-${{htmlId}}`); if (priceElem) {{ let oldPrice = parseFloat(priceElem.innerText.replace("$", "").replace(",", "")); let newPrice = value.usd; if(newPrice !== oldPrice && !isNaN(oldPrice)) {{ priceElem.innerText = newPrice < 1 ? "$" + newPrice.toFixed(6) : "$" + newPrice.toLocaleString("en-US", {{minimumFractionDigits: 2, maximumFractionDigits: 2}}); priceElem.classList.remove("flash-up", "flash-down"); void priceElem.offsetWidth; priceElem.classList.add(newPrice > oldPrice ? "flash-up" : "flash-down"); }} }} if (changeElem) {{ let change = value.usd_24h_change.toFixed(2); changeElem.innerText = (change >= 0 ? "+" : "") + change + "%"; changeElem.className = "change " + (change >= 0 ? "green" : "red"); }} }} }} catch (e) {{}} }} document.addEventListener("DOMContentLoaded", sortGrid); setInterval(updatePrices, 6000); </script>'''
     news_rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td style="padding:15px 10px; text-align:center; font-size:1.2rem;">{"🔥" if "Coin" in n["source"] else "🏛️"}</td><td style="padding:15px 10px;"><a href="{n["link"]}" target="_blank" style="font-weight:700; color:#fff; display:block; margin-bottom:5px;">{n["title"]}</a><span style="font-size:0.75rem; color:#888;">{n["source"]}</span></td><td style="text-align:right;"><a href="{n["link"]}" target="_blank" class="btn-trade">{"⚡ TRADE" if "Coin" in n["source"] else "👁️ READ"}</a></td></tr>' for n in news])
     cal_rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td><strong style="color:#fff">{ev["evento"]}</strong></td><td>{ev["impatto"]}</td><td>{ev["previsto"]}</td><td style="color:#888;">{ev["precedente"]}</td><td>{ev["data"]}</td></tr>' for ev in calendar])
-
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}</head><body>{get_header('home')}
-    <div class="container">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2>
-            <div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div>
-        </div>
-        <p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p>
-        <div class="grid" id="markets-grid">{grid_html}</div>
-        <div class="split-layout">
-            <div class="panel">{fng_html}</div>
-            <div class="panel"><h2 class="section-title">📰 MARKET MOVERS</h2><table style="width:100%;"><tbody>{news_rows}</tbody></table></div>
-        </div>
-    </div>
-    {MODALS_HTML} {get_footer()} {real_time_script}</body></html>'''
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}</head><body>{get_header('home')}<div class="container"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2><div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div></div><p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p><div class="grid" id="markets-grid">{grid_html}</div><div class="split-layout"><div class="panel">{fng_html}</div><div class="panel"><h2 class="section-title">📰 MARKET MOVERS</h2><table style="width:100%;"><tbody>{news_rows}</tbody></table></div></div></div>{MODALS_HTML} {get_footer()} {real_time_script}</body></html>'''
     scrivi_file("index.html", html)
 
-def build_referral_page():
-    js_script = '''<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let user = localStorage.getItem('mip_user') || 'trader' + Math.floor(Math.random()*1000);
-        let link = `https://market-insider-pro.com/invite/${user.toLowerCase()}`;
-        document.getElementById('ref-url').innerText = link;
-        
-        // Simula progressi per FOMO
-        let refCount = localStorage.getItem('mip_refs');
-        if(!refCount) { refCount = Math.floor(Math.random() * 2); localStorage.setItem('mip_refs', refCount); }
-        document.getElementById('ref-count').innerText = refCount;
-        let perc = (refCount / 3) * 100;
-        document.getElementById('ref-bar').style.width = perc + "%";
-    });
-    function copyLink() {
-        navigator.clipboard.writeText(document.getElementById('ref-url').innerText);
-        let btn = document.getElementById('copy-btn');
-        btn.innerText = "COPIED! ✅";
-        btn.style.background = "#00C853";
-        setTimeout(() => { btn.innerText = "COPY LINK"; btn.style.background = "var(--accent)"; }, 2000);
-    }
-    </script>'''
-
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Invite & Earn</title>{CSS_CORE}</head><body>{get_header('referral')}
-    <div class="container" style="max-width:800px;">
-        <div class="ref-box">
-            <h1 style="font-size:2.5rem; margin-top:0; color:var(--gold);">🎁 INVITE FRIENDS, GET VIP FREE.</h1>
-            <p style="color:#ccc; font-size:1.1rem;">Invite 3 friends to join Market Insider Pro. When they create an account, you automatically unlock 1 month of VIP Pass (Value $99).</p>
-            
-            <div class="ref-link-container">
-                <div class="ref-link" id="ref-url">Loading link...</div>
-                <button class="ref-copy" id="copy-btn" onclick="copyLink()">COPY LINK</button>
-            </div>
-            
-            <div style="margin-top:40px; text-align:left; max-width:500px; margin: 40px auto 0;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:#aaa; font-weight:bold;">
-                    <span>Friends Invited</span>
-                    <span><span id="ref-count" style="color:#fff;">0</span> / 3</span>
-                </div>
-                <div class="progress-container"><div class="progress-bar" id="ref-bar"></div></div>
-            </div>
-        </div>
-    </div>
-    {MODALS_HTML} {get_footer()} {js_script}</body></html>'''
-    scrivi_file("referral.html", html)
-
-# --- LE ALTRE PAGINE INVARIATE (Ma necessarie per il builder) ---
 def build_signals_page(assets: List[Dict]):
     hot_assets = [a for a in assets if abs(a['change']) >= 2.0]
     rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td style="padding:15px;"><strong style="font-size:1.1rem; color:#fff;">{a["symbol"]}</strong><br><span style="font-size:0.8rem;color:#888;">{a["name"]}</span></td><td style="padding:15px;">{format_price(a["price"])}</td><td style="padding:15px;" class="{"signal-buy" if a["change"] > 0 else "signal-sell"}">{( "+" if a["change"] >= 0 else "" )}{a["change"]}%</td><td style="padding:15px; font-weight:bold;" class="{"signal-buy" if a["change"] > 0 else "signal-sell"}">{"🔥 STRONG BUY" if a["change"] > 0 else "🩸 SHORT / SELL"}</td><td style="padding:15px; text-align:right;"><a href="chart_{a["id"]}.html" class="btn-trade">CHART ↗</a></td></tr>' for a in hot_assets])
@@ -189,7 +160,7 @@ def build_api_hub():
 
 def build_brokers_page():
     brokers = [{"name": "Binance", "type": "Crypto", "pros": "Low fees, high liquidity", "link": "#", "cta": "CLAIM $100 BONUS"}, {"name": "Bybit", "type": "Crypto Futures", "pros": "Best for Leverage, Pro UI", "link": "#", "cta": "OPEN PRO ACCOUNT"}, {"name": "eToro", "type": "Stocks & Forex", "pros": "CopyTrading, Easy to use", "link": "#", "cta": "START COPYING"}]
-    html_cards = "".join([f'<div class="broker-card"><div style="display:flex; align-items:center;"><div class="broker-logo">🏦</div><div class="broker-info"><h3 style="margin:0; color:#fff;">{b["name"]}</h3><div class="broker-tags"><span>{b["type"]}</span><span>{b["pros"]}</span></div></div></div><button class="btn-trade" style="padding:12px 24px;" onclick="openWaitlist(\'VIP PASS\')">{b["cta"]}</button></div>' for b in brokers])
+    html_cards = "".join([f'<div class="broker-card"><div style="display:flex; align-items:center;"><div class="broker-logo">🏦</div><div class="broker-info"><h3 style="margin:0; color:#fff;">{b["name"]}</h3><div class="broker-tags"><span>{b["type"]}</span><span>{b["pros"]}</span></div></div></div><button class="btn-trade" style="padding:12px 24px;" onclick="window.location.href=\'pricing.html\'">{b["cta"]}</button></div>' for b in brokers])
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Partner Brokers</title>{CSS_CORE}</head><body>{get_header('brokers')}<div class="container"><h2 class="section-title">💸 EXCLUSIVE BROKER OFFERS</h2><p style="color:#888; margin-bottom:30px;">Trade with the tools the pros use. Claim exclusive sign-up bonuses.</p><div style="max-width:800px; margin:0 auto;">{html_cards}</div></div>{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("brokers.html", html)
 
@@ -203,7 +174,7 @@ def build_academy():
     sidebar = "".join([f"<div class='module-title'>{m['title']}</div>" + "".join([f'''<div onclick="window.location.href='academy_{l['id']}.html'" class="lesson-link">{"🔒" if l.get("vip") else "📄"} {l['title']}</div>''' for l in m['lessons']]) for _, m in ACADEMY_CONTENT.items()])
     for _, m in ACADEMY_CONTENT.items():
         for l in m['lessons']:
-            c_html = f'''<div style="filter: blur(6px); pointer-events: none;">{l['html']}</div><div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--accent); border-radius:12px; z-index:10;"><h2 style="color:#FFD700;">🔒 VIP CONTENT</h2><button class="btn-trade" onclick="openWaitlist('VIP PASS')">GET VIP PASS</button></div>''' if l.get("vip") else l['html']
+            c_html = f'''<div style="filter: blur(6px); pointer-events: none;">{l['html']}</div><div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--accent); border-radius:12px; z-index:10;"><h2 style="color:#FFD700;">🔒 VIP CONTENT</h2><button class="btn-trade" onclick="window.location.href='pricing.html'">GET VIP PASS</button></div>''' if l.get("vip") else l['html']
             html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>{l['title']}</title>{CSS_CORE}</head><body>{get_header('academy')}<div class="container"><div class="academy-grid"><div class="sidebar">{sidebar}</div><div class="lesson-content" style="position:relative;">{c_html}</div></div></div>{MODALS_HTML}{get_footer()}</body></html>'''
             scrivi_file(f"academy_{l['id']}.html", html)
 
