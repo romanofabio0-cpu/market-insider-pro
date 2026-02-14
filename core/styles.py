@@ -1,7 +1,11 @@
 CSS_CORE = '''<style>
-/* --- BASE & LAYOUT --- */
+/* --- BASE & LAYOUT (ANTI-THEFT ATTIVATO) --- */
 :root { --bg: #0a0a0a; --card-bg: #111; --text: #eee; --accent: #2962FF; --green: #00C853; --red: #FF3D00; --gold: #FFD700; }
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; }
+body { 
+    font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; 
+    /* ANTI-COPIA TEXT */
+    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; 
+}
 a { text-decoration: none; color: inherit; transition: 0.3s; }
 .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #222; margin-bottom: 30px; }
@@ -44,10 +48,10 @@ th { font-size: 0.7rem; text-transform: uppercase; color: #666; }
 @keyframes flashRed { 0% { color: #FF0000; text-shadow:0 0 10px #FF0000; } 100% { color: inherit; } }
 
 /* --- MODALS & FEAR AND GREED --- */
-.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
 .modal-content { background: #111; padding: 40px; border-radius: 12px; border: 1px solid #333; width: 90%; max-width: 400px; text-align: center; position: relative; }
 .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #888; }
-.modal-input { width: 80%; padding: 12px; margin: 15px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; }
+.modal-input { width: 80%; padding: 12px; margin: 15px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; font-family: 'Inter', sans-serif;}
 .fng-meter { background: #000; border: 1px solid #333; border-radius: 8px; padding: 20px; text-align: center; }
 .fng-value { font-size: 3rem; font-weight: 900; margin: 10px 0; }
 .fng-bar { height: 10px; width: 100%; background: linear-gradient(90deg, #FF3D00, #FFD700, #00C853); border-radius: 5px; margin-top: 10px; position: relative; }
@@ -61,7 +65,7 @@ th { font-size: 0.7rem; text-transform: uppercase; color: #666; }
 .signal-buy { color: var(--green); font-weight: bold; }
 .signal-sell { color: var(--red); font-weight: bold; }
 
-/* --- WALLET, ACADEMY & CHAT --- */
+/* --- WALLET, ACADEMY, CHAT, TERMINAL, BACKTEST --- */
 .wallet-total { font-size: 3rem; font-weight: 900; color: var(--green); text-shadow: 0 0 20px rgba(0,200,83,0.3); margin: 10px 0 30px; }
 .wallet-form { display: flex; gap: 10px; margin-bottom: 30px; background: #111; padding: 20px; border-radius: 8px; border: 1px solid #222;}
 .wallet-form select, .wallet-form input { padding: 10px; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; flex: 1; }
@@ -78,4 +82,15 @@ th { font-size: 0.7rem; text-transform: uppercase; color: #666; }
 .chat-input-area { padding: 20px; border-top: 1px solid #333; display: flex; gap: 10px; }
 .chat-input { flex: 1; background: #000; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 4px; }
 .chat-btn { background: #fff; color: #000; border: none; padding: 0 20px; font-weight: 800; cursor: pointer; }
+
+/* TERMINAL HACKER & BACKTESTER */
+.hacker-terminal { background: #000; border: 1px solid #333; border-radius: 8px; padding: 20px; font-family: 'Courier New', Courier, monospace; color: #00C853; height: 150px; overflow-y: hidden; margin-top: 20px; box-shadow: inset 0 0 10px #000; }
+.backtest-box { background: linear-gradient(135deg, #111, #1a1a1a); border: 1px solid var(--gold); border-radius: 8px; padding: 30px; text-align: center; margin-bottom:40px; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1); }
+.backtest-result { font-size: 2.5rem; font-weight: 900; color: var(--gold); margin: 20px 0; }
+
+/* LEGAL FOOTER */
+.legal-footer { border-top: 1px solid #333; padding: 40px 0 20px; margin-top: 50px; text-align: center; font-size: 0.75rem; color: #555; }
+.stats-bar { display: flex; justify-content: center; gap: 40px; margin-bottom: 20px; padding: 15px; background: #111; border-radius: 8px; border: 1px solid #222; }
+.stat-item { text-align: center; }
+.stat-value { font-size: 1.5rem; font-weight: bold; color: #fff; }
 </style>'''
