@@ -1,0 +1,36 @@
+name: Market Insider Pro - Autopilot ✈️
+
+# L'autopilot si attiverà in due casi:
+on:
+  schedule:
+    - cron: '0 */3 * * *'  # Ogni 3 ore, tutti i giorni (es: 00:00, 03:00, 06:00...)
+  workflow_dispatch:       # Permette anche di attivarlo con un pulsante a mano da GitHub
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Scarica il codice del sito
+        uses: actions/checkout@v4
+
+      - name: 🐍 Prepara il server Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Installa le dipendenze
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🧠 Esegui l'Intelligenza Artificiale (Aggiornamento Dati)
+        run: python main.py
+
+      - name: 🚀 Carica i nuovi dati sul sito (Git Push)
+        run: |
+          git config --global user.name 'Autopilot Bot 🤖'
+          git config --global user.email 'autopilot@marketinsiderpro.com'
+          git add public/
+          # Se non ci sono novità non fare nulla, altrimenti salva e pusha
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-Update: Nuovi Dati di Mercato e Segnali ⚡" && git push)

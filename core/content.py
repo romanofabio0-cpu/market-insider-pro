@@ -4,6 +4,7 @@ def get_header(active_page: str) -> str:
     <meta property="og:title" content="Market Insider Pro - Premium Terminal">
     <meta property="og:description" content="Join the elite. Access real-time institutional order flows and AI-driven market analysis.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:url" content="https://marketinsiderpro.com">
     '''
     anti_theft_script = '''<script>document.addEventListener('contextmenu', e => e.preventDefault()); document.onkeydown = function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 67 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false; }</script>'''
 
