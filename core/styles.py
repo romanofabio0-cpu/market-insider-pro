@@ -1,4 +1,5 @@
 CSS_CORE = '''<style>
+/* --- BASE & LAYOUT (ANTI-THEFT) --- */
 :root { --bg: #0a0a0a; --card-bg: #111; --text: #eee; --accent: #2962FF; --green: #00C853; --red: #FF3D00; --gold: #FFD700; --stripe: #635bff; }
 body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
 a { text-decoration: none; color: inherit; transition: 0.3s; }
@@ -12,7 +13,7 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .vip-btn { background: var(--accent); color: #fff; padding: 8px 16px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; border:none; cursor:pointer;}
 .vip-btn:hover { background: #1c44b2; }
 
-/* Grid & Cards */
+/* Grid, Cards, Watchlist, FOMO, Cookies (Invariati) */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 40px; }
 .card-wrapper { position: relative; }
 .star-icon { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; color: #444; cursor: pointer; z-index: 10; transition: 0.3s; }
@@ -27,8 +28,6 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .change.green { color: var(--green); }
 .change.red { color: var(--red); }
 .signal-box { margin-top: 15px; padding-top: 15px; border-top: 1px solid #222; display: flex; justify-content: space-between; font-size: 0.75rem; color: #666; }
-
-/* Sections & Panels */
 .section-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; border-left: 4px solid var(--accent); padding-left: 10px; }
 .split-layout { display: grid; grid-template-columns: 1fr; gap: 30px; }
 @media(min-width: 768px) { .split-layout { grid-template-columns: 1fr 1fr; } }
@@ -36,8 +35,6 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
 td, th { padding: 12px; text-align: left; border-bottom: 1px solid #222; }
 th { font-size: 0.7rem; text-transform: uppercase; color: #666; }
-
-/* Buttons & Flash */
 .btn-trade { background: linear-gradient(90deg, #00C853, #64DD17); color: #000; font-weight: 800; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 0.75rem; display: inline-block; box-shadow: 0 0 10px rgba(100, 221, 23, 0.4); transition: all 0.3s ease; animation: pulse 2s infinite; border:none; cursor:pointer;}
 .btn-trade:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(100, 221, 23, 0.8); }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(100, 221, 23, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(100, 221, 23, 0); } 100% { box-shadow: 0 0 0 0 rgba(100, 221, 23, 0); } }
@@ -45,8 +42,6 @@ th { font-size: 0.7rem; text-transform: uppercase; color: #666; }
 .flash-down { animation: flashRed 1s; }
 @keyframes flashGreen { 0% { color: #00FF00; text-shadow:0 0 10px #00FF00; } 100% { color: inherit; } }
 @keyframes flashRed { 0% { color: #FF0000; text-shadow:0 0 10px #FF0000; } 100% { color: inherit; } }
-
-/* Modals, FOMO, Cookies */
 .fomo-popup { position: fixed; bottom: -100px; left: 20px; background: rgba(17, 17, 17, 0.95); border: 1px solid var(--accent); border-left: 4px solid var(--accent); padding: 15px 20px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 9999; transition: bottom 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); display: flex; align-items: center; gap: 15px; font-size: 0.9rem; backdrop-filter: blur(5px); }
 .fomo-popup.show { bottom: 20px; }
 .fomo-icon { background: rgba(41, 98, 255, 0.2); padding: 10px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
@@ -54,12 +49,25 @@ th { font-size: 0.7rem; text-transform: uppercase; color: #666; }
 .cookie-banner.show { bottom: 0; }
 .cookie-text { font-size: 0.8rem; color: #aaa; }
 .cookie-btn { background: var(--green); color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+
+/* --- MODALS & NEW SOCIAL LOGIN BUTTONS --- */
 .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
 .modal-content { background: #111; padding: 40px; border-radius: 12px; border: 1px solid #333; width: 90%; max-width: 400px; text-align: center; position: relative; }
 .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #888; }
-.modal-input { width: 80%; padding: 12px; margin: 15px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; font-family: 'Inter', sans-serif;}
+.modal-input { width: 100%; padding: 12px; margin: 15px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; font-family: 'Inter', sans-serif; box-sizing: border-box;}
 
-/* Referral, Pricing, Stripe, Leaderboard */
+/* Bottoni Login Avanzati */
+.auth-btn { width: 100%; padding: 12px; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; border: none; transition: 0.2s; }
+.btn-google { background: #fff; color: #333; border: 1px solid #ddd; }
+.btn-google:hover { background: #f1f1f1; }
+.btn-web3 { background: #F6851B; color: #fff; }
+.btn-web3:hover { background: #e27615; }
+.auth-divider { display: flex; align-items: center; text-align: center; margin: 20px 0; color: #666; font-size: 0.8rem; }
+.auth-divider::before, .auth-divider::after { content: ''; flex: 1; border-bottom: 1px solid #333; }
+.auth-divider:not(:empty)::before { margin-right: .25em; }
+.auth-divider:not(:empty)::after { margin-left: .25em; }
+
+/* Referral, Pricing, Stripe, Leaderboard (Invariati) */
 .ref-box { background: linear-gradient(135deg, #111, #1a1a1a); border: 1px solid var(--accent); border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(41, 98, 255, 0.1); margin-bottom: 40px; }
 .ref-link-container { display: flex; justify-content: center; margin: 30px 0; }
 .ref-link { background: #000; padding: 15px 20px; border: 1px solid #333; border-radius: 8px 0 0 8px; color: var(--gold); font-family: monospace; font-size: 1.1rem; width: 60%; max-width: 400px; }
@@ -87,8 +95,6 @@ th { font-size: 0.7rem; text-transform: uppercase; color: #666; }
 .rank-2 { color: #C0C0C0 !important; font-size: 1.2rem; font-weight: bold; }
 .rank-3 { color: #CD7F32 !important; font-size: 1.1rem; font-weight: bold; }
 .user-row { background: rgba(41, 98, 255, 0.1) !important; border-left: 4px solid var(--accent) !important; }
-
-/* Dashboard components */
 .fng-meter { background: #000; border: 1px solid #333; border-radius: 8px; padding: 20px; text-align: center; }
 .fng-value { font-size: 3rem; font-weight: 900; margin: 10px 0; }
 .fng-bar { height: 10px; width: 100%; background: linear-gradient(90deg, #FF3D00, #FFD700, #00C853); border-radius: 5px; margin-top: 10px; position: relative; }

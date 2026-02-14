@@ -23,8 +23,8 @@ def get_header(active_page: str) -> str:
             <a href="referral.html" class="{'active' if active_page=='referral' else ''}" style="color:var(--gold);">🎁 Invite</a>
             <a href="pricing.html" class="{'active' if active_page=='pricing' else ''}" style="color:var(--accent);">💎 Pricing</a>
             
-            <span id="user-greeting" style="color:#00C853; font-weight:bold; display:none;"></span>
-            <button id="login-btn" class="vip-btn" onclick="openLogin()" style="background:#333;">LOGIN</button>
+            <span id="user-greeting" style="color:#00C853; font-weight:bold; display:none; padding:8px 15px; border-radius:4px; background:#111; border:1px solid #333;"></span>
+            <button id="login-btn" class="vip-btn" onclick="openLogin()" style="background:#333;">SIGN IN</button>
             <a href="pricing.html" class="vip-btn" style="background: linear-gradient(45deg, #FFD700, #F57F17); color:#000;">VIP PASS 👑</a>
         </nav>
     </header>
@@ -62,22 +62,111 @@ def get_footer() -> str:
 
 MODALS_HTML = '''
 <div class="stripe-overlay" id="stripe-modal"><div class="stripe-modal"><span class="close-modal" onclick="closeModals()" style="z-index:10; top:10px; right:15px; color:#333;">&times;</span><div class="stripe-header"><h3 style="margin:0; color:#333;">Market Insider Pro VIP</h3><p style="margin:5px 0 0; color:#666; font-size:0.9rem;" id="stripe-price-desc">Subscribe for $49.00/month</p></div><div class="stripe-body"><label style="font-size:0.8rem; color:#666; display:block; margin-bottom:5px;">Email</label><input type="email" class="stripe-input" placeholder="you@example.com"><label style="font-size:0.8rem; color:#666; display:block; margin-bottom:5px;">Card Information</label><input type="text" class="stripe-input" placeholder="💳 4242  4242  4242  4242" style="margin-bottom:0; border-radius: 6px 6px 0 0;"><div style="display:flex;"><input type="text" class="stripe-input" placeholder="MM / YY" style="border-radius: 0 0 0 6px; border-top:none; border-right:none; width:50%;"><input type="text" class="stripe-input" placeholder="CVC" style="border-radius: 0 0 6px 0; border-top:none; width:50%;"></div><label style="font-size:0.8rem; color:#666; display:block; margin:15px 0 5px;">Name on card</label><input type="text" class="stripe-input" placeholder="John Doe"><button class="stripe-btn" id="stripe-pay-btn" onclick="processPayment()">Subscribe</button><div class="stripe-footer">🔒 Powered by <b>Stripe</b></div></div></div></div>
-<div class="modal-overlay" id="waitlist-modal"><div class="modal-content"><span class="close-modal" onclick="closeModals()">&times;</span><h2 id="modal-title" style="color:#FFD700; margin-top:0;">🤖 AUTO-TRADE BETA</h2><p id="modal-desc" style="color:#aaa; font-size:0.9rem;">The API Auto-Execution engine is currently in Closed Beta. Enter your email to join the waitlist.</p><div id="waitlist-form"><input type="email" id="waitlist-email" class="modal-input" placeholder="Enter your best email..."><button class="btn-trade" style="width:85%; padding:12px;" onclick="submitWaitlist()">REQUEST ACCESS</button></div><div id="waitlist-success" style="display:none; color:#00C853; font-weight:bold; margin-top:20px;">✅ Request received! Keep an eye on your inbox.</div></div></div>
-<div class="modal-overlay" id="login-modal"><div class="modal-content"><span class="close-modal" onclick="closeModals()">&times;</span><h2 style="margin-top:0;">Secure Login</h2><p style="color:#aaa; font-size:0.9rem;">Access your encrypted local workspace.</p><input type="text" id="login-name" class="modal-input" placeholder="Display name..."><button class="vip-btn" style="width:85%; padding:12px;" onclick="doLogin()">INITIALIZE TERMINAL</button></div></div>
+
+<div class="modal-overlay" id="waitlist-modal"><div class="modal-content"><span class="close-modal" onclick="closeModals()">&times;</span><h2 id="modal-title" style="color:#FFD700; margin-top:0;">🤖 AUTO-TRADE BETA</h2><p id="modal-desc" style="color:#aaa; font-size:0.9rem;">The API Auto-Execution engine is currently in Closed Beta. Enter your email to join the waitlist.</p><div id="waitlist-form"><input type="email" id="waitlist-email" class="modal-input" placeholder="name@company.com"><button class="btn-trade" style="width:100%; padding:12px;" onclick="submitWaitlist()">REQUEST ACCESS</button></div><div id="waitlist-success" style="display:none; color:#00C853; font-weight:bold; margin-top:20px;">✅ Valid Request Received! Check your inbox.</div></div></div>
+
+<div class="modal-overlay" id="login-modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModals()">&times;</span>
+        <h2 style="margin-top:0;">Sign In</h2>
+        <p style="color:#aaa; font-size:0.9rem; margin-bottom:25px;">Access your institutional workspace.</p>
+        
+        <button class="auth-btn btn-web3" onclick="loginWeb3()">
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M31.066 12.355c-0.126-0.347-0.428-0.597-0.793-0.658l-8.665-1.428-3.419-7.971c-0.155-0.362-0.505-0.599-0.899-0.599s-0.744 0.237-0.899 0.599l-3.419 7.971-8.665 1.428c-0.365 0.061-0.667 0.311-0.793 0.658s-0.038 0.748 0.231 1.002l6.471 6.115-1.848 8.423c-0.075 0.342 0.054 0.702 0.336 0.906s0.669 0.222 0.984 0.052l7.533-4.062 7.533 4.062c0.141 0.076 0.297 0.113 0.452 0.113 0.183 0 0.365-0.055 0.531-0.165 0.282-0.204 0.411-0.564 0.336-0.906l-1.848-8.423 6.471-6.115c0.269-0.254 0.357-0.655 0.231-1.002z" fill="#fff"/></svg>
+            Connect Web3 Wallet
+        </button>
+        
+        <button class="auth-btn btn-google" onclick="loginGoogle()">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Continue with Google
+        </button>
+        
+        <div class="auth-divider">or use email</div>
+        
+        <input type="email" id="login-email" class="modal-input" placeholder="name@company.com">
+        <button class="vip-btn" style="width:100%; padding:12px; margin-top:5px;" onclick="loginEmail()">SIGN IN</button>
+        <p style="color:#666; font-size:0.7rem; margin-top:15px;">By continuing, you agree to our Terms of Service.</p>
+    </div>
+</div>
+
 <script>
+    // --- CONTROLLO EMAIL SEVERO (REGEX) ---
+    function validateEmail(email) {
+        // Questa regola matematica accetta solo email strutturate correttamente (es. a@b.com) e rifiuta fake@fake
+        const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    function submitWaitlist() { 
+        let e = document.getElementById('waitlist-email').value; 
+        if(validateEmail(e)) { 
+            document.getElementById('waitlist-form').style.display = 'none'; 
+            document.getElementById('waitlist-success').style.display = 'block'; 
+        } else { 
+            alert("Security Error: Please enter a valid and real email address format."); 
+        } 
+    }
+
+    function loginEmail() { 
+        let e = document.getElementById('login-email').value; 
+        if(validateEmail(e)) { 
+            // Estrae il nome dall'email (es: "mario@gmail.com" -> "mario")
+            let name = e.split('@')[0];
+            localStorage.setItem('mip_user', name); 
+            closeModals(); checkLogin(); location.reload(); 
+        } else {
+            alert("Login Failed: Invalid email format detected.");
+        }
+    }
+
+    // --- CONNESSIONE REALE WEB3 (METAMASK) ---
+    async function loginWeb3() {
+        if (typeof window.ethereum !== 'undefined') {
+            try {
+                // Richiede l'apertura del portafoglio sul PC dell'utente
+                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                const wallet = accounts[0];
+                // Salva le prime e ultime lettere del wallet per privacy (es: 0x12...abcd)
+                let displayWallet = wallet.substring(0, 6) + '...' + wallet.substring(wallet.length - 4);
+                localStorage.setItem('mip_user', displayWallet);
+                closeModals(); checkLogin(); location.reload();
+            } catch (error) {
+                alert("Connection refused by the user.");
+            }
+        } else {
+            alert("No Web3 Provider detected. Please install MetaMask to use Trader Login.");
+        }
+    }
+
+    // --- PREDISPOSIZIONE GOOGLE LOGIN (Firebase Auth) ---
+    function loginGoogle() {
+        alert("Google Identity System is connecting. (Note for Admin: Requires Firebase Auth setup to verify Google Tokens securely on a static site).");
+    }
+
     function openStripe(plan, price) { document.getElementById('stripe-price-desc').innerText = `Subscribe for $${price}`; document.getElementById('stripe-modal').style.display = 'flex'; }
     function processPayment() { let btn = document.getElementById('stripe-pay-btn'); btn.innerText = "Processing..."; btn.style.opacity = "0.7"; setTimeout(() => { btn.innerText = "Payment Successful! ✅"; btn.style.background = "#00C853"; setTimeout(()=>{closeModals(); alert("Welcome to VIP! (This is a Sandbox Demo)");}, 1500); }, 2000); }
     function openWaitlist(sourceText) { document.getElementById('waitlist-modal').style.display = 'flex'; }
     function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
     function closeModals() { document.querySelectorAll('.modal-overlay, .stripe-overlay').forEach(m => m.style.display = 'none'); }
-    function submitWaitlist() { let e = document.getElementById('waitlist-email').value; if(e.includes('@')) { document.getElementById('waitlist-form').style.display = 'none'; document.getElementById('waitlist-success').style.display = 'block'; } else { alert("Please enter a valid email."); } }
-    function doLogin() { let n = document.getElementById('login-name').value; if(n) { localStorage.setItem('mip_user', n); closeModals(); checkLogin(); location.reload(); } }
-    function checkLogin() { let u = localStorage.getItem('mip_user'); if(u) { let g = document.getElementById('user-greeting'); let b = document.getElementById('login-btn'); if(g) { g.innerText = "👤 " + u; g.style.display = "inline"; } if(b) b.style.display = "none"; } }
+    
+    function checkLogin() { 
+        let u = localStorage.getItem('mip_user'); 
+        if(u) { 
+            let g = document.getElementById('user-greeting'); 
+            let b = document.getElementById('login-btn'); 
+            if(g) { 
+                // Se è un wallet Web3 mettiamo un'icona diversa, altrimenti un utente
+                let icon = u.startsWith('0x') ? '🦊' : '👤';
+                g.innerText = icon + " " + u; 
+                g.style.display = "inline"; 
+            } 
+            if(b) b.style.display = "none"; 
+        } 
+    }
     document.addEventListener("DOMContentLoaded", checkLogin);
 </script>
 '''
 
-# 🔥 INSERISCI QUI IL TUO VERO LINK AFFILIATO AMAZON
 AMAZON_AFFILIATE_LINK = "https://www.amazon.it/dp/B00000000?tag=IL_TUO_TAG_AFFILIATO-21"
 
 ACADEMY_CONTENT = {
