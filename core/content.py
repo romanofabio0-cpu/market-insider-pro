@@ -5,6 +5,7 @@ def get_header(active_page: str) -> str:
     <meta property="og:description" content="Join the elite. Access real-time institutional order flows and AI-driven market analysis.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://marketinsiderpro.com">
+    <meta name='impact-site-verification' value='82817dc6-e0b3-48b6-b7d7-f89b6dbd7a06'>
     '''
     anti_theft_script = '''<script>document.addEventListener('contextmenu', e => e.preventDefault()); document.onkeydown = function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 67 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false; }</script>'''
 
@@ -93,7 +94,7 @@ MODALS_HTML = '''
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-  // Le chiavi ufficiali che hai appena creato su Firebase
+  // Le chiavi ufficiali che hai creato su Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDKYdyh3y-SWCPSciwvVkmnpAoom8fTFM4",
     authDomain: "market-insider-pro.firebaseapp.com",
@@ -194,7 +195,8 @@ MODALS_HTML = '''
 </script>
 '''
 
-AMAZON_AFFILIATE_LINK = "https://www.amazon.it/dp/B00000000?tag=IL_TUO_TAG_AFFILIATO-21"
+# Se hai generato il tuo link corto Amazon incollalo qui, altrimenti lascialo pure così
+AMAZON_AFFILIATE_LINK = "https://amzn.to/INSERISCI_QUI_IL_TUO_LINK_CORTO"
 
 ACADEMY_CONTENT = {
     "mod1": {"title": "MODULE 1: THE MINDSET 🧠", "lessons": [{"id": "lez1_1", "title": "1.1 Psychology of a Winner", "vip": False, "html": f"<h1>Trading Psychology</h1><p>Trading is 20% strategy and 80% psychology.</p><div style='margin-top:20px; padding:20px; background:#1a1a1a; border-left:4px solid #FFD700;'><h3>📚 Recommended Book</h3><a href='{AMAZON_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black;'>BUY ON AMAZON 🛒</a></div>"}]},
