@@ -52,10 +52,6 @@ def get_footer() -> str:
         setInterval(() => { let box = document.getElementById('fomo-box'); if(box) { document.getElementById('fomo-text').innerText = fomoMsgs[Math.floor(Math.random()*fomoMsgs.length)]; box.classList.add('show'); setTimeout(() => box.classList.remove('show'), 5000); } }, 15000);
         
         if(!localStorage.getItem('mip_cookies_accepted')) { setTimeout(()=> document.getElementById('cookie-banner').classList.add('show'), 2000); }
-        
-        if ("Notification" in window && Notification.permission !== "denied" && !localStorage.getItem('mip_push_asked')) {
-            setTimeout(() => { Notification.requestPermission().then(permission => { localStorage.setItem('mip_push_asked', 'true'); if (permission === "granted") { setTimeout(()=> new Notification("Market Insider Pro", {body: "⚡ Institutional Order Block filled on BTC. Check Terminal.", icon: "https://cdn-icons-png.flaticon.com/512/2950/2950063.png"}), 15000); } }); }, 5000);
-        }
     });
     function acceptCookies() { localStorage.setItem('mip_cookies_accepted', 'true'); document.getElementById('cookie-banner').classList.remove('show'); }
     </script>
@@ -64,7 +60,7 @@ def get_footer() -> str:
 MODALS_HTML = '''
 <div class="stripe-overlay" id="stripe-modal"><div class="stripe-modal"><span class="close-modal" onclick="closeModals()" style="z-index:10; top:10px; right:15px; color:#333;">&times;</span><div class="stripe-header"><h3 style="margin:0; color:#333;">Market Insider Pro VIP</h3><p style="margin:5px 0 0; color:#666; font-size:0.9rem;" id="stripe-price-desc">Subscribe for $49.00/month</p></div><div class="stripe-body"><label style="font-size:0.8rem; color:#666; display:block; margin-bottom:5px;">Email</label><input type="email" class="stripe-input" placeholder="you@example.com"><label style="font-size:0.8rem; color:#666; display:block; margin-bottom:5px;">Card Information</label><input type="text" class="stripe-input" placeholder="💳 4242  4242  4242  4242" style="margin-bottom:0; border-radius: 6px 6px 0 0;"><div style="display:flex;"><input type="text" class="stripe-input" placeholder="MM / YY" style="border-radius: 0 0 0 6px; border-top:none; border-right:none; width:50%;"><input type="text" class="stripe-input" placeholder="CVC" style="border-radius: 0 0 6px 0; border-top:none; width:50%;"></div><label style="font-size:0.8rem; color:#666; display:block; margin:15px 0 5px;">Name on card</label><input type="text" class="stripe-input" placeholder="John Doe"><button class="stripe-btn" id="stripe-pay-btn" onclick="processPayment()">Subscribe</button><div class="stripe-footer">🔒 Powered by <b>Stripe</b></div></div></div></div>
 
-<div class="modal-overlay" id="waitlist-modal"><div class="modal-content"><span class="close-modal" onclick="closeModals()">&times;</span><h2 id="modal-title" style="color:#FFD700; margin-top:0;">🤖 AUTO-TRADE BETA</h2><p id="modal-desc" style="color:#aaa; font-size:0.9rem;">The API Auto-Execution engine is currently in Closed Beta. Enter your email to join the waitlist.</p><div id="waitlist-form"><input type="email" id="waitlist-email" class="modal-input" placeholder="name@company.com"><button class="btn-trade" style="width:100%; padding:12px;" onclick="submitWaitlist()">REQUEST ACCESS</button></div><div id="waitlist-success" style="display:none; color:#00C853; font-weight:bold; margin-top:20px;">✅ Valid Request Received! Check your inbox.</div></div></div>
+<div class="modal-overlay" id="waitlist-modal"><div class="modal-content"><span class="close-modal" onclick="closeModals()">&times;</span><h2 id="modal-title" style="color:#FFD700; margin-top:0;">🤖 AUTO-TRADE BETA</h2><p id="modal-desc" style="color:#aaa; font-size:0.9rem;">The API Auto-Execution engine is currently in Closed Beta. Enter your email to join the waitlist.</p><div id="waitlist-form"><input type="email" id="waitlist-email" class="modal-input" placeholder="name@company.com"><button class="btn-trade" style="width:100%; padding:12px;" onclick="window.submitFirebaseWaitlist()">REQUEST ACCESS</button></div><div id="waitlist-success" style="display:none; color:#00C853; font-weight:bold; margin-top:20px;">✅ Valid Request Received! Check your inbox.</div></div></div>
 
 <div class="modal-overlay" id="login-modal">
     <div class="modal-content">
@@ -93,8 +89,9 @@ MODALS_HTML = '''
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  // IMPORTIAMO IL DATABASE FIRESTORE
+  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // Le chiavi ufficiali che hai creato su Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyDKYdyh3y-SWCPSciwvVkmnpAoom8fTFM4",
     authDomain: "market-insider-pro.firebaseapp.com",
@@ -108,41 +105,58 @@ MODALS_HTML = '''
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
+  const db = getFirestore(app);
 
-  // Esponiamo la funzione al mondo HTML per farla scattare al click del bottone
+  // LOGICA LOGIN GOOGLE
   window.triggerGoogleLogin = function() {
-      signInWithPopup(auth, provider)
-      .then((result) => {
-          const user = result.user;
-          // Estrapoliamo il vero nome o la prima parte della mail se non c'è nome
-          let displayName = user.displayName || user.email.split('@')[0];
+      signInWithPopup(auth, provider).then((result) => {
+          let displayName = result.user.displayName || result.user.email.split('@')[0];
           localStorage.setItem('mip_user', displayName);
-          
-          closeModals();
-          checkLogin();
-          location.reload();
+          closeModals(); checkLogin(); location.reload();
       }).catch((error) => {
-          console.error("Errore Autenticazione Google:", error);
-          alert("Errore durante il login con Google. Dettagli: " + error.message);
+          alert("Errore Login Google: " + error.message);
       });
+  };
+
+  // LOGICA WAITLIST FIRESTORE DATABASE
+  window.submitFirebaseWaitlist = async function() {
+      let e = document.getElementById('waitlist-email').value; 
+      
+      // Controllo Regex (per bloccare le finte email)
+      const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;
+      
+      if(re.test(String(e).toLowerCase())) { 
+          let btn = document.querySelector('#waitlist-form .btn-trade');
+          btn.innerText = "SAVING... ⏳";
+          btn.style.opacity = "0.7";
+          
+          try {
+              // SCRIVE NEL TUO DATABASE GOOGLE
+              await addDoc(collection(db, "waitlist_emails"), {
+                  email: e,
+                  timestamp: serverTimestamp(),
+                  source: "Market Insider Pro - API Waitlist"
+              });
+              
+              document.getElementById('waitlist-form').style.display = 'none'; 
+              document.getElementById('waitlist-success').style.display = 'block'; 
+          } catch (error) {
+              console.error("Errore Database:", error);
+              alert("Server Error: Impossibile salvare l'email (" + error.message + ")");
+              btn.innerText = "REQUEST ACCESS";
+              btn.style.opacity = "1";
+          }
+      } else { 
+          alert("Security Error: Please enter a valid email address format."); 
+      } 
   };
 </script>
 
 <script>
-    // --- FUNZIONI DI SUPPORTO JS ---
+    // --- FUNZIONI DI SUPPORTO JS LOCALI ---
     function validateEmail(email) {
         const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
-    }
-
-    function submitWaitlist() { 
-        let e = document.getElementById('waitlist-email').value; 
-        if(validateEmail(e)) { 
-            document.getElementById('waitlist-form').style.display = 'none'; 
-            document.getElementById('waitlist-success').style.display = 'block'; 
-        } else { 
-            alert("Security Error: Please enter a valid email address format."); 
-        } 
     }
 
     function loginEmail() { 
@@ -195,7 +209,6 @@ MODALS_HTML = '''
 </script>
 '''
 
-# Se hai generato il tuo link corto Amazon incollalo qui, altrimenti lascialo pure così
 AMAZON_AFFILIATE_LINK = "https://amzn.to/INSERISCI_QUI_IL_TUO_LINK_CORTO"
 
 ACADEMY_CONTENT = {
