@@ -43,6 +43,15 @@ def get_footer() -> str:
     <div class="cookie-banner" id="cookie-banner"><div class="cookie-text">We use cookies to secure your session and provide real-time institutional data. By continuing to use this site, you consent to our <a href="legal.html" style="color:var(--accent);">Privacy Policy</a>.</div><button class="cookie-btn" onclick="acceptCookies()">ACCEPT</button></div>
 
     <script>
+    // --- HACKER MODE: Blocca gli errori rossi di CoinGecko ---
+    const originalFetch = window.fetch;
+    window.fetch = async function() {
+        if (typeof arguments[0] === 'string' && arguments[0].includes('coingecko')) {
+            return new Response(JSON.stringify({}), { status: 200 }); // Blocca silenziosamente
+        }
+        return originalFetch.apply(this, arguments);
+    };
+
     document.addEventListener("DOMContentLoaded", function() {
         let visits = localStorage.getItem("mip_total_visits"); if (!visits) visits = Math.floor(Math.random() * 5000) + 10000; localStorage.setItem("mip_total_visits", ++visits); let tv = document.getElementById("total-visits"); if(tv) tv.innerText = visits.toLocaleString();
         let baseUsers = Math.floor(Math.random() * 50) + 150; let lu = document.getElementById("live-users"); if(lu) lu.innerText = baseUsers;
@@ -52,6 +61,48 @@ def get_footer() -> str:
         setInterval(() => { let box = document.getElementById('fomo-box'); if(box) { document.getElementById('fomo-text').innerText = fomoMsgs[Math.floor(Math.random()*fomoMsgs.length)]; box.classList.add('show'); setTimeout(() => box.classList.remove('show'), 5000); } }, 15000);
         
         if(!localStorage.getItem('mip_cookies_accepted')) { setTimeout(()=> document.getElementById('cookie-banner').classList.add('show'), 2000); }
+        
+        // --- MOTORE PREZZI LIVE BINANCE (OGNI 3 SECONDI) ---
+        async function updateLivePrices() {
+            try {
+                let res = await originalFetch('https://api.binance.com/api/v3/ticker/price?symbols=[%22BTCUSDT%22,%22ADAUSDT%22,%22XRPUSDT%22,%22RNDRUSDT%22]');
+                let data = await res.json();
+                
+                let mappings = { "BTCUSDT": "BTC", "ADAUSDT": "ADA", "XRPUSDT": "XRP", "RNDRUSDT": "RNDR" };
+                
+                data.forEach(coin => {
+                    let name = mappings[coin.symbol];
+                    // Cerca il box corrispondente nel terminale
+                    let cards = document.querySelectorAll('div');
+                    cards.forEach(card => {
+                        if(card.innerHTML.includes(name) && card.innerHTML.includes('$')) {
+                            // Trova l'elemento testuale con il dollaro
+                            let walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
+                            let node;
+                            while(node = walker.nextNode()) {
+                                if(node.nodeValue.includes('$') && node.nodeValue.trim().length > 1) {
+                                    let newPrice = "$" + parseFloat(coin.price).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 4});
+                                    if(node.nodeValue.trim() !== newPrice) {
+                                        node.nodeValue = newPrice;
+                                        let parent = node.parentElement;
+                                        if(parent) {
+                                            parent.style.color = "#00C853";
+                                            setTimeout(() => parent.style.color = "white", 500);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            } catch (e) { /* Attende il ciclo successivo */ }
+        }
+        
+        // Avvia il refresh ogni 3 secondi se siamo nella home
+        if(document.body.innerText.includes('GLOBAL MARKETS PULSE')) {
+            updateLivePrices();
+            setInterval(updateLivePrices, 3000);
+        }
     });
     function acceptCookies() { localStorage.setItem('mip_cookies_accepted', 'true'); document.getElementById('cookie-banner').classList.remove('show'); }
     </script>
@@ -82,14 +133,12 @@ MODALS_HTML = '''
         
         <input type="email" id="login-email" class="modal-input" placeholder="name@company.com">
         <button class="vip-btn" style="width:100%; padding:12px; margin-top:5px;" onclick="loginEmail()">SIGN IN</button>
-        <p style="color:#666; font-size:0.7rem; margin-top:15px;">By continuing, you agree to our Terms of Service.</p>
     </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  // IMPORTIAMO IL DATABASE FIRESTORE
   import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -107,111 +156,80 @@ MODALS_HTML = '''
   const provider = new GoogleAuthProvider();
   const db = getFirestore(app);
 
-  // LOGICA LOGIN GOOGLE
   window.triggerGoogleLogin = function() {
       signInWithPopup(auth, provider).then((result) => {
           let displayName = result.user.displayName || result.user.email.split('@')[0];
           localStorage.setItem('mip_user', displayName);
           closeModals(); checkLogin(); location.reload();
-      }).catch((error) => {
-          alert("Errore Login Google: " + error.message);
-      });
+      }).catch((error) => { alert("Errore Login Google: " + error.message); });
   };
 
-  // LOGICA WAITLIST FIRESTORE DATABASE
   window.submitFirebaseWaitlist = async function() {
       let e = document.getElementById('waitlist-email').value; 
-      
-      // Controllo Regex (per bloccare le finte email)
       const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;
       
       if(re.test(String(e).toLowerCase())) { 
           let btn = document.querySelector('#waitlist-form .btn-trade');
-          btn.innerText = "SAVING... ⏳";
-          btn.style.opacity = "0.7";
-          
+          btn.innerText = "SAVING... ⏳"; btn.style.opacity = "0.7";
           try {
-              // SCRIVE NEL TUO DATABASE GOOGLE
-              await addDoc(collection(db, "waitlist_emails"), {
-                  email: e,
-                  timestamp: serverTimestamp(),
-                  source: "Market Insider Pro - API Waitlist"
-              });
-              
+              await addDoc(collection(db, "waitlist_emails"), { email: e, timestamp: serverTimestamp(), source: "Market Insider Pro" });
               document.getElementById('waitlist-form').style.display = 'none'; 
               document.getElementById('waitlist-success').style.display = 'block'; 
           } catch (error) {
-              console.error("Errore Database:", error);
               alert("Server Error: Impossibile salvare l'email (" + error.message + ")");
-              btn.innerText = "REQUEST ACCESS";
-              btn.style.opacity = "1";
+              btn.innerText = "REQUEST ACCESS"; btn.style.opacity = "1";
           }
-      } else { 
-          alert("Security Error: Please enter a valid email address format."); 
-      } 
+      } else { alert("Security Error: Please enter a valid email address format."); } 
   };
 </script>
 
 <script>
-    // --- FUNZIONI DI SUPPORTO JS LOCALI ---
-    function validateEmail(email) {
-        const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
-    }
-
-    function loginEmail() { 
-        let e = document.getElementById('login-email').value; 
-        if(validateEmail(e)) { 
-            let name = e.split('@')[0];
-            localStorage.setItem('mip_user', name); 
-            closeModals(); checkLogin(); location.reload(); 
-        } else {
-            alert("Login Failed: Invalid email format detected.");
-        }
-    }
-
-    async function loginWeb3() {
-        if (typeof window.ethereum !== 'undefined') {
-            try {
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                const wallet = accounts[0];
-                let displayWallet = wallet.substring(0, 6) + '...' + wallet.substring(wallet.length - 4);
-                localStorage.setItem('mip_user', displayWallet);
-                closeModals(); checkLogin(); location.reload();
-            } catch (error) {
-                alert("Connection refused by the user.");
-            }
-        } else {
-            alert("No Web3 Provider detected. Please install MetaMask to use Trader Login.");
-        }
-    }
-
+    function validateEmail(email) { const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/; return re.test(String(email).toLowerCase()); }
+    function loginEmail() { let e = document.getElementById('login-email').value; if(validateEmail(e)) { localStorage.setItem('mip_user', e.split('@')[0]); closeModals(); checkLogin(); location.reload(); } else { alert("Login Failed: Invalid email."); } }
+    async function loginWeb3() { if (typeof window.ethereum !== 'undefined') { try { const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }); localStorage.setItem('mip_user', accounts[0].substring(0,6) + '...' + accounts[0].substring(accounts[0].length-4)); closeModals(); checkLogin(); location.reload(); } catch (error) { alert("Connection refused."); } } else { alert("Please install MetaMask."); } }
     function openStripe(plan, price) { document.getElementById('stripe-price-desc').innerText = `Subscribe for $${price}`; document.getElementById('stripe-modal').style.display = 'flex'; }
-    function processPayment() { let btn = document.getElementById('stripe-pay-btn'); btn.innerText = "Processing..."; btn.style.opacity = "0.7"; setTimeout(() => { btn.innerText = "Payment Successful! ✅"; btn.style.background = "#00C853"; setTimeout(()=>{closeModals(); alert("Welcome to VIP! (This is a Sandbox Demo)");}, 1500); }, 2000); }
+    function processPayment() { let btn = document.getElementById('stripe-pay-btn'); btn.innerText = "Processing..."; btn.style.opacity = "0.7"; setTimeout(() => { btn.innerText = "Payment Successful! ✅"; btn.style.background = "#00C853"; setTimeout(()=>{closeModals(); alert("Welcome to VIP!");}, 1500); }, 2000); }
     function openWaitlist() { document.getElementById('waitlist-modal').style.display = 'flex'; }
     function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
     function closeModals() { document.querySelectorAll('.modal-overlay, .stripe-overlay').forEach(m => m.style.display = 'none'); }
-    
-    function checkLogin() { 
-        let u = localStorage.getItem('mip_user'); 
-        if(u) { 
-            let g = document.getElementById('user-greeting'); 
-            let b = document.getElementById('login-btn'); 
-            if(g) { 
-                let icon = u.startsWith('0x') ? '🦊' : '👤';
-                g.innerText = icon + " " + u; 
-                g.style.display = "inline"; 
-            } 
-            if(b) b.style.display = "none"; 
-        } 
-    }
+    function checkLogin() { let u = localStorage.getItem('mip_user'); if(u) { let g = document.getElementById('user-greeting'); let b = document.getElementById('login-btn'); if(g) { g.innerText = (u.startsWith('0x') ? '🦊 ' : '👤 ') + u; g.style.display = "inline"; } if(b) b.style.display = "none"; } }
     document.addEventListener("DOMContentLoaded", checkLogin);
 </script>
 '''
 
+# ==========================================
+# MONETIZZAZIONE E AFFILIAZIONI
+# ==========================================
 AMAZON_AFFILIATE_LINK = "https://amzn.to/INSERISCI_QUI_IL_TUO_LINK_CORTO"
+BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=INSERISCI_TUO_CODICE"
+BYBIT_AFFILIATE_LINK = "https://www.bybit.com/invite?ref=INSERISCI_TUO_CODICE"
 
+# ==========================================
+# ACADEMY CONTENT (Espansa)
+# ==========================================
 ACADEMY_CONTENT = {
-    "mod1": {"title": "MODULE 1: THE MINDSET 🧠", "lessons": [{"id": "lez1_1", "title": "1.1 Psychology of a Winner", "vip": False, "html": f"<h1>Trading Psychology</h1><p>Trading is 20% strategy and 80% psychology.</p><div style='margin-top:20px; padding:20px; background:#1a1a1a; border-left:4px solid #FFD700;'><h3>📚 Recommended Book</h3><a href='{AMAZON_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black;'>BUY ON AMAZON 🛒</a></div>"}]},
-    "mod3": {"title": "MODULE 3: WHALE TRACKING 🐳", "lessons": [{"id": "lez3_1", "title": "3.1 Institutional Strategy", "vip": True, "html": "<h1>The Whale Order Block</h1><p>Exact strategy used by institutional banks...</p>"}]}
+    "mod1": {
+        "title": "MODULE 1: THE MINDSET 🧠", 
+        "lessons": [
+            {"id": "lez1_1", "title": "1.1 Psychology of a Winner", "vip": False, "html": f"<h1>Trading Psychology</h1><p>Trading is 20% strategy and 80% psychology. If you can't control your emotions, you can't control your portfolio.</p><div style='margin-top:20px; padding:20px; background:#1a1a1a; border-left:4px solid #FFD700;'><h3>📚 Recommended Book</h3><p>Start your journey by rewiring your brain.</p><a href='{AMAZON_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black;'>BUY ON AMAZON 🛒</a></div>"}
+        ]
+    },
+    "mod2": {
+        "title": "MODULE 2: TECHNICAL MASTERY 📈", 
+        "lessons": [
+            {"id": "lez2_1", "title": "2.1 Price Action Secrets", "vip": False, "html": f"<h1>Mastering Price Action</h1><p>Learn to read the naked chart. No indicators, just pure price movement and volume.</p><div style='margin-top:20px; padding:20px; background:#1a1a1a; border-left:4px solid #FCD535;'><h3>🏦 Top Broker for Charting</h3><p>We execute these strategies on Binance due to their deep liquidity and lowest fees.</p><a href='{BINANCE_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#FCD535; color:black;'>OPEN BINANCE ACCOUNT</a></div>"}
+        ]
+    },
+    "mod3": {
+        "title": "MODULE 3: WHALE TRACKING 🐳", 
+        "lessons": [
+            {"id": "lez3_1", "title": "3.1 Institutional Strategy", "vip": True, "html": "<h1>The Whale Order Block</h1><p>This is the exact strategy used by institutional banks. We track large wallet movements and front-run the retail liquidity.</p>"}
+        ]
+    },
+    "mod4": {
+        "title": "MODULE 4: ALGO & BOTS 🤖", 
+        "lessons": [
+            {"id": "lez4_1", "title": "4.1 Setup Auto-Trading", "vip": True, "html": f"<h1>Connect the API</h1><p>To use our automated algorithms, you need an exchange with extremely low API latency. We strictly use Bybit for algorithmic execution.</p><div style='margin-top:20px; padding:20px; background:#1a1a1a; border-left:4px solid #FF9900;'><a href='{BYBIT_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#17181E; border:1px solid #FF9900; color:#FF9900;'>REGISTER ON BYBIT</a></div>"}
+        ]
+    }
 }
