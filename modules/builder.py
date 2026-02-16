@@ -7,31 +7,6 @@ from core.content import get_header, get_footer, ACADEMY_CONTENT, MODALS_HTML
 
 logger = get_logger("Builder")
 
-# ==========================================
-# IL TUO NUOVO DATABASE ASSET (Crypto + Azioni Tradizionali)
-# ==========================================
-ASSETS_DB = {
-    # CRYPTO MAGGIORI
-    "BTC": {"name": "Bitcoin", "symbol": "BINANCE:BTCUSDT", "type": "crypto", "has_chart": True},
-    "ETH": {"name": "Ethereum", "symbol": "BINANCE:ETHUSDT", "type": "crypto", "has_chart": True},
-    "SOL": {"name": "Solana", "symbol": "BINANCE:SOLUSDT", "type": "crypto", "has_chart": True},
-    "XRP": {"name": "Ripple", "symbol": "BINANCE:XRPUSDT", "type": "crypto", "has_chart": True},
-    "ADA": {"name": "Cardano", "symbol": "BINANCE:ADAUSDT", "type": "crypto", "has_chart": True},
-    
-    # MEME & ALTCOIN (con i ticker Binance esatti)
-    "DOGE": {"name": "Dogecoin", "symbol": "BINANCE:DOGEUSDT", "type": "crypto", "has_chart": True},
-    "PEPE": {"name": "Pepe", "symbol": "BINANCE:1000PEPEUSDT", "type": "crypto", "has_chart": True},
-    "RNDR": {"name": "Render", "symbol": "BINANCE:RENDERUSDT", "type": "crypto", "has_chart": True}, # FIX Anti-UFO RNDR
-    
-    # NUOVE AZIONI (STOCKS dal NASDAQ)
-    "NVDA": {"name": "Nvidia", "symbol": "NASDAQ:NVDA", "type": "stock", "has_chart": True},
-    "AAPL": {"name": "Apple", "symbol": "NASDAQ:AAPL", "type": "stock", "has_chart": True},
-    "TSLA": {"name": "Tesla", "symbol": "NASDAQ:TSLA", "type": "stock", "has_chart": True},
-    
-    # ASSET ESCLUSIVO SENZA GRAFICO (Test Anti-UFO)
-    "MIP_INDEX": {"name": "MIP Whale Index", "symbol": "NONE", "type": "index", "has_chart": False}
-}
-
 def scrivi_file(nome_file: str, contenuto: str) -> None:
     path = os.path.join(OUTPUT_FOLDER, nome_file)
     try:
@@ -44,112 +19,22 @@ def format_price(price):
     elif price < 1: return f"${price:.4f}"
     else: return f"${price:,.2f}"
 
-# ==========================================
-# 1. NUOVO MOTORE COSTRUZIONE HOME E GRAFICI
-# ==========================================
 def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng: Dict):
-    
     grid_html = ""
-    # Per mantenere la retrocompatibilità col tuo codice precedente, creiamo una mappa
-    # dei dati dinamici scaricati dall'Autopilot e li uniamo al nostro Database Fisso
-    dyn_data = {a['symbol']: a for a in assets} 
-    
-    for ticker, db_info in ASSETS_DB.items():
-        # Recupera dati dinamici se esistono (es. sentiment AI), altrimenti usa fallback
-        d_asset = dyn_data.get(ticker, {"price": 0, "change": 0, "signal": "NEUTRAL", "sig_col": "#aaa"})
-        
-        color = "green" if d_asset['change'] >= 0 else "red"
-        elem_id = ticker.lower()
-        
-        # Genera le "Carte" del Terminale
-        grid_html += f'''
-        <div class="card-wrapper" data-id="{elem_id}">
-            <span class="star-icon" id="star-{elem_id}" onclick="toggleStar('{elem_id}')">★</span>
-            <a href="chart_{elem_id}.html" class="card-link" style="display:block; height:100%;">
-                <div class="card" style="position:relative; overflow:hidden;">
-                    <div class="card-head">
-                        <span class="symbol">{ticker}</span>
-                        <span class="name" style="color:#888; font-size:0.8rem;">{db_info['name']}</span>
-                    </div>
-                    <div class="price" id="price-{elem_id}">{format_price(d_asset["price"])}</div>
-                    <div class="change {color}" id="change-{elem_id}">{( "+" if d_asset["change"] >= 0 else "" )}{d_asset["change"]}%</div>
-                    <div class="signal-box">
-                        <span>AI SIGNAL:</span>
-                        <strong style="color:{d_asset["sig_col"]}">{d_asset["signal"]}</strong>
-                    </div>
-                </div>
-            </a>
-        </div>
-        '''
-        
-        # ==========================================
-        # COSTRUZIONE DEL SINGOLO GRAFICO PER L'ASSET
-        # ==========================================
-        chart_content = ""
-        if db_info["has_chart"]:
-            chart_content = f'''
-            <div class="tradingview-widget-container" style="height: 650px; width: 100%; margin-top:20px; border-radius: 12px; overflow: hidden; border: 1px solid #333;">
-              <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px); width:100%;"></div>
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-              {{
-              "autosize": true,
-              "symbol": "{db_info['symbol']}",
-              "interval": "D",
-              "timezone": "Etc/UTC",
-              "theme": "dark",
-              "style": "1",
-              "locale": "en",
-              "enable_publishing": false,
-              "backgroundColor": "#0b0e14",
-              "gridColor": "#1f293d",
-              "hide_top_toolbar": false,
-              "hide_legend": false,
-              "save_image": false,
-              "container_id": "tradingview_{elem_id}"
-            }}
-              </script>
-            </div>
-            '''
-        else:
-            chart_content = f'''
-            <div style="text-align:center; padding: 120px 20px; background:#111; border-radius:12px; margin-top:30px; border:1px solid #333;">
-                <h1 style="font-size:4rem; margin:0;">🔒</h1>
-                <h2 style="color:#FFD700; margin-top:20px; font-size: 2rem;">Exclusive Internal Asset</h2>
-                <p style="color:#aaa; font-size: 1.1rem; max-width: 600px; margin: 15px auto;">
-                    Standard charts are not available for <b>{db_info['name']}</b>. <br>
-                    Our AI is currently calculating internal liquidity metrics and dark pool volume for this specific asset.
-                </p>
-                <button class="vip-btn" onclick="window.history.back()" style="margin-top:30px; padding: 15px 40px;">← GO BACK</button>
-            </div>
-            '''
-
-        chart_page = get_header("home") + f'''
-        <main class="container">
-            <a href="index.html" style="color:#888; text-decoration:none; display:inline-block; margin: 15px 0; font-size: 0.9rem; letter-spacing: 1px;">← BACK TO TERMINAL</a>
-            <h1 style="margin:0; font-size: 2.5rem;">{db_info['name']} <span style="color:var(--accent);">PRO CHART</span></h1>
-            {chart_content}
-        </main>
-        ''' + MODALS_HTML + get_footer()
-        
-        scrivi_file(f"chart_{elem_id}.html", chart_page)
-
-    # Costruzione Fear & Greed, News e Calendario per la Home
+    js_mapping = {}
+    for a in assets:
+        color = "green" if a['change'] >= 0 else "red"
+        elem_id = a['id'].replace(" ", "-")
+        if a['type'] == 'CRYPTO': js_mapping[a['cg_id']] = elem_id
+        grid_html += f'''<div class="card-wrapper" data-id="{elem_id}"><span class="star-icon" id="star-{elem_id}" onclick="toggleStar('{elem_id}')">★</span><a href="chart_{a["id"]}.html" class="card-link" style="display:block; height:100%;"><div class="card"><div class="card-head"><span class="symbol">{a["symbol"]}</span><span class="name" style="color:#888; font-size:0.8rem;">{a["name"]}</span></div><div class="price" id="price-{elem_id}">{format_price(a["price"])}</div><div class="change {color}" id="change-{elem_id}">{( "+" if a["change"] >= 0 else "" )}{a["change"]}%</div><div class="signal-box"><span>AI SIGNAL:</span><strong style="color:{a["sig_col"]}">{a["signal"]}</strong></div></div></a></div>'''
     fng_color = "#FF3D00" if fng['value'] < 40 else ("#00C853" if fng['value'] > 60 else "#FFD700")
     fng_html = f'<div class="fng-meter"><h3 style="margin:0; color:#888; text-transform:uppercase; font-size:0.9rem;">MARKET SENTIMENT</h3><div class="fng-value" style="color:{fng_color};">{fng["value"]}</div><div style="font-weight:bold; letter-spacing:1px;">{fng["text"]}</div><div class="fng-bar"><div class="fng-indicator" style="left: {fng["value"]}%;"></div></div></div>'
-    
-    # NOTA: Abbiamo tolto il vecchio script Javascript di CoinGecko perché ora usiamo Binance nel content.py
-    watchlist_script = f'''<script>const WL_KEY = "mip_watchlist_v1"; function toggleStar(id) {{ let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]"); if(wl.includes(id)) {{ wl = wl.filter(x => x !== id); }} else {{ wl.push(id); }} localStorage.setItem(WL_KEY, JSON.stringify(wl)); sortGrid(); }} function sortGrid() {{ let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]"); let grid = document.getElementById("markets-grid"); let cards = Array.from(grid.children); cards.forEach(c => {{ let id = c.getAttribute("data-id"); let star = document.getElementById("star-"+id); if(wl.includes(id)) {{ star.classList.add("active"); }} else {{ star.classList.remove("active"); }} }}); cards.sort((a, b) => {{ let aStar = wl.includes(a.getAttribute("data-id")) ? 1 : 0; let bStar = wl.includes(b.getAttribute("data-id")) ? 1 : 0; return bStar - aStar; }}); cards.forEach(c => grid.appendChild(c)); }} document.addEventListener("DOMContentLoaded", sortGrid);</script>'''
-    
+    real_time_script = f'''<script>const idMap = {json.dumps(js_mapping)}; const apiIds = "{",".join(js_mapping.keys())}"; const WL_KEY = "mip_watchlist_v1"; function toggleStar(id) {{ let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]"); if(wl.includes(id)) {{ wl = wl.filter(x => x !== id); }} else {{ wl.push(id); }} localStorage.setItem(WL_KEY, JSON.stringify(wl)); sortGrid(); }} function sortGrid() {{ let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]"); let grid = document.getElementById("markets-grid"); let cards = Array.from(grid.children); cards.forEach(c => {{ let id = c.getAttribute("data-id"); let star = document.getElementById("star-"+id); if(wl.includes(id)) {{ star.classList.add("active"); }} else {{ star.classList.remove("active"); }} }}); cards.sort((a, b) => {{ let aStar = wl.includes(a.getAttribute("data-id")) ? 1 : 0; let bStar = wl.includes(b.getAttribute("data-id")) ? 1 : 0; return bStar - aStar; }}); cards.forEach(c => grid.appendChild(c)); }} async function updatePrices() {{ try {{ const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${{apiIds}}&vs_currencies=usd&include_24hr_change=true&_=${{new Date().getTime()}}`); const data = await res.json(); for (const [cgId, value] of Object.entries(data)) {{ let htmlId = idMap[cgId]; if (!htmlId) continue; let priceElem = document.getElementById(`price-${{htmlId}}`); let changeElem = document.getElementById(`change-${{htmlId}}`); if (priceElem) {{ let oldPrice = parseFloat(priceElem.innerText.replace("$", "").replace(",", "")); let newPrice = value.usd; if(newPrice !== oldPrice && !isNaN(oldPrice)) {{ priceElem.innerText = newPrice < 1 ? "$" + newPrice.toFixed(6) : "$" + newPrice.toLocaleString("en-US", {{minimumFractionDigits: 2, maximumFractionDigits: 2}}); priceElem.classList.remove("flash-up", "flash-down"); void priceElem.offsetWidth; priceElem.classList.add(newPrice > oldPrice ? "flash-up" : "flash-down"); }} }} if (changeElem) {{ let change = value.usd_24h_change.toFixed(2); changeElem.innerText = (change >= 0 ? "+" : "") + change + "%"; changeElem.className = "change " + (change >= 0 ? "green" : "red"); }} }} }} catch (e) {{}} }} document.addEventListener("DOMContentLoaded", sortGrid); setInterval(updatePrices, 6000); </script>'''
     news_rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td style="padding:15px 10px; text-align:center; font-size:1.2rem;">{"🔥" if "Coin" in n["source"] else "🏛️"}</td><td style="padding:15px 10px;"><a href="{n["link"]}" target="_blank" style="font-weight:700; color:#fff; display:block; margin-bottom:5px;">{n["title"]}</a><span style="font-size:0.75rem; color:#888;">{n["source"]}</span></td><td style="text-align:right;"><a href="{n["link"]}" target="_blank" class="btn-trade">{"⚡ TRADE" if "Coin" in n["source"] else "👁️ READ"}</a></td></tr>' for n in news])
     cal_rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td><strong style="color:#fff">{ev["evento"]}</strong></td><td>{ev["impatto"]}</td><td>{ev["previsto"]}</td><td style="color:#888;">{ev["precedente"]}</td><td>{ev["data"]}</td></tr>' for ev in calendar])
-    
-    # Assemblaggio finale della Home (Index)
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}</head><body>{get_header('home')}<div class="container"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2><div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div></div><p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p><div class="grid" id="markets-grid">{grid_html}</div><div class="split-layout"><div class="panel">{fng_html}</div><div class="panel"><h2 class="section-title">📰 MARKET MOVERS</h2><table style="width:100%;"><tbody>{news_rows}</tbody></table></div></div></div>{MODALS_HTML} {get_footer()} {watchlist_script}</body></html>'''
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}</head><body>{get_header('home')}<div class="container"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2><div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div></div><p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p><div class="grid" id="markets-grid">{grid_html}</div><div class="split-layout"><div class="panel">{fng_html}</div><div class="panel"><h2 class="section-title">📰 MARKET MOVERS</h2><table style="width:100%;"><tbody>{news_rows}</tbody></table></div></div></div>{MODALS_HTML} {get_footer()} {real_time_script}</body></html>'''
     scrivi_file("index.html", html)
 
-# ==========================================
-# LE TUE FUNZIONI ORIGINALI INALTERATE
-# ==========================================
 def build_signals_page(assets: List[Dict]):
     hot_assets = [a for a in assets if abs(a['change']) >= 2.0]
     rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td style="padding:15px;"><strong style="font-size:1.1rem; color:#fff;">{a["symbol"]}</strong><br><span style="font-size:0.8rem;color:#888;">{a["name"]}</span></td><td style="padding:15px;">{format_price(a["price"])}</td><td style="padding:15px;" class="{"signal-buy" if a["change"] > 0 else "signal-sell"}">{( "+" if a["change"] >= 0 else "" )}{a["change"]}%</td><td style="padding:15px; font-weight:bold;" class="{"signal-buy" if a["change"] > 0 else "signal-sell"}">{"🔥 STRONG BUY" if a["change"] > 0 else "🩸 SHORT / SELL"}</td><td style="padding:15px; text-align:right;"><a href="chart_{a["id"]}.html" class="btn-trade">CHART ↗</a></td></tr>' for a in hot_assets])
@@ -163,6 +48,7 @@ def build_api_hub():
     scrivi_file("api_hub.html", html)
 
 def build_brokers_page():
+    # 🔥 INSERISCI QUI I TUOI VERI LINK AFFILIATO (Sostituisci gli URL tra le virgolette)
     brokers = [
         {"name": "Binance", "type": "Crypto", "pros": "Low fees, high liquidity", "link": "https://accounts.binance.com/register?ref=TUO_CODICE", "cta": "CLAIM $100 BONUS"},
         {"name": "Bybit", "type": "Crypto Futures", "pros": "Best for Leverage, Pro UI", "link": "https://www.bybit.com/register?affiliate_id=TUO_CODICE", "cta": "OPEN PRO ACCOUNT"},
@@ -189,6 +75,12 @@ def build_leaderboard_page():
 def build_legal_page():
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Legal & Privacy</title>{CSS_CORE}</head><body>{get_header('legal')}<div class="container" style="max-width:800px; color:#ccc;"><h1 style="color:#fff;">Legal Information & Policies</h1><hr style="border-color:#333; margin-bottom:30px;"><h3 style="color:var(--accent);">Privacy Policy (GDPR Compliant)</h3><p>Market Insider Pro utilizes LocalStorage to save your preferences, watchlist, and portfolio data directly on your device. We do NOT transmit this personal data to our servers.</p><h3 style="color:var(--accent);">Terms of Service</h3><p>By accessing the website, you agree to be bound by these terms. The data provided on this platform is for educational and informational purposes only.</p><h3 style="color:var(--accent);">Risk Disclaimer</h3><p>Trading Forex, Cryptocurrencies, and Stocks carries a high level of risk and may not be suitable for all investors.</p></div>{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("legal.html", html)
+
+def build_chart_pages(assets: List[Dict]):
+    for a in assets:
+        widget = f'<div class="tradingview-widget-container" style="height:100%;width:100%"><div id="tv_{a["id"]}" style="height:100%;width:100%"></div><script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script><script type="text/javascript">new TradingView.widget({{"autosize": true, "symbol": "{a["tv"]}", "interval": "D", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "toolbar_bg": "#f1f3f6", "enable_publishing": false, "allow_symbol_change": true, "studies": ["RSI@tv-basicstudies"], "container_id": "tv_{a["id"]}"}});</script></div>'
+        html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>{a['name']} Chart</title>{CSS_CORE}</head><body>{get_header('home')}<div class="container"><a href="index.html" style="color:#888;">&larr; BACK</a><h1 style="color:#fff; margin-bottom:20px;">{a['name']} <span style="color:var(--accent)">PRO CHART</span></h1><div style="height:75vh; border:1px solid #333; border-radius:12px; overflow:hidden;">{widget}</div></div>{MODALS_HTML}{get_footer()}</body></html>'''
+        scrivi_file(f"chart_{a['id']}.html", html)
 
 def build_academy():
     sidebar = "".join([f"<div class='module-title'>{m['title']}</div>" + "".join([f'''<div onclick="window.location.href='academy_{l['id']}.html'" class="lesson-link">{"🔒" if l.get("vip") else "📄"} {l['title']}</div>''' for l in m['lessons']]) for _, m in ACADEMY_CONTENT.items()])
