@@ -62,65 +62,39 @@ def get_footer() -> str:
         
         if(!localStorage.getItem('mip_cookies_accepted')) { setTimeout(()=> document.getElementById('cookie-banner').classList.add('show'), 2000); }
         
-        // --- MOTORE PREZZI LIVE BINANCE (VERSIONE SNIPER CORRETTA) ---
+        // --- MOTORE PREZZI LIVE BINANCE (SUPER BLINDATO CON GLI ID ESATTI) ---
         async function updateLivePrices() {
             try {
-                // Prende tutti i prezzi di Binance in un colpo solo
                 let res = await originalFetch('https://api.binance.com/api/v3/ticker/price');
                 let data = await res.json();
                 
-                // Mappa ultra-veloce dei prezzi
                 let priceMap = {};
                 data.forEach(item => { priceMap[item.symbol] = item.price; });
                 
-                // Associa le monete del sito al nome di Binance (incluso PEPE e RNDR che cambiano spesso nome)
-                let coinsToUpdate = {
-                    "BTC": priceMap["BTCUSDT"], "ETH": priceMap["ETHUSDT"], "SOL": priceMap["SOLUSDT"],
-                    "ADA": priceMap["ADAUSDT"], "XRP": priceMap["XRPUSDT"], "DOGE": priceMap["DOGEUSDT"],
-                    "PEPE": priceMap["PEPEUSDT"] || priceMap["1000PEPEUSDT"],
-                    "RNDR": priceMap["RENDERUSDT"] || priceMap["RNDRUSDT"]
+                // Mappa gli ID esatti che abbiamo nel nuovo builder.py ("btc", "eth", ecc.)
+                let targets = {
+                    "btc": priceMap["BTCUSDT"], "eth": priceMap["ETHUSDT"], "sol": priceMap["SOLUSDT"],
+                    "xrp": priceMap["XRPUSDT"], "ada": priceMap["ADAUSDT"], "doge": priceMap["DOGEUSDT"],
+                    "pepe": priceMap["1000PEPEUSDT"] || priceMap["PEPEUSDT"],
+                    "rndr": priceMap["RENDERUSDT"] || priceMap["RNDRUSDT"]
                 };
 
-                // Trova tutte le scritte sul sito e cerca solo i Nomi delle monete
-                let textTags = document.querySelectorAll('h2, h3, h4, strong, span');
-                
-                textTags.forEach(tag => {
-                    let coinName = tag.innerText.trim();
-                    if (coinsToUpdate[coinName]) {
-                        // Trovato il nome! Ora isoliamo la "carta" genitore
-                        let card = tag.parentElement;
-                        for(let i=0; i<4; i++) { // Saliamo massimo 4 livelli
-                            if(card && card.innerText.includes('$')) break;
-                            if(card) card = card.parentElement;
-                        }
-                        
-                        // Cerchiamo chirurgicamente solo il nodo di testo con il dollaro dentro QUESTA carta
-                        if (card && card.innerText.includes(coinName)) {
-                            let walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
-                            let node;
-                            while(node = walker.nextNode()) {
-                                let text = node.nodeValue.trim();
-                                // Identifica il prezzo: inizia per $ e non contiene parole
-                                if(text.startsWith('$') && text.length > 1 && !text.includes(' ') && !text.includes('%')) {
-                                    let p = parseFloat(coinsToUpdate[coinName]);
-                                    // Adatta i decimali (PEPE ha bisogno di 6 decimali, BTC solo 2)
-                                    let decimals = p < 0.1 ? 6 : (p < 2 ? 4 : 2);
-                                    let formattedPrice = "$" + p.toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
-                                    
-                                    if(text !== formattedPrice) {
-                                        node.nodeValue = formattedPrice;
-                                        if(node.parentElement) {
-                                            let originalColor = node.parentElement.style.color;
-                                            node.parentElement.style.color = "#00C853";
-                                            setTimeout(() => node.parentElement.style.color = originalColor || "white", 500);
-                                        }
-                                    }
-                                    break; // Fatto per questa moneta!
-                                }
+                for (const [id, price] of Object.entries(targets)) {
+                    if(price) {
+                        let el = document.getElementById("price-" + id); // Cerca es: price-btc
+                        if(el) {
+                            let p = parseFloat(price);
+                            let decimals = p < 0.1 ? 6 : (p < 2 ? 4 : 2);
+                            let formattedPrice = "$" + p.toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+                            
+                            if(el.innerText !== formattedPrice) {
+                                el.innerText = formattedPrice;
+                                el.style.color = "#00C853";
+                                setTimeout(() => el.style.color = "white", 500);
                             }
                         }
                     }
-                });
+                }
             } catch (e) { /* Fallback silenzioso */ }
         }
         
@@ -231,31 +205,87 @@ BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=INSERISCI_TU
 BYBIT_AFFILIATE_LINK = "https://www.bybit.com/invite?ref=INSERISCI_TUO_CODICE"
 
 # ==========================================
-# ACADEMY CONTENT (Espansa)
+# ACADEMY CONTENT (Testi Definitivi)
 # ==========================================
 ACADEMY_CONTENT = {
     "mod1": {
         "title": "MODULE 1: THE MINDSET 🧠", 
         "lessons": [
-            {"id": "lez1_1", "title": "1.1 Psychology of a Winner", "vip": False, "html": f"<h1>Trading Psychology</h1><p>Trading is 20% strategy and 80% psychology. If you can't control your emotions, you can't control your portfolio.</p><div style='margin-top:20px; padding:20px; background:#1a1a1a; border-left:4px solid #FFD700;'><h3>📚 Recommended Book</h3><p>Start your journey by rewiring your brain.</p><a href='{AMAZON_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black;'>BUY ON AMAZON 🛒</a></div>"}
+            {
+                "id": "lez1_1", 
+                "title": "1.1 The 1% Psychology", 
+                "vip": False, 
+                "html": f'''
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">The 1% Psychology</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Welcome to Market Insider Pro. Before touching any algorithm or chart, you must understand a brutal truth: <b>90% of retail traders lose money</b>. Why? Because they trade with emotion, FOMO (Fear Of Missing Out), and panic.</p>
+                <h3 style="color:#fff; margin-top:30px;">The Institutional Edge</h3>
+                <p style="color:#888; line-height:1.6;">Institutions do not feel fear. They use algorithms to execute trades based on pure data, volume, and statistical probability. To win, you must rewire your brain to think like a machine.</p>
+                <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FFD700; border-radius:8px;'>
+                    <h3 style="color:#FFD700; margin-top:0;">📚 Required Reading</h3>
+                    <p style="color:#ccc;">We highly recommend starting your journey by reading "Trading in the Zone". It will completely destroy your emotional biases.</p>
+                    <a href='{AMAZON_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black; text-decoration:none; display:inline-block; margin-top:10px;'>BUY ON AMAZON 🛒</a>
+                </div>
+                '''
+            }
         ]
     },
     "mod2": {
         "title": "MODULE 2: TECHNICAL MASTERY 📈", 
         "lessons": [
-            {"id": "lez2_1", "title": "2.1 Price Action Secrets", "vip": False, "html": f"<h1>Mastering Price Action</h1><p>Learn to read the naked chart. No indicators, just pure price movement and volume.</p><div style='margin-top:20px; padding:20px; background:#1a1a1a; border-left:4px solid #FCD535;'><h3>🏦 Top Broker for Charting</h3><p>We execute these strategies on Binance due to their deep liquidity and lowest fees.</p><a href='{BINANCE_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#FCD535; color:black;'>OPEN BINANCE ACCOUNT</a></div>"}
+            {
+                "id": "lez2_1", 
+                "title": "2.1 Naked Charting", 
+                "vip": False, 
+                "html": f'''
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Naked Charting & Liquidity</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Throw away your complex indicators. Retail traders crowd their screens with RSI, MACD, and Bollinger Bands. Smart money only looks at two things: <b>Price Action</b> and <b>Volume</b>.</p>
+                <ul style="color:#888; line-height:1.8; margin-top:20px; font-size:1.1rem;">
+                    <li><b>Support & Resistance are lies:</b> Banks actively push the price past these zones to trigger retail stop-losses (Liquidity Grabs).</li>
+                    <li><b>Volume precedes price:</b> A breakout without volume is a trap.</li>
+                </ul>
+                <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FCD535; border-radius:8px;'>
+                    <h3 style="color:#FCD535; margin-top:0;">🏦 The Right Environment</h3>
+                    <p style="color:#ccc;">To trade our volume strategies, you need an exchange with the highest global liquidity and zero-slippage execution. We exclusively use Binance.</p>
+                    <a href='{BINANCE_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#FCD535; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>CLAIM $100 BINANCE BONUS</a>
+                </div>
+                '''
+            }
         ]
     },
     "mod3": {
         "title": "MODULE 3: WHALE TRACKING 🐳", 
         "lessons": [
-            {"id": "lez3_1", "title": "3.1 Institutional Strategy", "vip": True, "html": "<h1>The Whale Order Block</h1><p>This is the exact strategy used by institutional banks. We track large wallet movements and front-run the retail liquidity.</p>"}
+            {
+                "id": "lez3_1", 
+                "title": "3.1 Order Block Secrets", 
+                "vip": True, 
+                "html": '''
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Finding The Whale Order Blocks</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">This is the exact strategy used by institutional banks. We track large wallet movements and front-run the retail liquidity.</p>
+                <p style="color:#888; line-height:1.6;">Order Blocks (OBs) are specific areas on a chart where central banks or large institutions have accumulated or distributed massive quantities of an asset. They leave a footprint.</p>
+                <h3 style="color:#fff; margin-top:30px;">How to spot them:</h3>
+                <p style="color:#888; line-height:1.6;">Look for the last bearish candle before a massive bullish expansion that breaks market structure. That entire candle is your Institutional Buy Zone.</p>
+                '''
+            }
         ]
     },
     "mod4": {
         "title": "MODULE 4: ALGO & BOTS 🤖", 
         "lessons": [
-            {"id": "lez4_1", "title": "4.1 Setup Auto-Trading", "vip": True, "html": f"<h1>Connect the API</h1><p>To use our automated algorithms, you need an exchange with extremely low API latency. We strictly use Bybit for algorithmic execution.</p><div style='margin-top:20px; padding:20px; background:#1a1a1a; border-left:4px solid #FF9900;'><a href='{BYBIT_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#17181E; border:1px solid #FF9900; color:#FF9900;'>REGISTER ON BYBIT</a></div>"}
+            {
+                "id": "lez4_1", 
+                "title": "4.1 Setup Auto-Trading", 
+                "vip": True, 
+                "html": f'''
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Connecting the AI</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">You now have the knowledge. It's time to automate it. Our API Hub allows you to connect your exchange via secure API keys and let our algorithm execute Order Block strategies 24/7.</p>
+                <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FF9900; border-radius:8px;'>
+                    <h3 style="color:#FF9900; margin-top:0;">⚡ Mandatory Requirement</h3>
+                    <p style="color:#ccc;">Our high-frequency bots require extremely low API latency. We strongly advise setting up a dedicated Bybit Pro account for algorithm execution.</p>
+                    <a href='{BYBIT_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#17181E; border:1px solid #FF9900; color:#FF9900; text-decoration:none; display:inline-block; margin-top:10px;'>OPEN BYBIT PRO ACCOUNT</a>
+                </div>
+                '''
+            }
         ]
     }
 }
