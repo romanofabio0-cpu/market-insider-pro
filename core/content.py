@@ -62,43 +62,69 @@ def get_footer() -> str:
         
         if(!localStorage.getItem('mip_cookies_accepted')) { setTimeout(()=> document.getElementById('cookie-banner').classList.add('show'), 2000); }
         
-        // --- MOTORE PREZZI LIVE BINANCE (OGNI 3 SECONDI) ---
+        // --- MOTORE PREZZI LIVE BINANCE (VERSIONE SNIPER CORRETTA) ---
         async function updateLivePrices() {
             try {
-                let res = await originalFetch('https://api.binance.com/api/v3/ticker/price?symbols=[%22BTCUSDT%22,%22ADAUSDT%22,%22XRPUSDT%22,%22RNDRUSDT%22]');
+                // Prende tutti i prezzi di Binance in un colpo solo
+                let res = await originalFetch('https://api.binance.com/api/v3/ticker/price');
                 let data = await res.json();
                 
-                let mappings = { "BTCUSDT": "BTC", "ADAUSDT": "ADA", "XRPUSDT": "XRP", "RNDRUSDT": "RNDR" };
+                // Mappa ultra-veloce dei prezzi
+                let priceMap = {};
+                data.forEach(item => { priceMap[item.symbol] = item.price; });
                 
-                data.forEach(coin => {
-                    let name = mappings[coin.symbol];
-                    // Cerca il box corrispondente nel terminale
-                    let cards = document.querySelectorAll('div');
-                    cards.forEach(card => {
-                        if(card.innerHTML.includes(name) && card.innerHTML.includes('$')) {
-                            // Trova l'elemento testuale con il dollaro
+                // Associa le monete del sito al nome di Binance (incluso PEPE e RNDR che cambiano spesso nome)
+                let coinsToUpdate = {
+                    "BTC": priceMap["BTCUSDT"], "ETH": priceMap["ETHUSDT"], "SOL": priceMap["SOLUSDT"],
+                    "ADA": priceMap["ADAUSDT"], "XRP": priceMap["XRPUSDT"], "DOGE": priceMap["DOGEUSDT"],
+                    "PEPE": priceMap["PEPEUSDT"] || priceMap["1000PEPEUSDT"],
+                    "RNDR": priceMap["RENDERUSDT"] || priceMap["RNDRUSDT"]
+                };
+
+                // Trova tutte le scritte sul sito e cerca solo i Nomi delle monete
+                let textTags = document.querySelectorAll('h2, h3, h4, strong, span');
+                
+                textTags.forEach(tag => {
+                    let coinName = tag.innerText.trim();
+                    if (coinsToUpdate[coinName]) {
+                        // Trovato il nome! Ora isoliamo la "carta" genitore
+                        let card = tag.parentElement;
+                        for(let i=0; i<4; i++) { // Saliamo massimo 4 livelli
+                            if(card && card.innerText.includes('$')) break;
+                            if(card) card = card.parentElement;
+                        }
+                        
+                        // Cerchiamo chirurgicamente solo il nodo di testo con il dollaro dentro QUESTA carta
+                        if (card && card.innerText.includes(coinName)) {
                             let walker = document.createTreeWalker(card, NodeFilter.SHOW_TEXT, null, false);
                             let node;
                             while(node = walker.nextNode()) {
-                                if(node.nodeValue.includes('$') && node.nodeValue.trim().length > 1) {
-                                    let newPrice = "$" + parseFloat(coin.price).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 4});
-                                    if(node.nodeValue.trim() !== newPrice) {
-                                        node.nodeValue = newPrice;
-                                        let parent = node.parentElement;
-                                        if(parent) {
-                                            parent.style.color = "#00C853";
-                                            setTimeout(() => parent.style.color = "white", 500);
+                                let text = node.nodeValue.trim();
+                                // Identifica il prezzo: inizia per $ e non contiene parole
+                                if(text.startsWith('$') && text.length > 1 && !text.includes(' ') && !text.includes('%')) {
+                                    let p = parseFloat(coinsToUpdate[coinName]);
+                                    // Adatta i decimali (PEPE ha bisogno di 6 decimali, BTC solo 2)
+                                    let decimals = p < 0.1 ? 6 : (p < 2 ? 4 : 2);
+                                    let formattedPrice = "$" + p.toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+                                    
+                                    if(text !== formattedPrice) {
+                                        node.nodeValue = formattedPrice;
+                                        if(node.parentElement) {
+                                            let originalColor = node.parentElement.style.color;
+                                            node.parentElement.style.color = "#00C853";
+                                            setTimeout(() => node.parentElement.style.color = originalColor || "white", 500);
                                         }
                                     }
+                                    break; // Fatto per questa moneta!
                                 }
                             }
                         }
-                    });
+                    }
                 });
-            } catch (e) { /* Attende il ciclo successivo */ }
+            } catch (e) { /* Fallback silenzioso */ }
         }
         
-        // Avvia il refresh ogni 3 secondi se siamo nella home
+        // Avvia il refresh ogni 3 secondi solo sulla Dashboard
         if(document.body.innerText.includes('GLOBAL MARKETS PULSE')) {
             updateLivePrices();
             setInterval(updateLivePrices, 3000);
