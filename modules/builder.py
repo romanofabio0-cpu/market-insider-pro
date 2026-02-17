@@ -7,9 +7,6 @@ from core.content import get_header, get_footer, ACADEMY_CONTENT, MODALS_HTML
 
 logger = get_logger("Builder")
 
-# ==========================================
-# DATABASE ASSET (Crypto + Azioni Tradizionali)
-# ==========================================
 ASSETS_DB = {
     "BTC": {"name": "Bitcoin", "symbol": "BINANCE:BTCUSDT", "type": "crypto", "has_chart": True},
     "ETH": {"name": "Ethereum", "symbol": "BINANCE:ETHUSDT", "type": "crypto", "has_chart": True},
@@ -142,8 +139,7 @@ def build_referral_page():
     scrivi_file("referral.html", html)
 
 def build_pricing_page():
-    # AGGIUNTO IL LINK STRIPE REALE ALLA SEZIONE "PRO TRADER" ($49)
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pricing</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container"><div style="text-align:center; margin-bottom:20px;"><h1 style="font-size:3rem; margin-bottom:10px;">UPGRADE TO <span style="color:var(--gold);">VIP PASS</span></h1><p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Stop trading blindly. Join the 1% of profitable traders with real-time institutional data, algorithmic signals, and AI analysis.</p></div><div class="pricing-grid"><div class="pricing-card"><h3 style="color:#aaa; font-size:1.5rem; margin:0;">BASIC</h3><div class="price-tag">$0<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Delayed Terminal Data (15m)</div><div class="plan-feature">Basic Charts</div><div class="plan-feature">Academy Module 1</div><div class="plan-feature" style="color:#555;"><s>Real-Time Signals</s></div></div><button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT PLAN</button></div><div class="pricing-card pro"><h3 style="color:var(--gold); font-size:1.5rem; margin:0;">PRO TRADER</h3><div class="price-tag">$49<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature" style="color:#fff;">Real-Time Terminal Data (6s)</div><div class="plan-feature" style="color:#fff;">Full VIP Academy Access</div><div class="plan-feature" style="color:#fff;">Institutional Signals Room</div><div class="plan-feature" style="color:#fff;">API Auto-Trading Beta</div></div><a href="https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00" class="btn-trade" style="width:100%; padding:15px; font-size:1.2rem; display:block; text-align:center; box-sizing:border-box; text-decoration:none;">GET VIP PASS SECURELY</a></div><div class="pricing-card"><h3 style="color:#2962FF; font-size:1.5rem; margin:0;">WHALE (LIFETIME)</h3><div class="price-tag">$399<span>/once</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Everything in PRO</div><div class="plan-feature">Private Discord Access</div><div class="plan-feature">Lifetime Updates</div><div class="plan-feature">No Recurring Fees</div></div><button class="vip-btn" style="width:100%; padding:15px;" onclick="openStripe('LIFETIME', '399.00')">GET LIFETIME ACCESS</button></div></div><p style="text-align:center; margin-top:40px; color:#666; font-size:0.8rem;">🔐 Payments securely processed by Stripe. 30-Day money-back guarantee.</p></div>{MODALS_HTML} {get_footer()}</body></html>'''
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pricing</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container"><div style="text-align:center; margin-bottom:20px;"><h1 style="font-size:3rem; margin-bottom:10px;">UPGRADE TO <span style="color:var(--gold);">VIP PASS</span></h1><p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Stop trading blindly. Join the 1% of profitable traders with real-time institutional data, algorithmic signals, and AI analysis.</p></div><div class="pricing-grid"><div class="pricing-card"><h3 style="color:#aaa; font-size:1.5rem; margin:0;">BASIC</h3><div class="price-tag">$0<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Delayed Terminal Data (15m)</div><div class="plan-feature">Basic Charts</div><div class="plan-feature">Academy Module 1</div><div class="plan-feature" style="color:#555;"><s>Real-Time Signals</s></div></div><button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT PLAN</button></div><div class="pricing-card pro"><h3 style="color:var(--gold); font-size:1.5rem; margin:0;">PRO TRADER</h3><div class="price-tag">$49<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature" style="color:#fff;">Real-Time Terminal Data (6s)</div><div class="plan-feature" style="color:#fff;">Full VIP Academy Access</div><div class="plan-feature" style="color:#fff;">Institutional Signals Room</div><div class="plan-feature" style="color:#fff;">API Auto-Trading Beta</div></div><a href="https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00" class="btn-trade" style="width:100%; padding:15px; font-size:1.2rem; display:block; text-align:center; box-sizing:border-box; text-decoration:none;">GET VIP PASS SECURELY</a></div><div class="pricing-card"><h3 style="color:#2962FF; font-size:1.5rem; margin:0;">WHALE (LIFETIME)</h3><div class="price-tag">$399<span>/once</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Everything in PRO</div><div class="plan-feature">Private Discord Access</div><div class="plan-feature">Lifetime Updates</div><div class="plan-feature">No Recurring Fees</div></div><a href="https://buy.stripe.com/INSERISCI_QUI_LINK_LIFETIME" class="vip-btn" style="width:100%; padding:15px; display:block; text-align:center; box-sizing:border-box; text-decoration:none;">GET LIFETIME ACCESS</a></div></div><p style="text-align:center; margin-top:40px; color:#666; font-size:0.8rem;">🔐 Payments securely processed by Stripe. 30-Day money-back guarantee.</p></div>{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("pricing.html", html)
 
 def build_leaderboard_page():
@@ -158,11 +154,35 @@ def build_legal_page():
 def build_chart_pages(assets: List[Dict]):
     pass
 
+# === LA MAGIA DELLO SBLOCCO DELL'ACADEMY ===
 def build_academy():
     sidebar = "".join([f"<div class='module-title'>{m['title']}</div>" + "".join([f'''<div onclick="window.location.href='academy_{l['id']}.html'" class="lesson-link">{"🔒" if l.get("vip") else "📄"} {l['title']}</div>''' for l in m['lessons']]) for _, m in ACADEMY_CONTENT.items()])
+    
     for _, m in ACADEMY_CONTENT.items():
         for l in m['lessons']:
-            c_html = f'''<div style="filter: blur(6px); pointer-events: none;">{l['html']}</div><div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--accent); border-radius:12px; z-index:10;"><h2 style="color:#FFD700;">🔒 VIP CONTENT</h2><button class="btn-trade" onclick="window.location.href='pricing.html'">GET VIP PASS</button></div>''' if l.get("vip") else l['html']
+            if l.get("vip"):
+                c_html = f'''
+                <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">{l['html']}</div>
+                <div id="vip-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--accent); border-radius:12px; z-index:10; width:90%; max-width:400px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+                    <h2 style="color:#FFD700; margin-top:0;">🔒 VIP CONTENT</h2>
+                    <p style="color:#aaa; margin-bottom:20px;">This institutional strategy is reserved for VIP members.</p>
+                    <a href="pricing.html" class="btn-trade" style="display:block; padding:15px; text-decoration:none;">GET VIP PASS</a>
+                </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {{
+                        // Il codice controlla se l'utente ha il pass attivo nel browser
+                        if(localStorage.getItem('mip_vip_status') === 'active') {{
+                            document.getElementById('vip-content').style.filter = 'none';
+                            document.getElementById('vip-content').style.pointerEvents = 'auto';
+                            document.getElementById('vip-content').style.userSelect = 'auto';
+                            document.getElementById('vip-lock').style.display = 'none';
+                        }}
+                    }});
+                </script>
+                '''
+            else:
+                c_html = l['html']
+                
             html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>{l['title']}</title>{CSS_CORE}</head><body>{get_header('academy')}<div class="container"><div class="academy-grid"><div class="sidebar">{sidebar}</div><div class="lesson-content" style="position:relative;">{c_html}</div></div></div>{MODALS_HTML}{get_footer()}</body></html>'''
             scrivi_file(f"academy_{l['id']}.html", html)
 
@@ -245,3 +265,16 @@ def build_wallet():
     
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>My Wallet</title>{CSS_CORE}</head><body>{get_header('wallet')}<div class="container"><h2 class="section-title">MY PORTFOLIO TRACKER 💼</h2><div style="text-align:center; padding: 40px; background:#111; border-radius:12px; border:1px solid #333; margin-bottom:30px;"><div style="color:#888; font-size:1.2rem; text-transform:uppercase;">Total Net Worth</div><div class="wallet-total" id="total-net-worth">$0.00</div><div style="font-size:0.8rem; color:#00C853;">Live tracking active ⚡</div></div><div class="wallet-form"><select id="asset-select"><option value="bitcoin">Bitcoin (BTC)</option><option value="ethereum">Ethereum (ETH)</option><option value="solana">Solana (SOL)</option><option value="ripple">Ripple (XRP)</option><option value="cardano">Cardano (ADA)</option></select><input type="number" id="asset-amount" placeholder="Amount (e.g. 0.5)"><button class="vip-btn" onclick="addAsset()">+ ADD</button></div><div class="panel"><table><thead><tr><th>ASSET</th><th>AMOUNT</th><th>VALUE (USD)</th><th style="text-align:right;">ACTION</th></tr></thead><tbody id="wallet-body"></tbody></table></div></div>{MODALS_HTML} {get_footer()} {js}</body></html>'''
     scrivi_file("wallet.html", html)
+
+# === LA PORTA SEGRETA CHE SBLOCCA IL SITO DOPO IL PAGAMENTO ===
+def build_success_page():
+    js = '''<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // SCUONDE LA MEMORIA E ATTIVA IL VIP PASS
+        localStorage.setItem('mip_vip_status', 'active');
+        // REINDIRIZZA ALLA PRIMA LEZIONE VIP DOPO 3 SECONDI
+        setTimeout(() => { window.location.href = "academy_lez3_1.html"; }, 3500);
+    });
+    </script>'''
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Payment Successful</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container" style="text-align:center; padding: 120px 20px;"><h1 style="font-size:5rem; margin:0;">🎉</h1><h1 style="color:var(--gold); font-size:3rem; margin-top:10px;">VIP PASS ACTIVATED</h1><p style="color:#aaa; font-size:1.2rem;">Payment verified. Your institutional access is now unlocked.</p><p style="color:#666; font-size:0.9rem;">Redirecting to the Academy...</p><div style="margin-top:40px;"><div style="width:40px; height:40px; border:3px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite; margin:0 auto;"></div></div></div><style>@keyframes spin {{ 100% {{ transform:rotate(360deg); }} }}</style>{MODALS_HTML} {get_footer()} {js}</body></html>'''
+    scrivi_file("success.html", html)

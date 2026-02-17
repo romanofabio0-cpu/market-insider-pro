@@ -49,7 +49,7 @@ def get_footer() -> str:
     const originalFetch = window.fetch;
     window.fetch = async function() {
         if (typeof arguments[0] === 'string' && arguments[0].includes('coingecko')) {
-            return new Response(JSON.stringify({}), { status: 200 }); // Blocca silenziosamente
+            return new Response(JSON.stringify({}), { status: 200 }); 
         }
         return originalFetch.apply(this, arguments);
     };
@@ -108,8 +108,6 @@ def get_footer() -> str:
     '''
 
 MODALS_HTML = '''
-<div class="stripe-overlay" id="stripe-modal"><div class="stripe-modal"><span class="close-modal" onclick="closeModals()" style="z-index:10; top:10px; right:15px; color:#333;">&times;</span><div class="stripe-header"><h3 style="margin:0; color:#333;">Market Insider Pro VIP</h3><p style="margin:5px 0 0; color:#666; font-size:0.9rem;" id="stripe-price-desc">Subscribe for $49.00/month</p></div><div class="stripe-body"><label style="font-size:0.8rem; color:#666; display:block; margin-bottom:5px;">Email</label><input type="email" class="stripe-input" placeholder="you@example.com"><label style="font-size:0.8rem; color:#666; display:block; margin-bottom:5px;">Card Information</label><input type="text" class="stripe-input" placeholder="💳 4242  4242  4242  4242" style="margin-bottom:0; border-radius: 6px 6px 0 0;"><div style="display:flex;"><input type="text" class="stripe-input" placeholder="MM / YY" style="border-radius: 0 0 0 6px; border-top:none; border-right:none; width:50%;"><input type="text" class="stripe-input" placeholder="CVC" style="border-radius: 0 0 6px 0; border-top:none; width:50%;"></div><label style="font-size:0.8rem; color:#666; display:block; margin:15px 0 5px;">Name on card</label><input type="text" class="stripe-input" placeholder="John Doe"><button class="stripe-btn" id="stripe-pay-btn" onclick="processPayment()">Subscribe</button><div class="stripe-footer">🔒 Powered by <b>Stripe</b></div></div></div></div>
-
 <div class="modal-overlay" id="waitlist-modal"><div class="modal-content"><span class="close-modal" onclick="closeModals()">&times;</span><h2 id="modal-title" style="color:#FFD700; margin-top:0;">🤖 AUTO-TRADE BETA</h2><p id="modal-desc" style="color:#aaa; font-size:0.9rem;">The API Auto-Execution engine is currently in Closed Beta. Enter your email to join the waitlist.</p><div id="waitlist-form"><input type="email" id="waitlist-email" class="modal-input" placeholder="name@company.com"><button class="btn-trade" style="width:100%; padding:12px;" onclick="window.submitFirebaseWaitlist()">REQUEST ACCESS</button></div><div id="waitlist-success" style="display:none; color:#00C853; font-weight:bold; margin-top:20px;">✅ Valid Request Received! Check your inbox.</div></div></div>
 
 <div class="modal-overlay" id="login-modal">
@@ -186,32 +184,38 @@ MODALS_HTML = '''
     function validateEmail(email) { const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/; return re.test(String(email).toLowerCase()); }
     function loginEmail() { let e = document.getElementById('login-email').value; if(validateEmail(e)) { localStorage.setItem('mip_user', e.split('@')[0]); closeModals(); checkLogin(); location.reload(); } else { alert("Login Failed: Invalid email."); } }
     async function loginWeb3() { if (typeof window.ethereum !== 'undefined') { try { const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }); localStorage.setItem('mip_user', accounts[0].substring(0,6) + '...' + accounts[0].substring(accounts[0].length-4)); closeModals(); checkLogin(); location.reload(); } catch (error) { alert("Connection refused."); } } else { alert("Please install MetaMask."); } }
-    function openStripe(plan, price) { document.getElementById('stripe-price-desc').innerText = `Subscribe for $${price}`; document.getElementById('stripe-modal').style.display = 'flex'; }
-    function processPayment() { let btn = document.getElementById('stripe-pay-btn'); btn.innerText = "Processing..."; btn.style.opacity = "0.7"; setTimeout(() => { btn.innerText = "Payment Successful! ✅"; btn.style.background = "#00C853"; setTimeout(()=>{closeModals(); alert("Welcome to VIP!");}, 1500); }, 2000); }
+    
     function openWaitlist() { document.getElementById('waitlist-modal').style.display = 'flex'; }
     function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
-    function closeModals() { document.querySelectorAll('.modal-overlay, .stripe-overlay').forEach(m => m.style.display = 'none'); }
-    function checkLogin() { let u = localStorage.getItem('mip_user'); if(u) { let g = document.getElementById('user-greeting'); let b = document.getElementById('login-btn'); if(g) { g.innerText = (u.startsWith('0x') ? '🦊 ' : '👤 ') + u; g.style.display = "inline"; } if(b) b.style.display = "none"; } }
+    function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+    
+    // SISTEMA BADGE VIP DINAMICO
+    function checkLogin() { 
+        let u = localStorage.getItem('mip_user'); 
+        let isVip = localStorage.getItem('mip_vip_status') === 'active';
+        
+        if(u) { 
+            let g = document.getElementById('user-greeting'); 
+            let b = document.getElementById('login-btn'); 
+            if(g) { 
+                let badge = isVip ? ' <span style="background:var(--gold); color:#000; padding:2px 6px; border-radius:4px; font-size:0.75rem; font-weight:900; margin-left:8px;">VIP</span>' : '';
+                g.innerHTML = (u.startsWith('0x') ? '🦊 ' : '👤 ') + u + badge; 
+                g.style.display = "inline"; 
+            } 
+            if(b) b.style.display = "none"; 
+        } 
+    }
     document.addEventListener("DOMContentLoaded", checkLogin);
 </script>
 '''
 
-# ==========================================
-# MONETIZZAZIONE E AFFILIAZIONI (RIPARATA CON SEARCH LINKS)
-# ==========================================
-# Utilizziamo i "Search Links" intelligenti. Se un prodotto va fuori stock, 
-# la pagina non darà MAI errore 404 e tu prenderai lo stesso il cookie affiliato!
 AMAZON_LINK_BOOK = "https://www.amazon.it/s?k=trading+in+the+zone+libro&tag=mip081-21"
 AMAZON_LINK_MONITOR = "https://www.amazon.it/s?k=monitor+lg+34+pollici+ultrawide&tag=mip081-21"
 AMAZON_LINK_LEDGER = "https://www.amazon.it/s?k=ledger+nano+x+wallet&tag=mip081-21"
 
-# I link dei Broker non sono pubblici, devi generare i tuoi codici privati nelle tue dashboard. Copiali e incollali qui!
 BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=TUO_CODICE"
 BYBIT_AFFILIATE_LINK = "https://www.bybit.com/invite?ref=TUO_CODICE"
 
-# ==========================================
-# ACADEMY CONTENT (Testi Definitivi & Affiliazioni Amazon ATTIVE)
-# ==========================================
 ACADEMY_CONTENT = {
     "mod1": {
         "title": "MODULE 1: THE MINDSET 🧠", 
