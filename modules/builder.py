@@ -127,10 +127,11 @@ def build_api_hub():
     scrivi_file("api_hub.html", html)
 
 def build_brokers_page():
+    # AGGIUNTO TRADE REPUBLIC COME RICHIESTO
     brokers = [
         {"name": "Binance", "type": "Crypto", "pros": "Low fees, high liquidity", "link": "https://accounts.binance.com/register?ref=TUO_CODICE", "cta": "CLAIM $100 BONUS"},
         {"name": "Bybit", "type": "Crypto Futures", "pros": "Best for Leverage, Pro UI", "link": "https://www.bybit.com/register?affiliate_id=TUO_CODICE", "cta": "OPEN PRO ACCOUNT"},
-        {"name": "eToro", "type": "Stocks & Forex", "pros": "CopyTrading, Easy to use", "link": "https://med.etoro.com/B_TUO_CODICE.aspx", "cta": "START COPYING"}
+        {"name": "Trade Republic", "type": "Stocks & ETF", "pros": "4% Interest on Cash, Free Savings Plans", "link": "https://ref.trade.re/TUO_CODICE", "cta": "GET FREE STOCK"}
     ]
     html_cards = "".join([f'<div class="broker-card"><div style="display:flex; align-items:center;"><div class="broker-logo">🏦</div><div class="broker-info"><h3 style="margin:0; color:#fff;">{b["name"]}</h3><div class="broker-tags"><span>{b["type"]}</span><span>{b["pros"]}</span></div></div></div><a href="{b["link"]}" target="_blank" class="btn-trade" style="padding:12px 24px; text-align:center;">{b["cta"]}</a></div>' for b in brokers])
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Partner Brokers</title>{CSS_CORE}</head><body>{get_header('brokers')}<div class="container"><h2 class="section-title">💸 EXCLUSIVE BROKER OFFERS</h2><p style="color:#888; margin-bottom:30px;">Trade with the tools the pros use. Claim exclusive sign-up bonuses using our partner links.</p><div style="max-width:800px; margin:0 auto;">{html_cards}</div></div>{MODALS_HTML} {get_footer()}</body></html>'''
@@ -170,9 +171,6 @@ def build_chat():
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>AI Analyst</title>{CSS_CORE}</head><body>{get_header('chat')}<div class="container"><h2 class="section-title">AI MARKET ANALYST 🤖</h2><div class="chat-interface"><div class="chat-history" id="hist"><div class="msg msg-ai">🤖 Welcome.</div></div><div class="chat-input-area"><input type="text" class="chat-input" id="in" placeholder="Type here..."><button class="chat-btn" onclick="send()">ANALYZE</button></div></div></div>{js}{MODALS_HTML}{get_footer()}</body></html>'''
     scrivi_file("chat.html", html)
 
-# ==========================================
-# WALLET MIGLIORATO (Dati da Binance)
-# ==========================================
 def build_wallet():
     js = '''<script>
     const W_KEY = "mip_wallet_assets"; 
@@ -220,7 +218,6 @@ def build_wallet():
             document.getElementById("total-net-worth").innerText = "$0.00"; return; 
         } 
         try { 
-            // Bypass the shield by using Binance
             let fetcher = window.originalFetch || window.fetch;
             let res = await fetcher('https://api.binance.com/api/v3/ticker/price'); 
             let data = await res.json(); 

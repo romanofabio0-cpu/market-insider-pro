@@ -46,7 +46,6 @@ def get_footer() -> str:
     <div class="cookie-banner" id="cookie-banner"><div class="cookie-text">We use cookies to secure your session and provide real-time institutional data. By continuing to use this site, you consent to our <a href="legal.html" style="color:var(--accent);">Privacy Policy</a>.</div><button class="cookie-btn" onclick="acceptCookies()">ACCEPT</button></div>
 
     <script>
-    // --- HACKER MODE: Blocca gli errori rossi di CoinGecko ---
     const originalFetch = window.fetch;
     window.fetch = async function() {
         if (typeof arguments[0] === 'string' && arguments[0].includes('coingecko')) {
@@ -65,7 +64,6 @@ def get_footer() -> str:
         
         if(!localStorage.getItem('mip_cookies_accepted')) { setTimeout(()=> document.getElementById('cookie-banner').classList.add('show'), 2000); }
         
-        // --- MOTORE PREZZI LIVE BINANCE (SUPER BLINDATO CON GLI ID ESATTI) ---
         async function updateLivePrices() {
             try {
                 let res = await originalFetch('https://api.binance.com/api/v3/ticker/price');
@@ -74,7 +72,6 @@ def get_footer() -> str:
                 let priceMap = {};
                 data.forEach(item => { priceMap[item.symbol] = item.price; });
                 
-                // Mappa gli ID esatti che abbiamo nel nuovo builder.py ("btc", "eth", ecc.)
                 let targets = {
                     "btc": priceMap["BTCUSDT"], "eth": priceMap["ETHUSDT"], "sol": priceMap["SOLUSDT"],
                     "xrp": priceMap["XRPUSDT"], "ada": priceMap["ADAUSDT"], "doge": priceMap["DOGEUSDT"],
@@ -84,7 +81,7 @@ def get_footer() -> str:
 
                 for (const [id, price] of Object.entries(targets)) {
                     if(price) {
-                        let el = document.getElementById("price-" + id); // Cerca es: price-btc
+                        let el = document.getElementById("price-" + id);
                         if(el) {
                             let p = parseFloat(price);
                             let decimals = p < 0.1 ? 6 : (p < 2 ? 4 : 2);
@@ -98,10 +95,9 @@ def get_footer() -> str:
                         }
                     }
                 }
-            } catch (e) { /* Fallback silenzioso */ }
+            } catch (e) { }
         }
         
-        // Avvia il refresh ogni 3 secondi solo sulla Dashboard
         if(document.body.innerText.includes('GLOBAL MARKETS PULSE')) {
             updateLivePrices();
             setInterval(updateLivePrices, 3000);
@@ -201,14 +197,19 @@ MODALS_HTML = '''
 '''
 
 # ==========================================
-# MONETIZZAZIONE E AFFILIAZIONI
+# MONETIZZAZIONE E AFFILIAZIONI (AUTOMATIZZATA DA GEMINI)
 # ==========================================
-AMAZON_AFFILIATE_LINK = "https://amzn.to/INSERISCI_QUI_IL_TUO_LINK_CORTO"
-BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=INSERISCI_TUO_CODICE"
-BYBIT_AFFILIATE_LINK = "https://www.bybit.com/invite?ref=INSERISCI_TUO_CODICE"
+# I link Amazon sono GIA' PRONTI e fusi con il tuo ID Ufficiale: mip081-21
+AMAZON_LINK_BOOK = "https://www.amazon.it/dp/8863660565?tag=mip081-21"
+AMAZON_LINK_MONITOR = "https://www.amazon.it/dp/B08J4D8LGL?tag=mip081-21"
+AMAZON_LINK_LEDGER = "https://www.amazon.it/dp/B07M6RV9TX?tag=mip081-21"
+
+# I link dei Broker non sono pubblici, devi generare i tuoi codici privati nelle tue dashboard. Copiali e incollali qui!
+BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=TUO_CODICE"
+BYBIT_AFFILIATE_LINK = "https://www.bybit.com/invite?ref=TUO_CODICE"
 
 # ==========================================
-# ACADEMY CONTENT (Testi Definitivi)
+# ACADEMY CONTENT (Testi Definitivi & Affiliazioni Amazon ATTIVE)
 # ==========================================
 ACADEMY_CONTENT = {
     "mod1": {
@@ -225,8 +226,8 @@ ACADEMY_CONTENT = {
                 <p style="color:#888; line-height:1.6;">Institutions do not feel fear. They use algorithms to execute trades based on pure data, volume, and statistical probability. To win, you must rewire your brain to think like a machine.</p>
                 <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FFD700; border-radius:8px;'>
                     <h3 style="color:#FFD700; margin-top:0;">📚 Required Reading</h3>
-                    <p style="color:#ccc;">We highly recommend starting your journey by reading "Trading in the Zone". It will completely destroy your emotional biases.</p>
-                    <a href='{AMAZON_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black; text-decoration:none; display:inline-block; margin-top:10px;'>BUY ON AMAZON 🛒</a>
+                    <p style="color:#ccc;">We highly recommend starting your journey by reading "Trading in the Zone" by Mark Douglas. It will completely destroy your emotional biases.</p>
+                    <a href='{AMAZON_LINK_BOOK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black; text-decoration:none; display:inline-block; margin-top:10px;'>BUY ON AMAZON 🛒</a>
                 </div>
                 '''
             }
@@ -242,12 +243,13 @@ ACADEMY_CONTENT = {
                 "html": f'''
                 <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Naked Charting & Liquidity</h1>
                 <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Throw away your complex indicators. Retail traders crowd their screens with RSI, MACD, and Bollinger Bands. Smart money only looks at two things: <b>Price Action</b> and <b>Volume</b>.</p>
-                <ul style="color:#888; line-height:1.8; margin-top:20px; font-size:1.1rem;">
-                    <li><b>Support & Resistance are lies:</b> Banks actively push the price past these zones to trigger retail stop-losses (Liquidity Grabs).</li>
-                    <li><b>Volume precedes price:</b> A breakout without volume is a trap.</li>
-                </ul>
                 <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FCD535; border-radius:8px;'>
-                    <h3 style="color:#FCD535; margin-top:0;">🏦 The Right Environment</h3>
+                    <h3 style="color:#FCD535; margin-top:0;">🖥️ The Pro Setup</h3>
+                    <p style="color:#ccc;">You cannot trade order blocks on a laptop screen. An Ultrawide Monitor is mandatory to see the full market structure without scrolling.</p>
+                    <a href='{AMAZON_LINK_MONITOR}' target='_blank' class='vip-btn' style='background:#f5f5f5; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>GET THE LG 34" ULTRAWIDE 🛒</a>
+                </div>
+                <div style='margin-top:20px; padding:30px; background:#1a1a1a; border-left:4px solid #FCD535; border-radius:8px;'>
+                    <h3 style="color:#FCD535; margin-top:0;">🏦 The Right Exchange</h3>
                     <p style="color:#ccc;">To trade our volume strategies, you need an exchange with the highest global liquidity and zero-slippage execution. We exclusively use Binance.</p>
                     <a href='{BINANCE_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#FCD535; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>CLAIM $100 BINANCE BONUS</a>
                 </div>
@@ -262,12 +264,15 @@ ACADEMY_CONTENT = {
                 "id": "lez3_1", 
                 "title": "3.1 Order Block Secrets", 
                 "vip": True, 
-                "html": '''
+                "html": f'''
                 <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Finding The Whale Order Blocks</h1>
                 <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">This is the exact strategy used by institutional banks. We track large wallet movements and front-run the retail liquidity.</p>
                 <p style="color:#888; line-height:1.6;">Order Blocks (OBs) are specific areas on a chart where central banks or large institutions have accumulated or distributed massive quantities of an asset. They leave a footprint.</p>
-                <h3 style="color:#fff; margin-top:30px;">How to spot them:</h3>
-                <p style="color:#888; line-height:1.6;">Look for the last bearish candle before a massive bullish expansion that breaks market structure. That entire candle is your Institutional Buy Zone.</p>
+                <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #00C853; border-radius:8px;'>
+                    <h3 style="color:#00C853; margin-top:0;">🔐 Securing Whale Profits</h3>
+                    <p style="color:#ccc;">When you track whales, you make whale money. NEVER keep large capital on an exchange. Store your long-term holdings offline securely.</p>
+                    <a href='{AMAZON_LINK_LEDGER}' target='_blank' class='vip-btn' style='background:#00C853; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>BUY LEDGER NANO X 🛒</a>
+                </div>
                 '''
             }
         ]
