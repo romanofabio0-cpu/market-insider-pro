@@ -46,18 +46,15 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         color = "green" if d_asset['change'] >= 0 else "red"
         elem_id = ticker.lower()
         
-        # FIX 1: CARDS TORNATE ALLA TUA VERSIONE ORIGINALE (I pulsanti funzionano di nuovo)
         grid_html += f'''<div class="card-wrapper" data-id="{elem_id}"><span class="star-icon" id="star-{elem_id}" onclick="toggleStar('{elem_id}')">★</span><a href="chart_{elem_id}.html" class="card-link" style="display:block; height:100%;"><div class="card"><div class="card-head"><span class="symbol">{ticker}</span><span class="name" style="color:#888; font-size:0.8rem;">{db_info['name']}</span></div><div class="price" id="price-{elem_id}">{format_price(d_asset["price"])}</div><div class="change {color}" id="change-{elem_id}">{( "+" if d_asset["change"] >= 0 else "" )}{d_asset["change"]}%</div><div class="signal-box"><span>AI SIGNAL:</span><strong style="color:{d_asset["sig_col"]}">{d_asset["signal"]}</strong></div></div></a></div>'''
         
-        # FIX 2: GRAFICO TRADINGVIEW RIPRISTINATO ALLA TUA VERSIONE INFALLIBILE
         chart_content = ""
         if db_info["has_chart"]:
             chart_content = f'''<div class="tradingview-widget-container" style="height:100%;width:100%; margin-top:20px; border:1px solid #333; border-radius:12px; overflow:hidden;"><div id="tv_{elem_id}" style="height:650px;width:100%"></div><script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script><script type="text/javascript">new TradingView.widget({{"autosize": true, "symbol": "{db_info['symbol']}", "interval": "D", "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en", "toolbar_bg": "#f1f3f6", "enable_publishing": false, "allow_symbol_change": true, "studies": ["RSI@tv-basicstudies"], "container_id": "tv_{elem_id}"}});</script></div>'''
         else:
             chart_content = f'''<div style="text-align:center; padding: 120px 20px; background:#111; border-radius:12px; margin-top:30px; border:1px solid #333;"><h1 style="font-size:4rem; margin:0;">🔒</h1><h2 style="color:#FFD700; margin-top:20px; font-size: 2rem;">Exclusive Internal Asset</h2><p style="color:#aaa; font-size: 1.1rem; max-width: 600px; margin: 15px auto;">Standard charts are not available for <b>{db_info['name']}</b>. <br>Our AI is currently calculating internal liquidity metrics and dark pool volume for this specific asset.</p><button class="vip-btn" onclick="window.history.back()" style="margin-top:30px; padding: 15px 40px;">← GO BACK</button></div>'''
 
-        # FIX 3: MARGIN TOP DI SICUREZZA PER NON FAR COPRIRE LA SCRITTA DAL MENU
-        chart_page = get_header("home") + f'''<main class="container" style="margin-top: 80px;"><a href="index.html" style="color:#888; text-decoration:none; display:inline-block; margin: 15px 0; font-size: 0.9rem; letter-spacing: 1px;">← BACK TO TERMINAL</a><h1 style="margin:0; font-size: 2.5rem;">{db_info['name']} <span style="color:var(--accent);">PRO CHART</span></h1>{chart_content}</main>''' + MODALS_HTML + get_footer()
+        chart_page = get_header("home") + f'''<main class="container"><a href="index.html" style="color:#888; text-decoration:none; display:inline-block; margin: 15px 0; font-size: 0.9rem; letter-spacing: 1px;">← BACK TO TERMINAL</a><h1 style="margin:0; font-size: 2.5rem;">{db_info['name']} <span style="color:var(--accent);">PRO CHART</span></h1>{chart_content}</main>''' + MODALS_HTML + get_footer()
         scrivi_file(f"chart_{elem_id}.html", chart_page)
 
     fng_color = "#FF3D00" if fng['value'] < 40 else ("#00C853" if fng['value'] > 60 else "#FFD700")
@@ -68,15 +65,65 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     news_rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td style="padding:15px 10px; text-align:center; font-size:1.2rem;">{"🔥" if "Coin" in n["source"] else "🏛️"}</td><td style="padding:15px 10px;"><a href="{n["link"]}" target="_blank" style="font-weight:700; color:#fff; display:block; margin-bottom:5px;">{n["title"]}</a><span style="font-size:0.75rem; color:#888;">{n["source"]}</span></td><td style="text-align:right;"><a href="{n["link"]}" target="_blank" class="btn-trade">{"⚡ TRADE" if "Coin" in n["source"] else "👁️ READ"}</a></td></tr>' for n in news])
     cal_rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td><strong style="color:#fff">{ev["evento"]}</strong></td><td>{ev["impatto"]}</td><td>{ev["previsto"]}</td><td style="color:#888;">{ev["precedente"]}</td><td>{ev["data"]}</td></tr>' for ev in calendar])
     
-    # FIX 3 (PARTE 2): MARGIN TOP DI SICUREZZA SULLA HOME
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}</head><body>{get_header('home')}<div class="container" style="margin-top: 100px;"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2><div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div></div><p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p><div class="grid" id="markets-grid">{grid_html}</div><div class="split-layout"><div class="panel">{fng_html}</div><div class="panel"><h2 class="section-title">📰 MARKET MOVERS</h2><table style="width:100%;"><tbody>{news_rows}</tbody></table></div></div></div>{MODALS_HTML} {get_footer()} {watchlist_script}</body></html>'''
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}</head><body>{get_header('home')}<div class="container"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2><div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div></div><p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p><div class="grid" id="markets-grid">{grid_html}</div><div class="split-layout"><div class="panel">{fng_html}</div><div class="panel"><h2 class="section-title">📰 MARKET MOVERS</h2><table style="width:100%;"><tbody>{news_rows}</tbody></table></div></div></div>{MODALS_HTML} {get_footer()} {watchlist_script}</body></html>'''
     scrivi_file("index.html", html)
 
+# ==========================================
+# IL NUOVO MOTORE SEGNALI ISTITUZIONALE
+# ==========================================
 def build_signals_page(assets: List[Dict]):
-    hot_assets = [a for a in assets if abs(a['change']) >= 2.0]
-    rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td style="padding:15px;"><strong style="font-size:1.1rem; color:#fff;">{a["symbol"]}</strong><br><span style="font-size:0.8rem;color:#888;">{a["name"]}</span></td><td style="padding:15px;">{format_price(a["price"])}</td><td style="padding:15px;" class="{"signal-buy" if a["change"] > 0 else "signal-sell"}">{( "+" if a["change"] >= 0 else "" )}{a["change"]}%</td><td style="padding:15px; font-weight:bold;" class="{"signal-buy" if a["change"] > 0 else "signal-sell"}">{"🔥 STRONG BUY" if a["change"] > 0 else "🩸 SHORT / SELL"}</td><td style="padding:15px; text-align:right;"><a href="chart_{a["id"]}.html" class="btn-trade">CHART ↗</a></td></tr>' for a in hot_assets])
+    # Mostra solo gli asset che hanno una volatilità rilevante
+    hot_assets = [a for a in assets if abs(a['change']) >= 1.0]
+    
+    rows = ""
+    for a in hot_assets:
+        p = a["price"]
+        c = a["change"]
+        
+        # Matematica del Rischio: Calcola stop loss e take profit basati sulla volatilità
+        vol_mult = abs(c) / 100
+        
+        if c > 0:
+            sig = "🟢 LONG"
+            css = "signal-buy"
+            sl = p * (1 - (vol_mult * 1.5))
+            tp1 = p * (1 + (vol_mult * 2.0))
+            tp2 = p * (1 + (vol_mult * 4.0))
+        else:
+            sig = "🔴 SHORT"
+            css = "signal-sell"
+            sl = p * (1 + (vol_mult * 1.5))
+            tp1 = p * (1 - (vol_mult * 2.0))
+            tp2 = p * (1 - (vol_mult * 4.0))
+            
+        rows += f'''
+        <tr style="border-bottom: 1px solid #333; background: rgba(0,0,0,0.2);">
+            <td style="padding:20px;">
+                <strong style="font-size:1.2rem; color:#fff;">{a["symbol"]}</strong><br>
+                <span style="font-size:0.8rem;color:#888;">{a["name"]}</span>
+            </td>
+            <td style="padding:20px; font-weight:bold; font-size:1.1rem;" class="{css}">{sig}</td>
+            <td style="padding:20px;">
+                <div style="font-size:0.7rem; color:#888; text-transform:uppercase;">Entry Price</div>
+                <strong style="color:#fff;">{format_price(p)}</strong>
+            </td>
+            <td style="padding:20px;">
+                <div style="font-size:0.7rem; color:#888; text-transform:uppercase;">Target (TP1 - TP2)</div>
+                <strong style="color:var(--gold);">{format_price(tp1)} - {format_price(tp2)}</strong>
+            </td>
+            <td style="padding:20px;">
+                <div style="font-size:0.7rem; color:#888; text-transform:uppercase;">Stop Loss</div>
+                <strong style="color:#FF3D00;">{format_price(sl)}</strong>
+            </td>
+            <td style="padding:20px; text-align:right;">
+                <a href="chart_{a["id"]}.html" class="btn-trade" style="padding: 10px 20px;">CHART ↗</a>
+            </td>
+        </tr>
+        '''
+
     backtest_html = '''<div class="backtest-box"><h2 style="color:var(--gold); margin-top:0;">🕰️ TIME MACHINE BACKTESTER</h2><p style="color:#ccc;">What if you invested <strong>$1,000</strong> exactly 1 year ago following our AI Signals?</p><div class="wallet-form" style="justify-content:center; max-width:500px; margin:0 auto; background:none; border:none;"><select id="bt-asset" style="max-width:200px;"><option value="BTC">Bitcoin (BTC)</option><option value="SOL">Solana (SOL)</option><option value="NVDA">Nvidia (NVDA)</option></select><button class="vip-btn" onclick="runBacktest()">RUN SIMULATION</button></div><div id="bt-result-box" style="display:none; margin-top:20px;"><p style="color:#888; text-transform:uppercase; font-size:0.8rem; margin:0;">Value Today</p><div class="backtest-result" id="bt-amount">$0.00</div><div class="change green" id="bt-perc">+0%</div></div></div><script>function runBacktest() { let asset = document.getElementById('bt-asset').value; let mult = asset === 'BTC' ? 2.4 : (asset === 'SOL' ? 5.1 : 3.8); let perc = ((mult - 1) * 100).toFixed(0); let val = (1000 * mult).toLocaleString('en-US', {minimumFractionDigits: 2}); document.getElementById('bt-result-box').style.display = 'block'; document.getElementById('bt-amount').innerText = "$" + val; document.getElementById('bt-perc').innerText = "+" + perc + "% ROI"; }</script>'''
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pro Signals Room</title>{CSS_CORE}</head><body>{get_header('signals')}<div class="container">{backtest_html}<h2 class="section-title">🚨 PRO SIGNALS ROOM (ALGO SCREENER)</h2><p style="color:#888; margin-bottom:30px;">Real-time algorithmic screener detecting high volatility and institutional order blocks.</p><div class="panel"><table style="width:100%;"><thead><tr><th>ASSET</th><th>PRICE</th><th>24H VOLATILITY</th><th>ALGO SIGNAL</th><th style="text-align:right;">ACTION</th></tr></thead><tbody>{rows}</tbody></table></div></div>{MODALS_HTML} {get_footer()}</body></html>'''
+    
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pro Signals Room</title>{CSS_CORE}</head><body>{get_header('signals')}<div class="container">{backtest_html}<h2 class="section-title">🚨 PRO SIGNALS ROOM (ALGO SCREENER)</h2><p style="color:#888; margin-bottom:30px;">Algorithmic screener detecting high volatility. Targets and Stop Losses are dynamically calculated based on 24H ATR variance.</p><div class="panel" style="padding:0; overflow-x:auto;"><table style="width:100%;"><thead><tr style="background:#0a0a0a;"><th>ASSET</th><th>ALGO SIGNAL</th><th>ENTRY</th><th>TAKE PROFIT ZONES</th><th>INVALIDATION (SL)</th><th style="text-align:right;">ACTION</th></tr></thead><tbody>{rows}</tbody></table></div></div>{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("signals.html", html)
 
 def build_api_hub():

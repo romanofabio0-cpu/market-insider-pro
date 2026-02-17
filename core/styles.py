@@ -4,7 +4,17 @@ CSS_CORE = '''<style>
 body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; -webkit-user-select: none; user-select: none; overflow-x: hidden; }
 a { text-decoration: none; color: inherit; transition: 0.3s; }
 .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #222; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+
+/* FIX GRAFICO: Header con padding laterale e Sticky Glass Effect */
+header { 
+    display: flex; justify-content: space-between; align-items: center; 
+    padding: 20px 5%; /* Spazio laterale di sicurezza */
+    border-bottom: 1px solid #222; margin-bottom: 30px; 
+    flex-wrap: wrap; gap: 15px; 
+    position: sticky; top: 0; z-index: 1000; 
+    background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(12px); 
+}
+
 .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; }
 .logo span { color: var(--text); } 
 .nav { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
@@ -13,7 +23,7 @@ header { display: flex; justify-content: space-between; align-items: center; pad
 .vip-btn { background: var(--accent); color: #fff; padding: 8px 16px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; border:none; cursor:pointer;}
 .vip-btn:hover { background: #1c44b2; }
 
-/* Grid, Cards, Watchlist, FOMO, Cookies (Invariati) */
+/* Grid, Cards, Watchlist, FOMO, Cookies */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 40px; }
 .card-wrapper { position: relative; }
 .star-icon { position: absolute; top: 15px; right: 15px; font-size: 1.5rem; color: #444; cursor: pointer; z-index: 10; transition: 0.3s; }
@@ -67,7 +77,7 @@ th { font-size: 0.7rem; text-transform: uppercase; color: #666; }
 .auth-divider:not(:empty)::before { margin-right: .25em; }
 .auth-divider:not(:empty)::after { margin-left: .25em; }
 
-/* Referral, Pricing, Stripe, Leaderboard (Invariati) */
+/* Referral, Pricing, Stripe, Leaderboard */
 .ref-box { background: linear-gradient(135deg, #111, #1a1a1a); border: 1px solid var(--accent); border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(41, 98, 255, 0.1); margin-bottom: 40px; }
 .ref-link-container { display: flex; justify-content: center; margin: 30px 0; }
 .ref-link { background: #000; padding: 15px 20px; border: 1px solid #333; border-radius: 8px 0 0 8px; color: var(--gold); font-family: monospace; font-size: 1.1rem; width: 60%; max-width: 400px; }
