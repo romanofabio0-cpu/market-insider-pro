@@ -1,3 +1,5 @@
+from core.styles import CSS_CORE
+
 def get_header(active_page: str) -> str:
     seo_tags = '''
     <meta name="description" content="Market Insider Pro - Advanced Algorithmic Trading Terminal. Live data, institutional signals, and AI analysis.">
@@ -10,6 +12,7 @@ def get_header(active_page: str) -> str:
     anti_theft_script = '''<script>document.addEventListener('contextmenu', e => e.preventDefault()); document.onkeydown = function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 67 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false; }</script>'''
 
     return f'''
+    {CSS_CORE} 
     {seo_tags} {anti_theft_script}
     <header>
         <div class="logo">MARKET<span>INSIDER</span> PRO</div>
