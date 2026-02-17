@@ -197,12 +197,13 @@ MODALS_HTML = '''
 '''
 
 # ==========================================
-# MONETIZZAZIONE E AFFILIAZIONI (AUTOMATIZZATA DA GEMINI)
+# MONETIZZAZIONE E AFFILIAZIONI (RIPARATA CON SEARCH LINKS)
 # ==========================================
-# I link Amazon sono GIA' PRONTI e fusi con il tuo ID Ufficiale: mip081-21
-AMAZON_LINK_BOOK = "https://www.amazon.it/dp/8863660565?tag=mip081-21"
-AMAZON_LINK_MONITOR = "https://www.amazon.it/dp/B08J4D8LGL?tag=mip081-21"
-AMAZON_LINK_LEDGER = "https://www.amazon.it/dp/B07M6RV9TX?tag=mip081-21"
+# Utilizziamo i "Search Links" intelligenti. Se un prodotto va fuori stock, 
+# la pagina non darà MAI errore 404 e tu prenderai lo stesso il cookie affiliato!
+AMAZON_LINK_BOOK = "https://www.amazon.it/s?k=trading+in+the+zone+libro&tag=mip081-21"
+AMAZON_LINK_MONITOR = "https://www.amazon.it/s?k=monitor+lg+34+pollici+ultrawide&tag=mip081-21"
+AMAZON_LINK_LEDGER = "https://www.amazon.it/s?k=ledger+nano+x+wallet&tag=mip081-21"
 
 # I link dei Broker non sono pubblici, devi generare i tuoi codici privati nelle tue dashboard. Copiali e incollali qui!
 BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=TUO_CODICE"
