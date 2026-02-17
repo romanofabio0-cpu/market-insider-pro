@@ -68,11 +68,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}</head><body>{get_header('home')}<div class="container"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2><div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div></div><p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p><div class="grid" id="markets-grid">{grid_html}</div><div class="split-layout"><div class="panel">{fng_html}</div><div class="panel"><h2 class="section-title">📰 MARKET MOVERS</h2><table style="width:100%;"><tbody>{news_rows}</tbody></table></div></div></div>{MODALS_HTML} {get_footer()} {watchlist_script}</body></html>'''
     scrivi_file("index.html", html)
 
-# ==========================================
-# IL NUOVO MOTORE SEGNALI ISTITUZIONALE
-# ==========================================
 def build_signals_page(assets: List[Dict]):
-    # Mostra solo gli asset che hanno una volatilità rilevante
     hot_assets = [a for a in assets if abs(a['change']) >= 1.0]
     
     rows = ""
@@ -80,7 +76,6 @@ def build_signals_page(assets: List[Dict]):
         p = a["price"]
         c = a["change"]
         
-        # Matematica del Rischio: Calcola stop loss e take profit basati sulla volatilità
         vol_mult = abs(c) / 100
         
         if c > 0:
@@ -175,7 +170,81 @@ def build_chat():
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>AI Analyst</title>{CSS_CORE}</head><body>{get_header('chat')}<div class="container"><h2 class="section-title">AI MARKET ANALYST 🤖</h2><div class="chat-interface"><div class="chat-history" id="hist"><div class="msg msg-ai">🤖 Welcome.</div></div><div class="chat-input-area"><input type="text" class="chat-input" id="in" placeholder="Type here..."><button class="chat-btn" onclick="send()">ANALYZE</button></div></div></div>{js}{MODALS_HTML}{get_footer()}</body></html>'''
     scrivi_file("chat.html", html)
 
+# ==========================================
+# WALLET MIGLIORATO (Dati da Binance)
+# ==========================================
 def build_wallet():
-    js = '''<script>const W_KEY = "mip_wallet_assets"; const s_assets = {"bitcoin": "BTC", "ethereum": "ETH", "solana": "SOL", "ripple": "XRP", "cardano": "ADA"}; function loadWallet() { let saved = localStorage.getItem(W_KEY); let assets = saved ? JSON.parse(saved) : {}; renderWalletTable(assets); fetchLiveWorth(assets); } function addAsset() { let id = document.getElementById("asset-select").value; let amount = parseFloat(document.getElementById("asset-amount").value); if(!id || isNaN(amount) || amount <= 0) return alert("Enter valid amount."); let saved = localStorage.getItem(W_KEY); let assets = saved ? JSON.parse(saved) : {}; assets[id] = (assets[id] || 0) + amount; localStorage.setItem(W_KEY, JSON.stringify(assets)); document.getElementById("asset-amount").value = ""; loadWallet(); } function removeAsset(id) { let saved = localStorage.getItem(W_KEY); if(!saved) return; let assets = JSON.parse(saved); delete assets[id]; localStorage.setItem(W_KEY, JSON.stringify(assets)); loadWallet(); } function renderWalletTable(assets) { let tbody = document.getElementById("wallet-body"); tbody.innerHTML = ""; if(Object.keys(assets).length === 0) { tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#888;'>Your wallet is empty. Add an asset above.</td></tr>"; return; } for (const [id, amount] of Object.entries(assets)) { tbody.innerHTML += `<tr><td><strong>${s_assets[id]}</strong></td><td>${amount}</td><td id="val-${id}">Loading...</td><td style="text-align:right;"><button onclick="removeAsset('${id}')" style="background:#FF3D00; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">X</button></td></tr>`; } } async function fetchLiveWorth(assets) { let ids = Object.keys(assets).join(","); if(!ids) { document.getElementById("total-net-worth").innerText = "$0.00"; return; } try { let res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`); let data = await res.json(); let total = 0; for (const [id, amount] of Object.entries(assets)) { if(data[id]) { let value = data[id].usd * amount; total += value; document.getElementById(`val-${id}`).innerText = "$" + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); } } document.getElementById("total-net-worth").innerText = "$" + total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); } catch(e) {} } document.addEventListener("DOMContentLoaded", loadWallet); setInterval(loadWallet, 10000);</script>'''
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>My Wallet</title>{CSS_CORE}</head><body>{get_header('wallet')}<div class="container"><h2 class="section-title">MY PORTFOLIO TRACKER 💼</h2><div style="text-align:center; padding: 40px; background:#111; border-radius:12px; border:1px solid #333; margin-bottom:30px;"><div style="color:#888; font-size:1.2rem; text-transform:uppercase;">Total Net Worth</div><div class="wallet-total" id="total-net-worth">$0.00</div><div style="font-size:0.8rem; color:#00C853;">Live tracking active ⚡</div></div><div class="wallet-form"><select id="asset-select"><option value="bitcoin">Bitcoin (BTC)</option><option value="ethereum">Ethereum (ETH)</option><option value="solana">Solana (SOL)</option></select><input type="number" id="asset-amount" placeholder="Amount (e.g. 0.5)"><button class="vip-btn" onclick="addAsset()">+ ADD</button></div><div class="panel"><table><thead><tr><th>ASSET</th><th>AMOUNT</th><th>VALUE (USD)</th><th style="text-align:right;">ACTION</th></tr></thead><tbody id="wallet-body"></tbody></table></div></div>{MODALS_HTML} {get_footer()} {js}</body></html>'''
+    js = '''<script>
+    const W_KEY = "mip_wallet_assets"; 
+    const s_assets = {"bitcoin": "BTC", "ethereum": "ETH", "solana": "SOL", "ripple": "XRP", "cardano": "ADA"}; 
+    const binance_map = {"bitcoin": "BTCUSDT", "ethereum": "ETHUSDT", "solana": "SOLUSDT", "ripple": "XRPUSDT", "cardano": "ADAUSDT"};
+    
+    function loadWallet() { 
+        let saved = localStorage.getItem(W_KEY); 
+        let assets = saved ? JSON.parse(saved) : {}; 
+        renderWalletTable(assets); 
+        fetchLiveWorth(assets); 
+    } 
+    function addAsset() { 
+        let id = document.getElementById("asset-select").value; 
+        let amount = parseFloat(document.getElementById("asset-amount").value); 
+        if(!id || isNaN(amount) || amount <= 0) return alert("Enter valid amount."); 
+        let saved = localStorage.getItem(W_KEY); 
+        let assets = saved ? JSON.parse(saved) : {}; 
+        assets[id] = (assets[id] || 0) + amount; 
+        localStorage.setItem(W_KEY, JSON.stringify(assets)); 
+        document.getElementById("asset-amount").value = ""; 
+        loadWallet(); 
+    } 
+    function removeAsset(id) { 
+        let saved = localStorage.getItem(W_KEY); 
+        if(!saved) return; 
+        let assets = JSON.parse(saved); 
+        delete assets[id]; 
+        localStorage.setItem(W_KEY, JSON.stringify(assets)); 
+        loadWallet(); 
+    } 
+    function renderWalletTable(assets) { 
+        let tbody = document.getElementById("wallet-body"); 
+        tbody.innerHTML = ""; 
+        if(Object.keys(assets).length === 0) { 
+            tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#888;'>Your wallet is empty. Add an asset above.</td></tr>"; 
+            return; 
+        } 
+        for (const [id, amount] of Object.entries(assets)) { 
+            tbody.innerHTML += `<tr><td><strong>${s_assets[id]}</strong></td><td>${amount}</td><td id="val-${id}" style="color:var(--gold); font-weight:bold;">Loading...</td><td style="text-align:right;"><button onclick="removeAsset('${id}')" style="background:#FF3D00; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-weight:bold;">X</button></td></tr>`; 
+        } 
+    } 
+    async function fetchLiveWorth(assets) { 
+        if(Object.keys(assets).length === 0) { 
+            document.getElementById("total-net-worth").innerText = "$0.00"; return; 
+        } 
+        try { 
+            // Bypass the shield by using Binance
+            let fetcher = window.originalFetch || window.fetch;
+            let res = await fetcher('https://api.binance.com/api/v3/ticker/price'); 
+            let data = await res.json(); 
+            
+            let priceMap = {};
+            data.forEach(item => { priceMap[item.symbol] = parseFloat(item.price); });
+            
+            let total = 0; 
+            for (const [id, amount] of Object.entries(assets)) { 
+                let symbol = binance_map[id];
+                let currentPrice = priceMap[symbol];
+                if(currentPrice) { 
+                    let value = currentPrice * amount; 
+                    total += value; 
+                    let el = document.getElementById(`val-${id}`);
+                    if (el) el.innerText = "$" + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+                } 
+            } 
+            document.getElementById("total-net-worth").innerText = "$" + total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+        } catch(e) { console.error("Pricing error"); } 
+    } 
+    document.addEventListener("DOMContentLoaded", loadWallet); 
+    setInterval(loadWallet, 5000); 
+    </script>'''
+    
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>My Wallet</title>{CSS_CORE}</head><body>{get_header('wallet')}<div class="container"><h2 class="section-title">MY PORTFOLIO TRACKER 💼</h2><div style="text-align:center; padding: 40px; background:#111; border-radius:12px; border:1px solid #333; margin-bottom:30px;"><div style="color:#888; font-size:1.2rem; text-transform:uppercase;">Total Net Worth</div><div class="wallet-total" id="total-net-worth">$0.00</div><div style="font-size:0.8rem; color:#00C853;">Live tracking active ⚡</div></div><div class="wallet-form"><select id="asset-select"><option value="bitcoin">Bitcoin (BTC)</option><option value="ethereum">Ethereum (ETH)</option><option value="solana">Solana (SOL)</option><option value="ripple">Ripple (XRP)</option><option value="cardano">Cardano (ADA)</option></select><input type="number" id="asset-amount" placeholder="Amount (e.g. 0.5)"><button class="vip-btn" onclick="addAsset()">+ ADD</button></div><div class="panel"><table><thead><tr><th>ASSET</th><th>AMOUNT</th><th>VALUE (USD)</th><th style="text-align:right;">ACTION</th></tr></thead><tbody id="wallet-body"></tbody></table></div></div>{MODALS_HTML} {get_footer()} {js}</body></html>'''
     scrivi_file("wallet.html", html)
