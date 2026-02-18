@@ -72,7 +72,6 @@ def build_signals_page(assets: List[Dict]):
     for a in hot_assets:
         p = a["price"]
         c = a["change"]
-        
         vol_mult = abs(c) / 100
         
         if c > 0:
@@ -113,14 +112,93 @@ def build_signals_page(assets: List[Dict]):
         </tr>
         '''
 
+    # === NUOVO: RISK MANAGER ISTITUZIONALE ===
+    risk_manager_html = '''
+    <div class="panel" style="margin-bottom:30px; border-left:4px solid var(--accent); background: linear-gradient(135deg, #111, #0a0a0a);">
+        <h3 style="margin-top:0; color:#fff;">⚖️ INSTITUTIONAL RISK MANAGER</h3>
+        <p style="color:#aaa; font-size:0.9rem;">Never blow an account again. Calculate exact position size based on your risk tolerance.</p>
+        <div class="wallet-form" style="padding:0; background:none; border:none; flex-wrap:wrap; gap:15px; margin-bottom:0;">
+            <div style="flex:1; min-width:150px;">
+                <label style="font-size:0.75rem; color:#888; text-transform:uppercase;">Account Balance ($)</label>
+                <input type="number" id="rm-balance" value="1000" style="width:100%; box-sizing:border-box; margin-top:5px;">
+            </div>
+            <div style="flex:1; min-width:150px;">
+                <label style="font-size:0.75rem; color:#888; text-transform:uppercase;">Risk per Trade (%)</label>
+                <input type="number" id="rm-risk" value="1" step="0.1" style="width:100%; box-sizing:border-box; margin-top:5px;">
+            </div>
+            <div style="flex:1; min-width:150px;">
+                <label style="font-size:0.75rem; color:#888; text-transform:uppercase;">Stop Loss Distance (%)</label>
+                <input type="number" id="rm-sl" value="2.5" step="0.1" style="width:100%; box-sizing:border-box; margin-top:5px;">
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+                <button class="btn-trade" onclick="calcRisk()" style="padding:12px 24px; height:42px;">CALCULATE MAX SIZE</button>
+            </div>
+        </div>
+        <div id="rm-result" style="display:none; margin-top:20px; padding:15px; background:#000; border-radius:6px; border:1px solid #333;">
+            <span style="color:#888; text-transform:uppercase; font-size:0.8rem;">Recommended Position Size:</span> 
+            <strong id="rm-size" style="color:var(--gold); font-size:1.5rem; margin-left:10px;">$0</strong>
+        </div>
+    </div>
+    <script>
+    function calcRisk() {
+        let bal = parseFloat(document.getElementById('rm-balance').value);
+        let risk = parseFloat(document.getElementById('rm-risk').value);
+        let sl = parseFloat(document.getElementById('rm-sl').value);
+        if(bal>0 && risk>0 && sl>0) {
+            let riskAmt = bal * (risk/100);
+            let posSize = riskAmt / (sl/100);
+            document.getElementById('rm-result').style.display = 'flex';
+            document.getElementById('rm-result').style.alignItems = 'center';
+            document.getElementById('rm-size').innerText = '$' + posSize.toLocaleString('en-US', {maximumFractionDigits:2});
+        } else { alert('Please enter valid numbers.'); }
+    }
+    </script>
+    '''
+
     backtest_html = '''<div class="backtest-box"><h2 style="color:var(--gold); margin-top:0;">🕰️ TIME MACHINE BACKTESTER</h2><p style="color:#ccc;">What if you invested <strong>$1,000</strong> exactly 1 year ago following our AI Signals?</p><div class="wallet-form" style="justify-content:center; max-width:500px; margin:0 auto; background:none; border:none;"><select id="bt-asset" style="max-width:200px;"><option value="BTC">Bitcoin (BTC)</option><option value="SOL">Solana (SOL)</option><option value="NVDA">Nvidia (NVDA)</option></select><button class="vip-btn" onclick="runBacktest()">RUN SIMULATION</button></div><div id="bt-result-box" style="display:none; margin-top:20px;"><p style="color:#888; text-transform:uppercase; font-size:0.8rem; margin:0;">Value Today</p><div class="backtest-result" id="bt-amount">$0.00</div><div class="change green" id="bt-perc">+0%</div></div></div><script>function runBacktest() { let asset = document.getElementById('bt-asset').value; let mult = asset === 'BTC' ? 2.4 : (asset === 'SOL' ? 5.1 : 3.8); let perc = ((mult - 1) * 100).toFixed(0); let val = (1000 * mult).toLocaleString('en-US', {minimumFractionDigits: 2}); document.getElementById('bt-result-box').style.display = 'block'; document.getElementById('bt-amount').innerText = "$" + val; document.getElementById('bt-perc').innerText = "+" + perc + "% ROI"; }</script>'''
     
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pro Signals Room</title>{CSS_CORE}</head><body>{get_header('signals')}<div class="container">{backtest_html}<h2 class="section-title">🚨 PRO SIGNALS ROOM (ALGO SCREENER)</h2><p style="color:#888; margin-bottom:30px;">Algorithmic screener detecting high volatility. Targets and Stop Losses are dynamically calculated based on 24H ATR variance.</p><div class="panel" style="padding:0; overflow-x:auto;"><table style="width:100%;"><thead><tr style="background:#0a0a0a;"><th>ASSET</th><th>ALGO SIGNAL</th><th>ENTRY</th><th>TAKE PROFIT ZONES</th><th>INVALIDATION (SL)</th><th style="text-align:right;">ACTION</th></tr></thead><tbody>{rows}</tbody></table></div></div>{MODALS_HTML} {get_footer()}</body></html>'''
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pro Signals Room</title>{CSS_CORE}</head><body>{get_header('signals')}<div class="container">{risk_manager_html}{backtest_html}<h2 class="section-title">🚨 PRO SIGNALS ROOM (ALGO SCREENER)</h2><p style="color:#888; margin-bottom:30px;">Algorithmic screener detecting high volatility. Targets and Stop Losses are dynamically calculated based on 24H ATR variance.</p><div class="panel" style="padding:0; overflow-x:auto;"><table style="width:100%;"><thead><tr style="background:#0a0a0a;"><th>ASSET</th><th>ALGO SIGNAL</th><th>ENTRY</th><th>TAKE PROFIT ZONES</th><th>INVALIDATION (SL)</th><th style="text-align:right;">ACTION</th></tr></thead><tbody>{rows}</tbody></table></div></div>{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("signals.html", html)
 
 def build_api_hub():
-    js_script = '''<script>function connectAPI() { let api = document.getElementById('fake-api').value; let sec = document.getElementById('fake-secret').value; if(!api || !sec) return alert("Please enter both API Key and Secret Key to connect."); document.getElementById('term').style.display = 'block'; let term = document.getElementById('term-content'); term.innerHTML = "> Initializing secure connection...<br>"; setTimeout(() => { term.innerHTML += "> Encrypting payload (AES-256)... OK<br>"; }, 800); setTimeout(() => { term.innerHTML += "> Reaching exchange gateway... OK<br>"; }, 1800); setTimeout(() => { term.innerHTML += "> Verifying API permissions...<br>"; }, 2800); setTimeout(() => { term.innerHTML += "<span style='color:var(--gold);'>! CONNECTION PAUSED: ACCOUNT NOT WHITELISTED</span><br>"; openWaitlist('API'); }, 4000); }</script>'''
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Auto-Trading API Hub</title>{CSS_CORE}</head><body>{get_header('api')}<div class="container" style="max-width:800px;"><div style="text-align:center; margin-bottom:40px;"><h1 style="font-size:2.5rem; margin-bottom:10px;">🤖 API <span style="color:var(--accent);">AUTO-TRADING</span> HUB</h1><p style="color:#888; font-size:1.1rem;">Connect your exchange and let our algorithms execute trades on your behalf 24/7.</p></div><div class="panel" style="padding:40px;"><div class="wallet-form" style="background:none; border:none; padding:0; flex-direction:column; gap:20px;"><div><label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">Select Exchange</label><select style="width:100%; margin-top:5px; padding:15px;"><option>Binance</option><option>Bybit</option><option>Coinbase Pro</option></select></div><div><label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">API Key</label><input type="text" id="fake-api" style="width:96%; margin-top:5px; padding:15px; font-family:monospace;" placeholder="Enter your public API key..."></div><div><label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">Secret Key</label><input type="password" id="fake-secret" style="width:96%; margin-top:5px; padding:15px; font-family:monospace;" placeholder="Enter your secret key..."></div><button class="btn-trade" style="padding:20px; font-size:1.1rem; margin-top:10px;" onclick="connectAPI()">CONNECT EXCHANGE TO AI</button></div><div class="hacker-terminal" id="term" style="display:none;"><div id="term-content"></div></div></div></div>{js_script}{MODALS_HTML} {get_footer()}</body></html>'''
+    # === NUOVO: TERMINALE HACKER INTERATTIVO ===
+    js_script = '''<script>
+    function connectAPI() { 
+        let api = document.getElementById('fake-api').value; 
+        let sec = document.getElementById('fake-secret').value; 
+        if(!api || !sec) return alert("Please enter both API Key and Secret Key to connect."); 
+        
+        document.getElementById('api-form-container').style.display = 'none';
+        document.getElementById('term').style.display = 'block'; 
+        document.getElementById('term-input').focus();
+    }
+    function checkTerminalCommand(e) {
+        if(e.key === 'Enter') {
+            let val = e.target.value.trim().toLowerCase();
+            let term = document.getElementById('term-content');
+            
+            if(val === 'connect') {
+                e.target.value = '';
+                e.target.disabled = true;
+                term.innerHTML += "><span style='color:#fff;'> connect</span><br>> Initializing secure connection...<br>";
+                setTimeout(() => { term.innerHTML += "> Encrypting payload (RSA-4096)... <span style='color:#00C853;'>OK</span><br>"; }, 800);
+                setTimeout(() => { term.innerHTML += "> Bypassing exchange rate limits... <span style='color:#00C853;'>OK</span><br>"; }, 1800);
+                setTimeout(() => { term.innerHTML += "> Verifying institutional API permissions...<br>"; }, 2800);
+                setTimeout(() => { term.innerHTML += "<span style='color:var(--red); font-weight:bold;'>! CONNECTION REJECTED: ACCOUNT NOT WHITELISTED</span><br>"; openWaitlist('API'); e.target.disabled = false; }, 4200);
+            } else if(val === 'clear') {
+                term.innerHTML = "> SYSTEM READY.<br>> Awaiting command... (Type 'connect')<br>";
+                e.target.value = '';
+            } else {
+                term.innerHTML += "><span style='color:#fff;'> " + val + "</span><br>> Command not recognized. Type '<span style='color:#fff;'>connect</span>' to initiate sequence.<br>";
+                e.target.value = '';
+            }
+            let termDiv = document.getElementById('term');
+            termDiv.scrollTop = termDiv.scrollHeight;
+        }
+    }
+    </script>'''
+    
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Auto-Trading API Hub</title>{CSS_CORE}</head><body>{get_header('api')}<div class="container" style="max-width:800px;"><div style="text-align:center; margin-bottom:40px;"><h1 style="font-size:2.5rem; margin-bottom:10px;">🤖 API <span style="color:var(--accent);">AUTO-TRADING</span> HUB</h1><p style="color:#888; font-size:1.1rem;">Connect your exchange and let our algorithms execute trades on your behalf 24/7.</p></div><div class="panel" style="padding:40px;"><div id="api-form-container" class="wallet-form" style="background:none; border:none; padding:0; flex-direction:column; gap:20px;"><div><label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">Select Exchange</label><select style="width:100%; margin-top:5px; padding:15px;"><option>Binance</option><option>Bybit</option><option>Coinbase Pro</option></select></div><div><label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">API Key</label><input type="text" id="fake-api" style="width:96%; margin-top:5px; padding:15px; font-family:monospace;" placeholder="Enter your public API key..."></div><div><label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">Secret Key</label><input type="password" id="fake-secret" style="width:96%; margin-top:5px; padding:15px; font-family:monospace;" placeholder="Enter your secret key..."></div><button class="btn-trade" style="padding:20px; font-size:1.1rem; margin-top:10px;" onclick="connectAPI()">CONNECT EXCHANGE TO AI</button></div><div class="hacker-terminal" id="term" style="display:none; cursor:text; height:250px;" onclick="document.getElementById('term-input').focus()"><div id="term-content">> SYSTEM READY.<br>> Awaiting command... (Type 'connect')<br></div><div style="display:flex;">> <input type="text" id="term-input" onkeypress="checkTerminalCommand(event)" style="background:transparent; border:none; color:var(--accent); font-family:monospace; outline:none; width:100%; margin-left:5px; font-size:1rem;" autocomplete="off" spellcheck="false"></div></div></div></div>{js_script}{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("api_hub.html", html)
 
 def build_brokers_page():
@@ -139,7 +217,8 @@ def build_referral_page():
     scrivi_file("referral.html", html)
 
 def build_pricing_page():
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pricing</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container"><div style="text-align:center; margin-bottom:20px;"><h1 style="font-size:3rem; margin-bottom:10px;">UPGRADE TO <span style="color:var(--gold);">VIP PASS</span></h1><p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Stop trading blindly. Join the 1% of profitable traders with real-time institutional data, algorithmic signals, and AI analysis.</p></div><div class="pricing-grid"><div class="pricing-card"><h3 style="color:#aaa; font-size:1.5rem; margin:0;">BASIC</h3><div class="price-tag">$0<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Delayed Terminal Data (15m)</div><div class="plan-feature">Basic Charts</div><div class="plan-feature">Academy Module 1</div><div class="plan-feature" style="color:#555;"><s>Real-Time Signals</s></div></div><button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT PLAN</button></div><div class="pricing-card pro"><h3 style="color:var(--gold); font-size:1.5rem; margin:0;">PRO TRADER</h3><div class="price-tag">$49<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature" style="color:#fff;">Real-Time Terminal Data (6s)</div><div class="plan-feature" style="color:#fff;">Full VIP Academy Access</div><div class="plan-feature" style="color:#fff;">Institutional Signals Room</div><div class="plan-feature" style="color:#fff;">API Auto-Trading Beta</div></div><a href="https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00" class="btn-trade" style="width:100%; padding:15px; font-size:1.2rem; display:block; text-align:center; box-sizing:border-box; text-decoration:none;">GET VIP PASS SECURELY</a></div><div class="pricing-card"><h3 style="color:#2962FF; font-size:1.5rem; margin:0;">WHALE (LIFETIME)</h3><div class="price-tag">$399<span>/once</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Everything in PRO</div><div class="plan-feature">Private Discord Access</div><div class="plan-feature">Lifetime Updates</div><div class="plan-feature">No Recurring Fees</div></div><a href="https://buy.stripe.com/INSERISCI_QUI_LINK_LIFETIME" class="vip-btn" style="width:100%; padding:15px; display:block; text-align:center; box-sizing:border-box; text-decoration:none;">GET LIFETIME ACCESS</a></div></div><p style="text-align:center; margin-top:40px; color:#666; font-size:0.8rem;">🔐 Payments securely processed by Stripe. 30-Day money-back guarantee.</p></div>{MODALS_HTML} {get_footer()}</body></html>'''
+    # AGGIUNTO IL LINK STRIPE LIFETIME ($399) FORNITO
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pricing</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container"><div style="text-align:center; margin-bottom:20px;"><h1 style="font-size:3rem; margin-bottom:10px;">UPGRADE TO <span style="color:var(--gold);">VIP PASS</span></h1><p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Stop trading blindly. Join the 1% of profitable traders with real-time institutional data, algorithmic signals, and AI analysis.</p></div><div class="pricing-grid"><div class="pricing-card"><h3 style="color:#aaa; font-size:1.5rem; margin:0;">BASIC</h3><div class="price-tag">$0<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Delayed Terminal Data (15m)</div><div class="plan-feature">Basic Charts</div><div class="plan-feature">Academy Module 1</div><div class="plan-feature" style="color:#555;"><s>Real-Time Signals</s></div></div><button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT PLAN</button></div><div class="pricing-card pro"><h3 style="color:var(--gold); font-size:1.5rem; margin:0;">PRO TRADER</h3><div class="price-tag">$49<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature" style="color:#fff;">Real-Time Terminal Data (6s)</div><div class="plan-feature" style="color:#fff;">Full VIP Academy Access</div><div class="plan-feature" style="color:#fff;">Institutional Signals Room</div><div class="plan-feature" style="color:#fff;">API Auto-Trading Beta</div></div><a href="https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00" class="btn-trade" style="width:100%; padding:15px; font-size:1.2rem; display:block; text-align:center; box-sizing:border-box; text-decoration:none;">GET VIP PASS SECURELY</a></div><div class="pricing-card"><h3 style="color:#2962FF; font-size:1.5rem; margin:0;">WHALE (LIFETIME)</h3><div class="price-tag">$399<span>/once</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Everything in PRO</div><div class="plan-feature">Private Discord Access</div><div class="plan-feature">Lifetime Updates</div><div class="plan-feature">No Recurring Fees</div></div><a href="https://buy.stripe.com/14AfZh6uT9AJ3AW5TX2Ry01" class="vip-btn" style="width:100%; padding:15px; display:block; text-align:center; box-sizing:border-box; text-decoration:none;">GET LIFETIME ACCESS</a></div></div><p style="text-align:center; margin-top:40px; color:#666; font-size:0.8rem;">🔐 Payments securely processed by Stripe. 30-Day money-back guarantee.</p></div>{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("pricing.html", html)
 
 def build_leaderboard_page():
@@ -154,7 +233,6 @@ def build_legal_page():
 def build_chart_pages(assets: List[Dict]):
     pass
 
-# === LA MAGIA DELLO SBLOCCO DELL'ACADEMY ===
 def build_academy():
     sidebar = "".join([f"<div class='module-title'>{m['title']}</div>" + "".join([f'''<div onclick="window.location.href='academy_{l['id']}.html'" class="lesson-link">{"🔒" if l.get("vip") else "📄"} {l['title']}</div>''' for l in m['lessons']]) for _, m in ACADEMY_CONTENT.items()])
     
@@ -170,7 +248,6 @@ def build_academy():
                 </div>
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {{
-                        // Il codice controlla se l'utente ha il pass attivo nel browser
                         if(localStorage.getItem('mip_vip_status') === 'active') {{
                             document.getElementById('vip-content').style.filter = 'none';
                             document.getElementById('vip-content').style.pointerEvents = 'auto';
@@ -266,13 +343,10 @@ def build_wallet():
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>My Wallet</title>{CSS_CORE}</head><body>{get_header('wallet')}<div class="container"><h2 class="section-title">MY PORTFOLIO TRACKER 💼</h2><div style="text-align:center; padding: 40px; background:#111; border-radius:12px; border:1px solid #333; margin-bottom:30px;"><div style="color:#888; font-size:1.2rem; text-transform:uppercase;">Total Net Worth</div><div class="wallet-total" id="total-net-worth">$0.00</div><div style="font-size:0.8rem; color:#00C853;">Live tracking active ⚡</div></div><div class="wallet-form"><select id="asset-select"><option value="bitcoin">Bitcoin (BTC)</option><option value="ethereum">Ethereum (ETH)</option><option value="solana">Solana (SOL)</option><option value="ripple">Ripple (XRP)</option><option value="cardano">Cardano (ADA)</option></select><input type="number" id="asset-amount" placeholder="Amount (e.g. 0.5)"><button class="vip-btn" onclick="addAsset()">+ ADD</button></div><div class="panel"><table><thead><tr><th>ASSET</th><th>AMOUNT</th><th>VALUE (USD)</th><th style="text-align:right;">ACTION</th></tr></thead><tbody id="wallet-body"></tbody></table></div></div>{MODALS_HTML} {get_footer()} {js}</body></html>'''
     scrivi_file("wallet.html", html)
 
-# === LA PORTA SEGRETA CHE SBLOCCA IL SITO DOPO IL PAGAMENTO ===
 def build_success_page():
     js = '''<script>
     document.addEventListener("DOMContentLoaded", function() {
-        // SCUONDE LA MEMORIA E ATTIVA IL VIP PASS
         localStorage.setItem('mip_vip_status', 'active');
-        // REINDIRIZZA ALLA PRIMA LEZIONE VIP DOPO 3 SECONDI
         setTimeout(() => { window.location.href = "academy_lez3_1.html"; }, 3500);
     });
     </script>'''
