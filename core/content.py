@@ -23,10 +23,10 @@ def get_header(active_page: str) -> str:
             <a href="api_hub.html" class="{'active' if active_page=='api' else ''}">🤖 API Hub</a>
             <a href="wallet.html" class="{'active' if active_page=='wallet' else ''}">Wallet</a>
             <a href="academy_lez1_1.html" class="{'active' if active_page=='academy' else ''}">Academy</a>
+            <a href="stories.html" class="{'active' if active_page=='stories' else ''}">📖 Stories</a>
             <a href="vip_lounge.html" class="{'active' if active_page=='vip' else ''}" style="color:#FFD700; text-shadow:0 0 5px rgba(255,215,0,0.5);">💎 VIP Area</a>
             <a href="brokers.html" class="{'active' if active_page=='brokers' else ''}">Brokers</a>
             <a href="referral.html" class="{'active' if active_page=='referral' else ''}" style="color:var(--gold);">🎁 Invite</a>
-            <a href="pricing.html" class="{'active' if active_page=='pricing' else ''}" style="color:var(--accent);">💎 Pricing</a>
             
             <span id="user-greeting" style="color:#00C853; font-weight:bold; display:none; padding:8px 15px; border-radius:4px; background:#111; border:1px solid #333;"></span>
             <button id="login-btn" class="vip-btn" onclick="openLogin()" style="background:#333;">SIGN IN</button>
@@ -212,7 +212,6 @@ MODALS_HTML = '''
 AMAZON_LINK_BOOK = "https://www.amazon.it/s?k=trading+in+the+zone+libro&tag=mip081-21"
 AMAZON_LINK_MONITOR = "https://www.amazon.it/s?k=monitor+lg+34+pollici+ultrawide&tag=mip081-21"
 AMAZON_LINK_LEDGER = "https://www.amazon.it/s?k=ledger+nano+x+wallet&tag=mip081-21"
-
 BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=TUO_CODICE"
 BYBIT_AFFILIATE_LINK = "https://www.bybit.com/invite?ref=TUO_CODICE"
 

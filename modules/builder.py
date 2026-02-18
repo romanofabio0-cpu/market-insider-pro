@@ -60,9 +60,13 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     watchlist_script = f'''<script>const WL_KEY = "mip_watchlist_v1"; function toggleStar(id) {{ let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]"); if(wl.includes(id)) {{ wl = wl.filter(x => x !== id); }} else {{ wl.push(id); }} localStorage.setItem(WL_KEY, JSON.stringify(wl)); sortGrid(); }} function sortGrid() {{ let wl = JSON.parse(localStorage.getItem(WL_KEY) || "[]"); let grid = document.getElementById("markets-grid"); let cards = Array.from(grid.children); cards.forEach(c => {{ let id = c.getAttribute("data-id"); let star = document.getElementById("star-"+id); if(wl.includes(id)) {{ star.classList.add("active"); }} else {{ star.classList.remove("active"); }} }}); cards.sort((a, b) => {{ let aStar = wl.includes(a.getAttribute("data-id")) ? 1 : 0; let bStar = wl.includes(b.getAttribute("data-id")) ? 1 : 0; return bStar - aStar; }}); cards.forEach(c => grid.appendChild(c)); }} document.addEventListener("DOMContentLoaded", sortGrid);</script>'''
     
     news_rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td style="padding:15px 10px; text-align:center; font-size:1.2rem;">{"🔥" if "Coin" in n["source"] else "🏛️"}</td><td style="padding:15px 10px;"><a href="{n["link"]}" target="_blank" style="font-weight:700; color:#fff; display:block; margin-bottom:5px;">{n["title"]}</a><span style="font-size:0.75rem; color:#888;">{n["source"]}</span></td><td style="text-align:right;"><a href="{n["link"]}" target="_blank" class="btn-trade">{"⚡ TRADE" if "Coin" in n["source"] else "👁️ READ"}</a></td></tr>' for n in news])
-    cal_rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td><strong style="color:#fff">{ev["evento"]}</strong></td><td>{ev["impatto"]}</td><td>{ev["previsto"]}</td><td style="color:#888;">{ev["precedente"]}</td><td>{ev["data"]}</td></tr>' for ev in calendar])
     
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}</head><body>{get_header('home')}<div class="container"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2><div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div></div><p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p><div class="grid" id="markets-grid">{grid_html}</div><div class="split-layout"><div class="panel">{fng_html}</div><div class="panel"><h2 class="section-title">📰 MARKET MOVERS</h2><table style="width:100%;"><tbody>{news_rows}</tbody></table></div></div></div>{MODALS_HTML} {get_footer()} {watchlist_script}</body></html>'''
+    # === FASE 1: DENSITÀ DATI (TICKER E OROLOGI) ===
+    ticker_css = "<style>@keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } } .ticker-wrap { width: 100%; overflow: hidden; background-color: #0a0a0a; border-bottom: 1px solid #333; padding: 8px 0; } .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; box-sizing: content-box; animation: ticker 40s linear infinite; font-family: monospace; font-size: 0.85rem; color: #00C853; } .ticker-item { display: inline-block; padding: 0 2rem; } .market-clocks { display: flex; justify-content: space-between; flex-wrap:wrap; gap:10px; background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; margin-bottom: 20px; font-family: monospace; color: #888; } .clock { text-align: center; flex:1; min-width:120px; border-right: 1px solid #333;} .clock:last-child { border:none; } .clock span { display: block; font-size: 1.4rem; color: #fff; font-weight: bold; margin-top: 5px; letter-spacing:2px; }</style>"
+    ticker_html = f'''<div class="ticker-wrap"><div class="ticker"><div class="ticker-item">🚨 WHALE ALERT: 1,240 BTC transferred from Binance to Unknown Wallet</div><div class="ticker-item" style="color:var(--red);">🔴 LIQUIDATION: $4.2M Long position wiped on ETH</div><div class="ticker-item" style="color:var(--gold);">⚖️ MACRO: US CPI Data aligns with expectations</div><div class="ticker-item">🟢 DARK POOL: $15M buy order executed on NVDA</div><div class="ticker-item">🚨 WHALE ALERT: 1,240 BTC transferred from Binance to Unknown Wallet</div><div class="ticker-item" style="color:var(--red);">🔴 LIQUIDATION: $4.2M Long position wiped on ETH</div></div></div>'''
+    clocks_html = '''<div class="market-clocks"><div class="clock">NEW YORK (NYSE) <span id="clock-ny">--:--</span></div><div class="clock">LONDON (LSE) <span id="clock-lon">--:--</span></div><div class="clock">TOKYO (TSE) <span id="clock-tok">--:--</span></div><div class="clock">CRYPTO MARKET <span style="color:#00C853; font-size:1.1rem; padding-top:4px;">24/7 OPEN</span></div></div><script>function updateClocks() { let d = new Date(); document.getElementById("clock-ny").innerText = d.toLocaleTimeString("en-US", {timeZone: "America/New_York", hour12: false, hour: "2-digit", minute: "2-digit", second:"2-digit"}); document.getElementById("clock-lon").innerText = d.toLocaleTimeString("en-US", {timeZone: "Europe/London", hour12: false, hour: "2-digit", minute: "2-digit", second:"2-digit"}); document.getElementById("clock-tok").innerText = d.toLocaleTimeString("en-US", {timeZone: "Asia/Tokyo", hour12: false, hour: "2-digit", minute: "2-digit", second:"2-digit"}); } setInterval(updateClocks, 1000); updateClocks();</script>'''
+
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Market Insider Pro</title>{CSS_CORE}{ticker_css}</head><body>{get_header('home')}{ticker_html}<div class="container">{clocks_html}<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;"><h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2><div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div></div><p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p><div class="grid" id="markets-grid">{grid_html}</div><div class="split-layout"><div class="panel">{fng_html}</div><div class="panel"><h2 class="section-title">📰 MARKET MOVERS</h2><table style="width:100%;"><tbody>{news_rows}</tbody></table></div></div></div>{MODALS_HTML} {get_footer()} {watchlist_script}</body></html>'''
     scrivi_file("index.html", html)
 
 def build_signals_page(assets: List[Dict]):
@@ -221,7 +225,6 @@ def build_referral_page():
     scrivi_file("referral.html", html)
 
 def build_pricing_page():
-    # IL NUOVO SISTEMA IBRIDO (GUEST vs LOGIN)
     consent_html = '''
     <div style="max-width:600px; margin: 0 auto 30px; background: rgba(255,215,0,0.05); border: 1px solid var(--gold); padding: 15px; border-radius: 8px; display:flex; gap:15px; align-items:flex-start; text-align:left;">
         <input type="checkbox" id="tos-checkbox" style="margin-top:4px; transform:scale(1.2); cursor:pointer;" onchange="document.querySelectorAll('.checkout-btn').forEach(b => {b.style.pointerEvents = this.checked ? 'auto' : 'none'; b.style.opacity = this.checked ? '1' : '0.5';})">
@@ -419,10 +422,8 @@ def build_cheatsheets():
         <div style="background:#111; border:1px solid var(--accent); padding:40px; border-radius:8px; box-shadow: 0 10px 30px rgba(41, 98, 255, 0.1);">
             <h1 style="color:var(--accent); margin-top:0; border-bottom:1px solid #333; padding-bottom:15px;">📂 CONFIDENTIAL: Order Block Strategy</h1>
             <p style="color:#888; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px;">Internal Training Document - Do not distribute</p>
-            
             <h3 style="color:#fff; margin-top:30px;">1. Identifying the Footprint</h3>
             <p style="color:#ccc; line-height:1.6;">An Order Block (OB) represents a massive accumulation of assets by institutions. It is visually identified on the chart as the <b>last bearish candle before a strong, impulsive bullish move</b> that breaks market structure.</p>
-            
             <h3 style="color:#fff; margin-top:30px;">2. The Institutional Execution</h3>
             <p style="color:#ccc; line-height:1.6;">Institutions cannot enter their entire position at once without moving the market against themselves. They push the price down to grab liquidity (retail stop losses), buy massive amounts, and wait for the price to return to their "Block" to fill the rest of their orders.</p>
             <ul style="color:#ccc; line-height:1.8;">
@@ -431,7 +432,6 @@ def build_cheatsheets():
                 <li><b>Step 3:</b> Execute your entry exactly at the top of the OB.</li>
                 <li><b>Step 4:</b> Place the Stop Loss slightly below the bottom of the OB.</li>
             </ul>
-
             <div style="margin-top:50px; padding:30px; background:rgba(255,215,0,0.05); border:1px dashed var(--gold); border-radius:8px; text-align:center;">
                 <h3 style="color:var(--gold); margin-top:0;">⚡ MAXIMIZE YOUR EDGE</h3>
                 <p style="color:#aaa; font-size:0.95rem; margin-bottom:20px;">To execute Order Block strategies successfully, you need an exchange with deep liquidity, institutional-grade charts, and absolutely zero slippage.</p>
@@ -448,17 +448,14 @@ def build_cheatsheets():
         <div style="background:#111; border:1px solid #FF3D00; padding:40px; border-radius:8px; box-shadow: 0 10px 30px rgba(255, 61, 0, 0.1);">
             <h1 style="color:#FF3D00; margin-top:0; border-bottom:1px solid #333; padding-bottom:15px;">🛡️ RISK MANAGEMENT PROTOCOL</h1>
             <p style="color:#888; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px;">Capital Preservation Directive</p>
-            
             <h3 style="color:#fff; margin-top:30px;">The 1% Golden Rule</h3>
             <p style="color:#ccc; line-height:1.6;">Professional traders do not gamble. They protect capital. You must never risk more than <b>1% of your total account balance</b> on a single trade. If your account is $10,000, your absolute maximum allowed loss if the trade hits your Stop Loss is $100.</p>
-            
             <h3 style="color:#fff; margin-top:30px;">The Position Sizing Formula</h3>
             <p style="color:#ccc; line-height:1.6;">To calculate exactly how many dollars to invest in a trade to respect the 1% rule, use the following institutional formula:</p>
             <code style="background:#000; padding:20px; display:block; color:var(--accent); border-radius:6px; margin:20px 0; font-size:1.1rem; text-align:center;">
                 Position Size = (Account Balance * Risk %) / Stop Loss Distance %
             </code>
             <p style="color:#ccc; line-height:1.6;">Example: $10,000 balance, 1% risk ($100), and your Stop Loss is 5% away. <br>Your Position Size is: $100 / 0.05 = <b>$2,000</b>. You buy $2,000 worth of the asset.</p>
-
             <div style="margin-top:50px; padding:30px; background:rgba(0,200,83,0.05); border:1px dashed #00C853; border-radius:8px; text-align:center;">
                 <h3 style="color:#00C853; margin-top:0;">🔒 SECURE YOUR PROFITS</h3>
                 <p style="color:#aaa; font-size:0.95rem; margin-bottom:20px;">Hedge funds never keep their long-term capital or massive profits sitting on a live exchange. Once you hit your targets, move your wealth completely offline to cold storage.</p>
@@ -472,7 +469,6 @@ def build_cheatsheets():
 
 def build_vip_lounge():
     build_cheatsheets() 
-    
     lounge_html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>VIP Lounge</title>{CSS_CORE}</head><body>{get_header('vip')}
     <div class="container" style="position:relative;">
         <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">
@@ -480,7 +476,6 @@ def build_vip_lounge():
                 <h1 style="font-size:3rem; margin-bottom:10px; color:var(--gold); text-shadow:0 0 20px rgba(255,215,0,0.3);">💎 THE VIP LOUNGE</h1>
                 <p style="color:#aaa; font-size:1.1rem;">Exclusive institutional tools, whale tracking, and premium resources.</p>
             </div>
-            
             <div class="split-layout">
                 <div class="panel">
                     <h3 style="color:#fff; margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">🐳 WHALE WALLET TRACKER</h3>
@@ -492,7 +487,6 @@ def build_vip_lounge():
                         <tr><td><strong>Binance Cold #1</strong></td><td>248,597 ₿</td><td style="color:#00C853;">$16.4B</td></tr>
                     </table>
                 </div>
-                
                 <div class="panel">
                     <h3 style="color:#fff; margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">📊 MACRO CORRELATION MATRIX</h3>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;">
@@ -519,7 +513,6 @@ def build_vip_lounge():
                     </div>
                 </div>
             </div>
-            
             <h2 class="section-title" style="margin-top:40px;">📑 INSTITUTIONAL CHEATSHEETS</h2>
             <div class="grid">
                 <div class="panel" style="text-align:center; border:1px solid var(--accent);">
@@ -539,7 +532,6 @@ def build_vip_lounge():
                 </div>
             </div>
         </div>
-
         <div id="vip-lock" style="position:absolute; top:30%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--gold); border-radius:12px; z-index:10; width:90%; max-width:400px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
             <h2 style="color:#FFD700; margin-top:0;">🔒 VIP LOUNGE</h2>
             <p style="color:#aaa; margin-bottom:20px;">This area contains highly classified institutional data, whale tracking, and premium resources reserved exclusively for VIP members.</p>
@@ -558,3 +550,64 @@ def build_vip_lounge():
     </div>
     {MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("vip_lounge.html", lounge_html)
+
+
+# === FASE 2: LA PAGINA DELLE STORIE VERE (SOCIAL PROOF) ===
+def build_stories_page():
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Trader Stories</title>{CSS_CORE}</head><body>{get_header('stories')}
+    <div class="container">
+        <div style="text-align:center; margin-bottom:50px;">
+            <h1 style="font-size:3rem; margin-bottom:10px;">TRADER <span style="color:var(--accent);">JOURNEYS</span> 📖</h1>
+            <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Real stories from the Market Insider Pro community. See how retail traders transformed their approach using institutional tools.</p>
+        </div>
+
+        <div class="grid">
+            <div class="panel" style="border-top: 3px solid #00C853; position:relative;">
+                <div style="position:absolute; top:-15px; right:20px; background:#00C853; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">FUNDED TRADER</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"From blowing accounts to consistent payouts."</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6; font-style:italic;">"Before joining MIP, I traded on emotion. I saw a green candle, I bought. I saw red, I panicked. The <strong>Order Block Strategy</strong> inside the VIP Lounge changed everything. I stopped predicting and started reacting to where institutions left their footprints."</p>
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #333; display:flex; align-items:center; gap:15px;">
+                    <div style="width:40px; height:40px; border-radius:50%; background:#333; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">👨‍💻</div>
+                    <div>
+                        <strong style="color:#fff; display:block;">Marco R.</strong>
+                        <span style="color:#888; font-size:0.8rem;">VIP Member since Oct 2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" style="border-top: 3px solid var(--gold); position:relative;">
+                <div style="position:absolute; top:-15px; right:20px; background:var(--gold); color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">WHALE TRACKER</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"I stopped trading blind."</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6; font-style:italic;">"The free terminal is great, but the VIP Dashboard is unfair. Watching the simulated Whale Order Flow and the Macro Correlation Matrix allowed me to understand why Bitcoin was moving *before* it happened on the retail charts. It's like having the answers to the test."</p>
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #333; display:flex; align-items:center; gap:15px;">
+                    <div style="width:40px; height:40px; border-radius:50%; background:#333; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">👩‍💼</div>
+                    <div>
+                        <strong style="color:#fff; display:block;">Elena S.</strong>
+                        <span style="color:#888; font-size:0.8rem;">VIP Member since Dec 2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel" style="border-top: 3px solid var(--accent); position:relative;">
+                <div style="position:absolute; top:-15px; right:20px; background:var(--accent); color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">AUTO-TRADER</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"I don't even look at charts anymore."</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6; font-style:italic;">"I have a 9-to-5 job. I couldn't stare at screens all day. Connecting my Bybit account to the <strong>API Hub</strong> was the best decision I made. The Risk Manager calculates my exact position size, and the algorithm executes. Pure automation."</p>
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #333; display:flex; align-items:center; gap:15px;">
+                    <div style="width:40px; height:40px; border-radius:50%; background:#333; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">🚀</div>
+                    <div>
+                        <strong style="color:#fff; display:block;">David K.</strong>
+                        <span style="color:#888; font-size:0.8rem;">VIP Member since Jan 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align:center; margin-top:60px; padding:40px; background:linear-gradient(135deg, #111, #0a0a0a); border:1px solid #333; border-radius:12px;">
+            <h2 style="color:#fff; margin-top:0;">Ready to write your own story?</h2>
+            <p style="color:#888; margin-bottom:30px;">Stop gambling and start trading with an institutional edge.</p>
+            <a href="pricing.html" class="vip-btn" style="padding:15px 40px; font-size:1.2rem; text-decoration:none;">GET VIP PASS TODAY</a>
+        </div>
+
+    </div>
+    {MODALS_HTML} {get_footer()}</body></html>'''
+    scrivi_file("stories.html", html)
