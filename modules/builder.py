@@ -221,13 +221,64 @@ def build_referral_page():
     scrivi_file("referral.html", html)
 
 def build_pricing_page():
+    # IL NUOVO SISTEMA IBRIDO (GUEST vs LOGIN)
     consent_html = '''
     <div style="max-width:600px; margin: 0 auto 30px; background: rgba(255,215,0,0.05); border: 1px solid var(--gold); padding: 15px; border-radius: 8px; display:flex; gap:15px; align-items:flex-start; text-align:left;">
         <input type="checkbox" id="tos-checkbox" style="margin-top:4px; transform:scale(1.2); cursor:pointer;" onchange="document.querySelectorAll('.checkout-btn').forEach(b => {b.style.pointerEvents = this.checked ? 'auto' : 'none'; b.style.opacity = this.checked ? '1' : '0.5';})">
         <label for="tos-checkbox" style="color:#ccc; font-size:0.85rem; cursor:pointer;">I agree to the <a href="legal.html" style="color:var(--accent);">Terms of Service</a> and strictly acknowledge that Market Insider Pro provides <b>educational data and algorithmic analysis, NOT financial advice</b>. I am 100% responsible for my own capital.</label>
     </div>
     '''
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pricing</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container"><div style="text-align:center; margin-bottom:20px;"><h1 style="font-size:3rem; margin-bottom:10px;">UPGRADE TO <span style="color:var(--gold);">VIP PASS</span></h1><p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Stop trading blindly. Join the 1% of profitable traders with real-time institutional data, algorithmic signals, and AI analysis.</p></div>{consent_html}<div class="pricing-grid"><div class="pricing-card"><h3 style="color:#aaa; font-size:1.5rem; margin:0;">BASIC</h3><div class="price-tag">$0<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Delayed Terminal Data (15m)</div><div class="plan-feature">Basic Charts</div><div class="plan-feature">Academy Module 1</div><div class="plan-feature" style="color:#555;"><s>Real-Time Signals</s></div></div><button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT PLAN</button></div><div class="pricing-card pro"><h3 style="color:var(--gold); font-size:1.5rem; margin:0;">PRO TRADER</h3><div class="price-tag">$49<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature" style="color:#fff;">Real-Time Terminal Data (6s)</div><div class="plan-feature" style="color:#fff;">Full VIP Academy Access</div><div class="plan-feature" style="color:#fff;">Institutional Signals Room</div><div class="plan-feature" style="color:#fff;">API Auto-Trading Beta</div></div><a href="https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00" class="btn-trade checkout-btn" style="width:100%; padding:15px; font-size:1.2rem; display:block; text-align:center; box-sizing:border-box; text-decoration:none; pointer-events:none; opacity:0.5;">GET VIP PASS SECURELY</a></div><div class="pricing-card"><h3 style="color:#2962FF; font-size:1.5rem; margin:0;">WHALE (LIFETIME)</h3><div class="price-tag">$399<span>/once</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Everything in PRO</div><div class="plan-feature">Private Discord Access</div><div class="plan-feature">Lifetime Updates</div><div class="plan-feature">No Recurring Fees</div></div><a href="https://buy.stripe.com/14AfZh6uT9AJ3AW5TX2Ry01" class="vip-btn checkout-btn" style="width:100%; padding:15px; display:block; text-align:center; box-sizing:border-box; text-decoration:none; pointer-events:none; opacity:0.5;">GET LIFETIME ACCESS</a></div></div><p style="text-align:center; margin-top:40px; color:#666; font-size:0.8rem;">🔐 Payments securely processed by Stripe. 30-Day money-back guarantee.</p></div>{MODALS_HTML} {get_footer()}</body></html>'''
+    
+    checkout_modal_html = '''
+    <div class="modal-overlay" id="checkout-choice-modal">
+        <div class="modal-content" style="max-width:450px; text-align:center; padding:30px;">
+            <span class="close-modal" onclick="document.getElementById('checkout-choice-modal').style.display='none'">&times;</span>
+            <h2 style="color:var(--gold); margin-top:0;">Checkout Method</h2>
+            <p style="color:#aaa; font-size:0.95rem; margin-bottom:25px;">How would you like to activate your VIP Pass?</p>
+            
+            <div style="display:flex; flex-direction:column; gap:15px;">
+                <button class="vip-btn" style="padding:15px; width:100%; border-radius:8px;" onclick="proceedToStripe('login')">
+                    <span style="font-size:1.1rem; display:block; margin-bottom:5px;">👤 SIGN IN & BUY (Recommended)</span>
+                    <span style="font-size:0.75rem; color:#333; font-weight:normal;">Saves the VIP Pass to your profile for cross-device access.</span>
+                </button>
+                
+                <button class="btn-trade" style="padding:15px; width:100%; background:#111; border:1px solid #555; color:#aaa; border-radius:8px;" onclick="proceedToStripe('guest')">
+                    <span style="font-size:1.1rem; display:block; margin-bottom:5px;">🕵️ CHECKOUT AS GUEST</span>
+                    <span style="font-size:0.75rem; color:#888; font-weight:normal;">Saves the VIP Pass to this specific browser/device only.</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    let currentStripeLink = "";
+    
+    function openCheckoutChoice(link) {
+        let tos = document.getElementById('tos-checkbox').checked;
+        if(!tos) return; 
+        
+        currentStripeLink = link;
+        let user = localStorage.getItem('mip_user');
+        
+        if(user) {
+            window.location.href = currentStripeLink;
+        } else {
+            document.getElementById('checkout-choice-modal').style.display = 'flex';
+        }
+    }
+    
+    function proceedToStripe(method) {
+        if(method === 'guest') {
+            window.location.href = currentStripeLink;
+        } else if(method === 'login') {
+            document.getElementById('checkout-choice-modal').style.display = 'none';
+            openLogin(); 
+        }
+    }
+    </script>
+    '''
+
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pricing</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container"><div style="text-align:center; margin-bottom:20px;"><h1 style="font-size:3rem; margin-bottom:10px;">UPGRADE TO <span style="color:var(--gold);">VIP PASS</span></h1><p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Stop trading blindly. Join the 1% of profitable traders with real-time institutional data, algorithmic signals, and AI analysis.</p></div>{consent_html}<div class="pricing-grid"><div class="pricing-card"><h3 style="color:#aaa; font-size:1.5rem; margin:0;">BASIC</h3><div class="price-tag">$0<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Delayed Terminal Data (15m)</div><div class="plan-feature">Basic Charts</div><div class="plan-feature">Academy Module 1</div><div class="plan-feature" style="color:#555;"><s>Real-Time Signals</s></div></div><button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT PLAN</button></div><div class="pricing-card pro"><h3 style="color:var(--gold); font-size:1.5rem; margin:0;">PRO TRADER</h3><div class="price-tag">$49<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature" style="color:#fff;">Real-Time Terminal Data (6s)</div><div class="plan-feature" style="color:#fff;">Full VIP Academy Access</div><div class="plan-feature" style="color:#fff;">Institutional Signals Room</div><div class="plan-feature" style="color:#fff;">API Auto-Trading Beta</div></div><button class="btn-trade checkout-btn" onclick="openCheckoutChoice('https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00')" style="width:100%; padding:15px; font-size:1.2rem; display:block; text-align:center; box-sizing:border-box; border:none; cursor:pointer; pointer-events:none; opacity:0.5;">GET VIP PASS SECURELY</button></div><div class="pricing-card"><h3 style="color:#2962FF; font-size:1.5rem; margin:0;">WHALE (LIFETIME)</h3><div class="price-tag">$399<span>/once</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Everything in PRO</div><div class="plan-feature">Private Discord Access</div><div class="plan-feature">Lifetime Updates</div><div class="plan-feature">No Recurring Fees</div></div><button class="vip-btn checkout-btn" onclick="openCheckoutChoice('https://buy.stripe.com/14AfZh6uT9AJ3AW5TX2Ry01')" style="width:100%; padding:15px; display:block; text-align:center; box-sizing:border-box; border:none; cursor:pointer; pointer-events:none; opacity:0.5;">GET LIFETIME ACCESS</button></div></div><p style="text-align:center; margin-top:40px; color:#666; font-size:0.8rem;">🔐 Payments securely processed by Stripe. 30-Day money-back guarantee.</p></div>{checkout_modal_html}{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("pricing.html", html)
 
 def build_leaderboard_page():
@@ -362,8 +413,6 @@ def build_success_page():
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Payment Successful</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container" style="text-align:center; padding: 120px 20px;"><h1 style="font-size:5rem; margin:0;">🎉</h1><h1 style="color:var(--gold); font-size:3rem; margin-top:10px;">VIP PASS ACTIVATED</h1><p style="color:#aaa; font-size:1.2rem;">Payment verified. Your institutional access is now unlocked.</p><p style="color:#666; font-size:0.9rem;">Redirecting to the VIP Lounge...</p><div style="margin-top:40px;"><div style="width:40px; height:40px; border:3px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite; margin:0 auto;"></div></div></div><style>@keyframes spin {{ 100% {{ transform:rotate(360deg); }} }}</style>{MODALS_HTML} {get_footer()} {js}</body></html>'''
     scrivi_file("success.html", html)
 
-
-# === I DUE NUOVI FILE PDF (DOCUMENTI SEGRETI HTML) ===
 def build_cheatsheets():
     ob_html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Order Block Strategy Document</title>{CSS_CORE}</head><body>{get_header('vip')}
     <div class="container" style="max-width:800px; padding: 40px 20px;">
@@ -421,9 +470,7 @@ def build_cheatsheets():
     {MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("cheatsheet_risk.html", risk_html)
 
-
 def build_vip_lounge():
-    # CHIAMO I CHEATSHEETS QUI, COSÌ NON DEVI TOCCARE MAIN.PY!
     build_cheatsheets() 
     
     lounge_html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>VIP Lounge</title>{CSS_CORE}</head><body>{get_header('vip')}
