@@ -156,7 +156,6 @@ def build_signals_page(assets: List[Dict]):
 
     backtest_html = '''<div class="backtest-box"><h2 style="color:var(--gold); margin-top:0;">🕰️ TIME MACHINE BACKTESTER</h2><p style="color:#ccc;">What if you invested <strong>$1,000</strong> exactly 1 year ago following our AI Signals?</p><div class="wallet-form" style="justify-content:center; max-width:500px; margin:0 auto; background:none; border:none;"><select id="bt-asset" style="max-width:200px;"><option value="BTC">Bitcoin (BTC)</option><option value="SOL">Solana (SOL)</option><option value="NVDA">Nvidia (NVDA)</option></select><button class="vip-btn" onclick="runBacktest()">RUN SIMULATION</button></div><div id="bt-result-box" style="display:none; margin-top:20px;"><p style="color:#888; text-transform:uppercase; font-size:0.8rem; margin:0;">Value Today</p><div class="backtest-result" id="bt-amount">$0.00</div><div class="change green" id="bt-perc">+0%</div></div></div><script>function runBacktest() { let asset = document.getElementById('bt-asset').value; let mult = asset === 'BTC' ? 2.4 : (asset === 'SOL' ? 5.1 : 3.8); let perc = ((mult - 1) * 100).toFixed(0); let val = (1000 * mult).toLocaleString('en-US', {minimumFractionDigits: 2}); document.getElementById('bt-result-box').style.display = 'block'; document.getElementById('bt-amount').innerText = "$" + val; document.getElementById('bt-perc').innerText = "+" + perc + "% ROI"; }</script>'''
     
-    # AGGIUNTO IL BANNER DI RISCHIO SUI SEGNALI
     warning_html = '''
     <div style="background: rgba(255, 61, 0, 0.1); border: 1px solid #FF3D00; padding: 15px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
         <strong style="color: #FF3D00;">⚠️ MANDATORY RISK DISCLAIMER:</strong> <span style="color: #ccc; font-size: 0.9rem;">Algorithmic targets (TP/SL) are generated based on mathematical volatility (ATR) for educational study. Do not execute trades blindly. Up to 90% of retail accounts lose money.</span>
@@ -222,14 +221,12 @@ def build_referral_page():
     scrivi_file("referral.html", html)
 
 def build_pricing_page():
-    # AGGIUNTO IL CONSENSO OBBLIGATORIO (LEGAL SHIELD)
     consent_html = '''
     <div style="max-width:600px; margin: 0 auto 30px; background: rgba(255,215,0,0.05); border: 1px solid var(--gold); padding: 15px; border-radius: 8px; display:flex; gap:15px; align-items:flex-start; text-align:left;">
         <input type="checkbox" id="tos-checkbox" style="margin-top:4px; transform:scale(1.2); cursor:pointer;" onchange="document.querySelectorAll('.checkout-btn').forEach(b => {b.style.pointerEvents = this.checked ? 'auto' : 'none'; b.style.opacity = this.checked ? '1' : '0.5';})">
         <label for="tos-checkbox" style="color:#ccc; font-size:0.85rem; cursor:pointer;">I agree to the <a href="legal.html" style="color:var(--accent);">Terms of Service</a> and strictly acknowledge that Market Insider Pro provides <b>educational data and algorithmic analysis, NOT financial advice</b>. I am 100% responsible for my own capital.</label>
     </div>
     '''
-    
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Pricing</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container"><div style="text-align:center; margin-bottom:20px;"><h1 style="font-size:3rem; margin-bottom:10px;">UPGRADE TO <span style="color:var(--gold);">VIP PASS</span></h1><p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Stop trading blindly. Join the 1% of profitable traders with real-time institutional data, algorithmic signals, and AI analysis.</p></div>{consent_html}<div class="pricing-grid"><div class="pricing-card"><h3 style="color:#aaa; font-size:1.5rem; margin:0;">BASIC</h3><div class="price-tag">$0<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Delayed Terminal Data (15m)</div><div class="plan-feature">Basic Charts</div><div class="plan-feature">Academy Module 1</div><div class="plan-feature" style="color:#555;"><s>Real-Time Signals</s></div></div><button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT PLAN</button></div><div class="pricing-card pro"><h3 style="color:var(--gold); font-size:1.5rem; margin:0;">PRO TRADER</h3><div class="price-tag">$49<span>/mo</span></div><div style="margin-bottom:30px;"><div class="plan-feature" style="color:#fff;">Real-Time Terminal Data (6s)</div><div class="plan-feature" style="color:#fff;">Full VIP Academy Access</div><div class="plan-feature" style="color:#fff;">Institutional Signals Room</div><div class="plan-feature" style="color:#fff;">API Auto-Trading Beta</div></div><a href="https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00" class="btn-trade checkout-btn" style="width:100%; padding:15px; font-size:1.2rem; display:block; text-align:center; box-sizing:border-box; text-decoration:none; pointer-events:none; opacity:0.5;">GET VIP PASS SECURELY</a></div><div class="pricing-card"><h3 style="color:#2962FF; font-size:1.5rem; margin:0;">WHALE (LIFETIME)</h3><div class="price-tag">$399<span>/once</span></div><div style="margin-bottom:30px;"><div class="plan-feature">Everything in PRO</div><div class="plan-feature">Private Discord Access</div><div class="plan-feature">Lifetime Updates</div><div class="plan-feature">No Recurring Fees</div></div><a href="https://buy.stripe.com/14AfZh6uT9AJ3AW5TX2Ry01" class="vip-btn checkout-btn" style="width:100%; padding:15px; display:block; text-align:center; box-sizing:border-box; text-decoration:none; pointer-events:none; opacity:0.5;">GET LIFETIME ACCESS</a></div></div><p style="text-align:center; margin-top:40px; color:#666; font-size:0.8rem;">🔐 Payments securely processed by Stripe. 30-Day money-back guarantee.</p></div>{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("pricing.html", html)
 
@@ -239,7 +236,7 @@ def build_leaderboard_page():
     scrivi_file("leaderboard.html", html)
 
 def build_legal_page():
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Legal & Privacy</title>{CSS_CORE}</head><body>{get_header('legal')}<div class="container" style="max-width:800px; color:#ccc;"><h1 style="color:#fff;">Legal Information & Policies</h1><hr style="border-color:#333; margin-bottom:30px;"><h3 style="color:var(--accent);">Privacy Policy (GDPR Compliant)</h3><p>Market Insider Pro utilizes LocalStorage to save your preferences, watchlist, and portfolio data directly on your device. We do NOT transmit this personal data to our servers.</p><h3 style="color:var(--accent);">Terms of Service</h3><p>By accessing the website, you agree to be bound by these terms. The data provided on this platform is for educational and informational purposes only.</p><h3 style="color:var(--accent);">Risk Disclaimer</h3><p>Trading Forex, Cryptocurrencies, and Stocks carries a high level of risk and may not be suitable for all investors.</p></div>{MODALS_HTML} {get_footer()}</body></html>'''
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Legal & Privacy</title>{CSS_CORE}</head><body>{get_header('legal')}<div class="container" style="max-width:800px; color:#ccc;"><h1 style="color:#fff;">Legal Information & Policies</h1><hr style="border-color:#333; margin-bottom:30px;"><h3 style="color:var(--accent);">Privacy Policy (GDPR Compliant)</h3><p>Market Insider Pro utilizes LocalStorage to save your preferences, watchlist, and portfolio data directly on your device. We do NOT transmit this personal data to our servers.</p><h3 style="color:var(--accent);">Terms of Service</h3><p>By accessing the website, you agree to be bound by these terms. The data provided on this platform is for educational and informational purposes only.</p><h3 style="color:var(--accent);">Risk Disclaimer</h3><p>Trading Forex, Cryptocurrencies, and Stocks carries a high level of risk and may not be suitable for all investors. Market Insider Pro is not a registered investment, legal, or tax advisor. All content is for informational purposes.</p></div>{MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("legal.html", html)
 
 def build_chart_pages(assets: List[Dict]):
@@ -359,8 +356,97 @@ def build_success_page():
     js = '''<script>
     document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem('mip_vip_status', 'active');
-        setTimeout(() => { window.location.href = "academy_lez3_1.html"; }, 3500);
+        setTimeout(() => { window.location.href = "vip_lounge.html"; }, 3500);
     });
     </script>'''
-    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Payment Successful</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container" style="text-align:center; padding: 120px 20px;"><h1 style="font-size:5rem; margin:0;">🎉</h1><h1 style="color:var(--gold); font-size:3rem; margin-top:10px;">VIP PASS ACTIVATED</h1><p style="color:#aaa; font-size:1.2rem;">Payment verified. Your institutional access is now unlocked.</p><p style="color:#666; font-size:0.9rem;">Redirecting to the Academy...</p><div style="margin-top:40px;"><div style="width:40px; height:40px; border:3px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite; margin:0 auto;"></div></div></div><style>@keyframes spin {{ 100% {{ transform:rotate(360deg); }} }}</style>{MODALS_HTML} {get_footer()} {js}</body></html>'''
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Payment Successful</title>{CSS_CORE}</head><body>{get_header('pricing')}<div class="container" style="text-align:center; padding: 120px 20px;"><h1 style="font-size:5rem; margin:0;">🎉</h1><h1 style="color:var(--gold); font-size:3rem; margin-top:10px;">VIP PASS ACTIVATED</h1><p style="color:#aaa; font-size:1.2rem;">Payment verified. Your institutional access is now unlocked.</p><p style="color:#666; font-size:0.9rem;">Redirecting to the VIP Lounge...</p><div style="margin-top:40px;"><div style="width:40px; height:40px; border:3px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite; margin:0 auto;"></div></div></div><style>@keyframes spin {{ 100% {{ transform:rotate(360deg); }} }}</style>{MODALS_HTML} {get_footer()} {js}</body></html>'''
     scrivi_file("success.html", html)
+
+
+# === NUOVA FASE 3: LA VIP LOUNGE ===
+def build_vip_lounge():
+    lounge_html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>VIP Lounge</title>{CSS_CORE}</head><body>{get_header('vip')}
+    <div class="container" style="position:relative;">
+        <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">
+            <div style="text-align:center; margin-bottom:40px;">
+                <h1 style="font-size:3rem; margin-bottom:10px; color:var(--gold); text-shadow:0 0 20px rgba(255,215,0,0.3);">💎 THE VIP LOUNGE</h1>
+                <p style="color:#aaa; font-size:1.1rem;">Exclusive institutional tools, whale tracking, and premium resources.</p>
+            </div>
+            
+            <div class="split-layout">
+                <div class="panel">
+                    <h3 style="color:#fff; margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">🐳 WHALE WALLET TRACKER</h3>
+                    <table>
+                        <tr><th style="color:#888;">Entity</th><th style="color:#888;">Holdings (BTC)</th><th style="color:#888;">Est. Value</th></tr>
+                        <tr><td><strong style="color:var(--gold);">MicroStrategy</strong></td><td>205,000 ₿</td><td style="color:#00C853;">$13.5B</td></tr>
+                        <tr><td><strong>BlackRock (IBIT)</strong></td><td>195,985 ₿</td><td style="color:#00C853;">$12.9B</td></tr>
+                        <tr><td><strong>Fidelity (IBTC)</strong></td><td>124,000 ₿</td><td style="color:#00C853;">$8.1B</td></tr>
+                        <tr><td><strong>Binance Cold #1</strong></td><td>248,597 ₿</td><td style="color:#00C853;">$16.4B</td></tr>
+                    </table>
+                </div>
+                
+                <div class="panel">
+                    <h3 style="color:#fff; margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">📊 MACRO CORRELATION MATRIX</h3>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;">
+                        <div style="background:#000; padding:15px; border-radius:6px; border:1px solid #333; text-align:center;">
+                            <div style="color:#888; font-size:0.8rem;">BTC vs S&P 500</div>
+                            <div style="color:var(--green); font-size:1.5rem; font-weight:bold;">+ 0.82</div>
+                            <div style="font-size:0.7rem; color:#aaa;">High Correlation</div>
+                        </div>
+                        <div style="background:#000; padding:15px; border-radius:6px; border:1px solid #333; text-align:center;">
+                            <div style="color:#888; font-size:0.8rem;">BTC vs DXY (Dollar)</div>
+                            <div style="color:var(--red); font-size:1.5rem; font-weight:bold;">- 0.75</div>
+                            <div style="font-size:0.7rem; color:#aaa;">Inverse Correlation</div>
+                        </div>
+                        <div style="background:#000; padding:15px; border-radius:6px; border:1px solid #333; text-align:center;">
+                            <div style="color:#888; font-size:0.8rem;">BTC vs GOLD</div>
+                            <div style="color:var(--gold); font-size:1.5rem; font-weight:bold;">+ 0.15</div>
+                            <div style="font-size:0.7rem; color:#aaa;">Neutral</div>
+                        </div>
+                        <div style="background:#000; padding:15px; border-radius:6px; border:1px solid #333; text-align:center;">
+                            <div style="color:#888; font-size:0.8rem;">NVDA vs TSLA</div>
+                            <div style="color:var(--green); font-size:1.5rem; font-weight:bold;">+ 0.68</div>
+                            <div style="font-size:0.7rem; color:#aaa;">Tech Sector Synced</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title" style="margin-top:40px;">📑 INSTITUTIONAL CHEATSHEETS</h2>
+            <div class="grid">
+                <div class="panel" style="text-align:center; border:1px solid var(--accent);">
+                    <h3 style="color:#fff; margin-top:0;">Order Block Strategy</h3>
+                    <p style="color:#888; font-size:0.85rem;">The definitive guide to finding institutional entry points.</p>
+                    <button class="btn-trade" style="width:100%; margin-top:10px;" onclick="alert('PDF Download initiated...')">DOWNLOAD PDF</button>
+                </div>
+                <div class="panel" style="text-align:center; border:1px solid var(--accent);">
+                    <h3 style="color:#fff; margin-top:0;">Risk Management Plan</h3>
+                    <p style="color:#888; font-size:0.85rem;">Professional hedge fund position sizing formulas.</p>
+                    <button class="btn-trade" style="width:100%; margin-top:10px;" onclick="alert('PDF Download initiated...')">DOWNLOAD PDF</button>
+                </div>
+                <div class="panel" style="text-align:center; background: linear-gradient(135deg, #111, #1a1a1a); border:1px solid #5865F2;">
+                    <h3 style="color:#5865F2; margin-top:0;">PRIVATE DISCORD</h3>
+                    <p style="color:#888; font-size:0.85rem;">Join the elite community of VIP traders.</p>
+                    <button class="btn-trade" style="background:#5865F2; color:#fff; width:100%; margin-top:10px;" onclick="alert('Discord Invite Link Copied!')">JOIN SERVER</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="vip-lock" style="position:absolute; top:30%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--gold); border-radius:12px; z-index:10; width:90%; max-width:400px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+            <h2 style="color:#FFD700; margin-top:0;">🔒 VIP LOUNGE</h2>
+            <p style="color:#aaa; margin-bottom:20px;">This area contains highly classified institutional data, whale tracking, and premium resources reserved exclusively for VIP members.</p>
+            <a href="pricing.html" class="vip-btn" style="display:block; padding:15px; text-decoration:none; width:100%; box-sizing:border-box;">UPGRADE TO VIP</a>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {{
+                if(localStorage.getItem('mip_vip_status') === 'active') {{
+                    document.getElementById('vip-content').style.filter = 'none';
+                    document.getElementById('vip-content').style.pointerEvents = 'auto';
+                    document.getElementById('vip-content').style.userSelect = 'auto';
+                    document.getElementById('vip-lock').style.display = 'none';
+                }}
+            }});
+        </script>
+    </div>
+    {MODALS_HTML} {get_footer()}</body></html>'''
+    scrivi_file("vip_lounge.html", lounge_html)

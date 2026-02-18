@@ -23,6 +23,7 @@ def get_header(active_page: str) -> str:
             <a href="api_hub.html" class="{'active' if active_page=='api' else ''}">🤖 API Hub</a>
             <a href="wallet.html" class="{'active' if active_page=='wallet' else ''}">Wallet</a>
             <a href="academy_lez1_1.html" class="{'active' if active_page=='academy' else ''}">Academy</a>
+            <a href="vip_lounge.html" class="{'active' if active_page=='vip' else ''}" style="color:#FFD700; text-shadow:0 0 5px rgba(255,215,0,0.5);">💎 VIP Area</a>
             <a href="brokers.html" class="{'active' if active_page=='brokers' else ''}">Brokers</a>
             <a href="referral.html" class="{'active' if active_page=='referral' else ''}" style="color:var(--gold);">🎁 Invite</a>
             <a href="pricing.html" class="{'active' if active_page=='pricing' else ''}" style="color:var(--accent);">💎 Pricing</a>
@@ -35,7 +36,6 @@ def get_header(active_page: str) -> str:
     '''
 
 def get_footer() -> str:
-    # AGGIUNTO DISCLAIMER LEGALE ESTESO SECONDO NORMATIVE ESMA/SEC
     return '''
     <div class="legal-footer container">
         <div class="stats-bar"><div class="stat-item"><div style="color:#00C853; font-size:0.8rem; font-weight:bold;">● LIVE TRADERS</div><div class="stat-value" id="live-users">---</div></div><div class="stat-item"><div style="color:#888; font-size:0.8rem; text-transform:uppercase;">Total Page Views</div><div class="stat-value" id="total-visits">---</div></div><div class="stat-item"><div style="color:#888; font-size:0.8rem; text-transform:uppercase;">System Status</div><div class="stat-value" style="color:#00C853;">100% SECURE</div></div></div>
