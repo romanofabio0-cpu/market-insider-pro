@@ -3,7 +3,7 @@ import json
 from typing import List, Dict
 from core.config import OUTPUT_FOLDER, get_logger
 from core.styles import CSS_CORE
-from core.content import get_header, get_footer, ACADEMY_CONTENT, MODALS_HTML
+from core.content import get_header, get_footer, ACADEMY_CONTENT, MODALS_HTML, BYBIT_AFFILIATE_LINK, AMAZON_LINK_LEDGER
 
 logger = get_logger("Builder")
 
@@ -363,8 +363,69 @@ def build_success_page():
     scrivi_file("success.html", html)
 
 
-# === NUOVA FASE 3: LA VIP LOUNGE ===
+# === I DUE NUOVI FILE PDF (DOCUMENTI SEGRETI HTML) ===
+def build_cheatsheets():
+    ob_html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Order Block Strategy Document</title>{CSS_CORE}</head><body>{get_header('vip')}
+    <div class="container" style="max-width:800px; padding: 40px 20px;">
+        <div style="background:#111; border:1px solid var(--accent); padding:40px; border-radius:8px; box-shadow: 0 10px 30px rgba(41, 98, 255, 0.1);">
+            <h1 style="color:var(--accent); margin-top:0; border-bottom:1px solid #333; padding-bottom:15px;">📂 CONFIDENTIAL: Order Block Strategy</h1>
+            <p style="color:#888; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px;">Internal Training Document - Do not distribute</p>
+            
+            <h3 style="color:#fff; margin-top:30px;">1. Identifying the Footprint</h3>
+            <p style="color:#ccc; line-height:1.6;">An Order Block (OB) represents a massive accumulation of assets by institutions. It is visually identified on the chart as the <b>last bearish candle before a strong, impulsive bullish move</b> that breaks market structure.</p>
+            
+            <h3 style="color:#fff; margin-top:30px;">2. The Institutional Execution</h3>
+            <p style="color:#ccc; line-height:1.6;">Institutions cannot enter their entire position at once without moving the market against themselves. They push the price down to grab liquidity (retail stop losses), buy massive amounts, and wait for the price to return to their "Block" to fill the rest of their orders.</p>
+            <ul style="color:#ccc; line-height:1.8;">
+                <li><b>Step 1:</b> Mark the high and low of the OB candle.</li>
+                <li><b>Step 2:</b> Wait patiently for the price to retrace back into this zone.</li>
+                <li><b>Step 3:</b> Execute your entry exactly at the top of the OB.</li>
+                <li><b>Step 4:</b> Place the Stop Loss slightly below the bottom of the OB.</li>
+            </ul>
+
+            <div style="margin-top:50px; padding:30px; background:rgba(255,215,0,0.05); border:1px dashed var(--gold); border-radius:8px; text-align:center;">
+                <h3 style="color:var(--gold); margin-top:0;">⚡ MAXIMIZE YOUR EDGE</h3>
+                <p style="color:#aaa; font-size:0.95rem; margin-bottom:20px;">To execute Order Block strategies successfully, you need an exchange with deep liquidity, institutional-grade charts, and absolutely zero slippage.</p>
+                <a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="btn-trade" style="padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none;">OPEN PRO EXCHANGE ACCOUNT ↗</a>
+            </div>
+            <button onclick="window.close()" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; display:block; margin:30px auto 0;">Close Document</button>
+        </div>
+    </div>
+    {MODALS_HTML} {get_footer()}</body></html>'''
+    scrivi_file("cheatsheet_ob.html", ob_html)
+
+    risk_html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Risk Management Protocol</title>{CSS_CORE}</head><body>{get_header('vip')}
+    <div class="container" style="max-width:800px; padding: 40px 20px;">
+        <div style="background:#111; border:1px solid #FF3D00; padding:40px; border-radius:8px; box-shadow: 0 10px 30px rgba(255, 61, 0, 0.1);">
+            <h1 style="color:#FF3D00; margin-top:0; border-bottom:1px solid #333; padding-bottom:15px;">🛡️ RISK MANAGEMENT PROTOCOL</h1>
+            <p style="color:#888; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px;">Capital Preservation Directive</p>
+            
+            <h3 style="color:#fff; margin-top:30px;">The 1% Golden Rule</h3>
+            <p style="color:#ccc; line-height:1.6;">Professional traders do not gamble. They protect capital. You must never risk more than <b>1% of your total account balance</b> on a single trade. If your account is $10,000, your absolute maximum allowed loss if the trade hits your Stop Loss is $100.</p>
+            
+            <h3 style="color:#fff; margin-top:30px;">The Position Sizing Formula</h3>
+            <p style="color:#ccc; line-height:1.6;">To calculate exactly how many dollars to invest in a trade to respect the 1% rule, use the following institutional formula:</p>
+            <code style="background:#000; padding:20px; display:block; color:var(--accent); border-radius:6px; margin:20px 0; font-size:1.1rem; text-align:center;">
+                Position Size = (Account Balance * Risk %) / Stop Loss Distance %
+            </code>
+            <p style="color:#ccc; line-height:1.6;">Example: $10,000 balance, 1% risk ($100), and your Stop Loss is 5% away. <br>Your Position Size is: $100 / 0.05 = <b>$2,000</b>. You buy $2,000 worth of the asset.</p>
+
+            <div style="margin-top:50px; padding:30px; background:rgba(0,200,83,0.05); border:1px dashed #00C853; border-radius:8px; text-align:center;">
+                <h3 style="color:#00C853; margin-top:0;">🔒 SECURE YOUR PROFITS</h3>
+                <p style="color:#aaa; font-size:0.95rem; margin-bottom:20px;">Hedge funds never keep their long-term capital or massive profits sitting on a live exchange. Once you hit your targets, move your wealth completely offline to cold storage.</p>
+                <a href="{AMAZON_LINK_LEDGER}" target="_blank" class="vip-btn" style="background:#00C853; color:#000; padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none;">GET HARDWARE WALLET ON AMAZON 🛒</a>
+            </div>
+            <button onclick="window.close()" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; display:block; margin:30px auto 0;">Close Document</button>
+        </div>
+    </div>
+    {MODALS_HTML} {get_footer()}</body></html>'''
+    scrivi_file("cheatsheet_risk.html", risk_html)
+
+
 def build_vip_lounge():
+    # CHIAMO I CHEATSHEETS QUI, COSÌ NON DEVI TOCCARE MAIN.PY!
+    build_cheatsheets() 
+    
     lounge_html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>VIP Lounge</title>{CSS_CORE}</head><body>{get_header('vip')}
     <div class="container" style="position:relative;">
         <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">
@@ -417,12 +478,12 @@ def build_vip_lounge():
                 <div class="panel" style="text-align:center; border:1px solid var(--accent);">
                     <h3 style="color:#fff; margin-top:0;">Order Block Strategy</h3>
                     <p style="color:#888; font-size:0.85rem;">The definitive guide to finding institutional entry points.</p>
-                    <button class="btn-trade" style="width:100%; margin-top:10px;" onclick="alert('PDF Download initiated...')">DOWNLOAD PDF</button>
+                    <button class="btn-trade" style="width:100%; margin-top:10px;" onclick="window.open('cheatsheet_ob.html', '_blank')">OPEN DOCUMENT</button>
                 </div>
                 <div class="panel" style="text-align:center; border:1px solid var(--accent);">
                     <h3 style="color:#fff; margin-top:0;">Risk Management Plan</h3>
                     <p style="color:#888; font-size:0.85rem;">Professional hedge fund position sizing formulas.</p>
-                    <button class="btn-trade" style="width:100%; margin-top:10px;" onclick="alert('PDF Download initiated...')">DOWNLOAD PDF</button>
+                    <button class="btn-trade" style="width:100%; margin-top:10px;" onclick="window.open('cheatsheet_risk.html', '_blank')">OPEN DOCUMENT</button>
                 </div>
                 <div class="panel" style="text-align:center; background: linear-gradient(135deg, #111, #1a1a1a); border:1px solid #5865F2;">
                     <h3 style="color:#5865F2; margin-top:0;">PRIVATE DISCORD</h3>
