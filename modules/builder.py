@@ -61,7 +61,6 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     
     news_rows = "".join([f'<tr style="border-bottom: 1px solid #333;"><td style="padding:15px 10px; text-align:center; font-size:1.2rem;">{"🔥" if "Coin" in n["source"] else "🏛️"}</td><td style="padding:15px 10px;"><a href="{n["link"]}" target="_blank" style="font-weight:700; color:#fff; display:block; margin-bottom:5px;">{n["title"]}</a><span style="font-size:0.75rem; color:#888;">{n["source"]}</span></td><td style="text-align:right;"><a href="{n["link"]}" target="_blank" class="btn-trade">{"⚡ TRADE" if "Coin" in n["source"] else "👁️ READ"}</a></td></tr>' for n in news])
     
-    # === FASE 1: DENSITÀ DATI (TICKER E OROLOGI) ===
     ticker_css = "<style>@keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } } .ticker-wrap { width: 100%; overflow: hidden; background-color: #0a0a0a; border-bottom: 1px solid #333; padding: 8px 0; } .ticker { display: inline-block; white-space: nowrap; padding-right: 100%; box-sizing: content-box; animation: ticker 40s linear infinite; font-family: monospace; font-size: 0.85rem; color: #00C853; } .ticker-item { display: inline-block; padding: 0 2rem; } .market-clocks { display: flex; justify-content: space-between; flex-wrap:wrap; gap:10px; background: #111; padding: 20px; border-radius: 8px; border: 1px solid #333; margin-bottom: 20px; font-family: monospace; color: #888; } .clock { text-align: center; flex:1; min-width:120px; border-right: 1px solid #333;} .clock:last-child { border:none; } .clock span { display: block; font-size: 1.4rem; color: #fff; font-weight: bold; margin-top: 5px; letter-spacing:2px; }</style>"
     ticker_html = f'''<div class="ticker-wrap"><div class="ticker"><div class="ticker-item">🚨 WHALE ALERT: 1,240 BTC transferred from Binance to Unknown Wallet</div><div class="ticker-item" style="color:var(--red);">🔴 LIQUIDATION: $4.2M Long position wiped on ETH</div><div class="ticker-item" style="color:var(--gold);">⚖️ MACRO: US CPI Data aligns with expectations</div><div class="ticker-item">🟢 DARK POOL: $15M buy order executed on NVDA</div><div class="ticker-item">🚨 WHALE ALERT: 1,240 BTC transferred from Binance to Unknown Wallet</div><div class="ticker-item" style="color:var(--red);">🔴 LIQUIDATION: $4.2M Long position wiped on ETH</div></div></div>'''
     clocks_html = '''<div class="market-clocks"><div class="clock">NEW YORK (NYSE) <span id="clock-ny">--:--</span></div><div class="clock">LONDON (LSE) <span id="clock-lon">--:--</span></div><div class="clock">TOKYO (TSE) <span id="clock-tok">--:--</span></div><div class="clock">CRYPTO MARKET <span style="color:#00C853; font-size:1.1rem; padding-top:4px;">24/7 OPEN</span></div></div><script>function updateClocks() { let d = new Date(); document.getElementById("clock-ny").innerText = d.toLocaleTimeString("en-US", {timeZone: "America/New_York", hour12: false, hour: "2-digit", minute: "2-digit", second:"2-digit"}); document.getElementById("clock-lon").innerText = d.toLocaleTimeString("en-US", {timeZone: "Europe/London", hour12: false, hour: "2-digit", minute: "2-digit", second:"2-digit"}); document.getElementById("clock-tok").innerText = d.toLocaleTimeString("en-US", {timeZone: "Asia/Tokyo", hour12: false, hour: "2-digit", minute: "2-digit", second:"2-digit"}); } setInterval(updateClocks, 1000); updateClocks();</script>'''
@@ -210,8 +209,11 @@ def build_api_hub():
     scrivi_file("api_hub.html", html)
 
 def build_brokers_page():
+    # HO INSERITO IL TUO REALE CODICE BINANCE QUI!
+    BINANCE_REAL_LINK = "https://accounts.binance.com/register?ref=1218170181"
+    
     brokers = [
-        {"name": "Binance", "type": "Crypto", "pros": "Low fees, high liquidity", "link": "https://accounts.binance.com/register?ref=TUO_CODICE", "cta": "CLAIM $100 BONUS"},
+        {"name": "Binance", "type": "Crypto", "pros": "Low fees, high liquidity", "link": BINANCE_REAL_LINK, "cta": "CLAIM $100 BONUS"},
         {"name": "Bybit", "type": "Crypto Futures", "pros": "Best for Leverage, Pro UI", "link": "https://www.bybit.com/register?affiliate_id=TUO_CODICE", "cta": "OPEN PRO ACCOUNT"},
         {"name": "Trade Republic", "type": "Stocks & ETF", "pros": "4% Interest on Cash, Free Savings Plans", "link": "https://ref.trade.re/TUO_CODICE", "cta": "GET FREE STOCK"}
     ]
@@ -297,13 +299,21 @@ def build_chart_pages(assets: List[Dict]):
     pass
 
 def build_academy():
+    # L'ACADEMY ORA USA IL LINK UFFICIALE (IMPORTATO IN ALTO) ANCHE NEL CODICE DEI BOTTONI!
+    
     sidebar = "".join([f"<div class='module-title'>{m['title']}</div>" + "".join([f'''<div onclick="window.location.href='academy_{l['id']}.html'" class="lesson-link">{"🔒" if l.get("vip") else "📄"} {l['title']}</div>''' for l in m['lessons']]) for _, m in ACADEMY_CONTENT.items()])
+    
+    # PER SICUREZZA, AGGIORNO ANCHE IL DIZIONARIO DINAMICAMENTE PRIMA DELLA COSTRUZIONE
+    BINANCE_REAL_LINK = "https://accounts.binance.com/register?ref=1218170181"
     
     for _, m in ACADEMY_CONTENT.items():
         for l in m['lessons']:
+            # Cerco e rimpiazzo il finto link col vero
+            html_content = l['html'].replace("https://accounts.binance.com/register?ref=TUO_CODICE", BINANCE_REAL_LINK)
+            
             if l.get("vip"):
                 c_html = f'''
-                <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">{l['html']}</div>
+                <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">{html_content}</div>
                 <div id="vip-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--accent); border-radius:12px; z-index:10; width:90%; max-width:400px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
                     <h2 style="color:#FFD700; margin-top:0;">🔒 VIP CONTENT</h2>
                     <p style="color:#aaa; margin-bottom:20px;">This institutional strategy is reserved for VIP members.</p>
@@ -321,7 +331,7 @@ def build_academy():
                 </script>
                 '''
             else:
-                c_html = l['html']
+                c_html = html_content
                 
             html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>{l['title']}</title>{CSS_CORE}</head><body>{get_header('academy')}<div class="container"><div class="academy-grid"><div class="sidebar">{sidebar}</div><div class="lesson-content" style="position:relative;">{c_html}</div></div></div>{MODALS_HTML}{get_footer()}</body></html>'''
             scrivi_file(f"academy_{l['id']}.html", html)
@@ -417,6 +427,8 @@ def build_success_page():
     scrivi_file("success.html", html)
 
 def build_cheatsheets():
+    BINANCE_REAL_LINK = "https://accounts.binance.com/register?ref=1218170181"
+    
     ob_html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Order Block Strategy Document</title>{CSS_CORE}</head><body>{get_header('vip')}
     <div class="container" style="max-width:800px; padding: 40px 20px;">
         <div style="background:#111; border:1px solid var(--accent); padding:40px; border-radius:8px; box-shadow: 0 10px 30px rgba(41, 98, 255, 0.1);">
@@ -435,7 +447,7 @@ def build_cheatsheets():
             <div style="margin-top:50px; padding:30px; background:rgba(255,215,0,0.05); border:1px dashed var(--gold); border-radius:8px; text-align:center;">
                 <h3 style="color:var(--gold); margin-top:0;">⚡ MAXIMIZE YOUR EDGE</h3>
                 <p style="color:#aaa; font-size:0.95rem; margin-bottom:20px;">To execute Order Block strategies successfully, you need an exchange with deep liquidity, institutional-grade charts, and absolutely zero slippage.</p>
-                <a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="btn-trade" style="padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none;">OPEN PRO EXCHANGE ACCOUNT ↗</a>
+                <a href="{BINANCE_REAL_LINK}" target="_blank" class="btn-trade" style="padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none; border-color:var(--gold); color:var(--gold);">CLAIM $100 BINANCE BONUS ↗</a>
             </div>
             <button onclick="window.close()" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; display:block; margin:30px auto 0;">Close Document</button>
         </div>
@@ -552,7 +564,6 @@ def build_vip_lounge():
     scrivi_file("vip_lounge.html", lounge_html)
 
 
-# === FASE 2: LA PAGINA DELLE STORIE VERE (SOCIAL PROOF) ===
 def build_stories_page():
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Trader Stories</title>{CSS_CORE}</head><body>{get_header('stories')}
     <div class="container">
@@ -560,7 +571,6 @@ def build_stories_page():
             <h1 style="font-size:3rem; margin-bottom:10px;">TRADER <span style="color:var(--accent);">JOURNEYS</span> 📖</h1>
             <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Real stories from the Market Insider Pro community. See how retail traders transformed their approach using institutional tools.</p>
         </div>
-
         <div class="grid">
             <div class="panel" style="border-top: 3px solid #00C853; position:relative;">
                 <div style="position:absolute; top:-15px; right:20px; background:#00C853; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">FUNDED TRADER</div>
@@ -574,7 +584,6 @@ def build_stories_page():
                     </div>
                 </div>
             </div>
-
             <div class="panel" style="border-top: 3px solid var(--gold); position:relative;">
                 <div style="position:absolute; top:-15px; right:20px; background:var(--gold); color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">WHALE TRACKER</div>
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"I stopped trading blind."</h3>
@@ -587,7 +596,6 @@ def build_stories_page():
                     </div>
                 </div>
             </div>
-
             <div class="panel" style="border-top: 3px solid var(--accent); position:relative;">
                 <div style="position:absolute; top:-15px; right:20px; background:var(--accent); color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">AUTO-TRADER</div>
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"I don't even look at charts anymore."</h3>
@@ -601,13 +609,11 @@ def build_stories_page():
                 </div>
             </div>
         </div>
-        
         <div style="text-align:center; margin-top:60px; padding:40px; background:linear-gradient(135deg, #111, #0a0a0a); border:1px solid #333; border-radius:12px;">
             <h2 style="color:#fff; margin-top:0;">Ready to write your own story?</h2>
             <p style="color:#888; margin-bottom:30px;">Stop gambling and start trading with an institutional edge.</p>
             <a href="pricing.html" class="vip-btn" style="padding:15px 40px; font-size:1.2rem; text-decoration:none;">GET VIP PASS TODAY</a>
         </div>
-
     </div>
     {MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("stories.html", html)
