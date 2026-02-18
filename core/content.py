@@ -35,11 +35,13 @@ def get_header(active_page: str) -> str:
     '''
 
 def get_footer() -> str:
+    # AGGIUNTO DISCLAIMER LEGALE ESTESO SECONDO NORMATIVE ESMA/SEC
     return '''
     <div class="legal-footer container">
         <div class="stats-bar"><div class="stat-item"><div style="color:#00C853; font-size:0.8rem; font-weight:bold;">● LIVE TRADERS</div><div class="stat-value" id="live-users">---</div></div><div class="stat-item"><div style="color:#888; font-size:0.8rem; text-transform:uppercase;">Total Page Views</div><div class="stat-value" id="total-visits">---</div></div><div class="stat-item"><div style="color:#888; font-size:0.8rem; text-transform:uppercase;">System Status</div><div class="stat-value" style="color:#00C853;">100% SECURE</div></div></div>
         <div style="margin: 30px 0;"><a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:underline;">Privacy Policy</a> | <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:underline;">Terms of Service</a> | <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:underline;">Risk Disclaimer</a></div>
-        <p style="color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;"><b>STRICT LEGAL WARNING</b></p>
+        <p style="color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;"><b>STRICT LEGAL WARNING & RISK DISCLAIMER</b></p>
+        <p style="text-align:justify; max-width:800px; margin: 0 auto 20px; line-height:1.4; font-size:0.75rem; color:#555;">Trading cryptocurrencies, stocks, and forex carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. Market Insider Pro is strictly an <b>educational platform</b>. The algorithms, signals, and charts provided do not constitute financial advice. You are solely responsible for your own capital. Past performance is not indicative of future results.</p>
         <p style="text-align:justify; max-width:800px; margin: 0 auto; line-height:1.4;">© 2026 Market Insider Pro. All Rights Reserved.</p>
     </div>
     <div class="fomo-popup" id="fomo-box"><div class="fomo-icon">⚡</div><div id="fomo-text">User99 just upgraded to VIP Pass.</div></div>
@@ -189,11 +191,9 @@ MODALS_HTML = '''
     function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
     function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
     
-    // SISTEMA BADGE VIP DINAMICO
     function checkLogin() { 
         let u = localStorage.getItem('mip_user'); 
         let isVip = localStorage.getItem('mip_vip_status') === 'active';
-        
         if(u) { 
             let g = document.getElementById('user-greeting'); 
             let b = document.getElementById('login-btn'); 
