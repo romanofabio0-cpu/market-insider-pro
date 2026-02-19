@@ -3,9 +3,103 @@ import json
 from typing import List, Dict
 from core.config import OUTPUT_FOLDER, get_logger
 from core.styles import CSS_CORE
-from core.content import get_header, get_footer, ACADEMY_CONTENT, MODALS_HTML, BYBIT_AFFILIATE_LINK, AMAZON_LINK_LEDGER
+from core.content import get_header, get_footer, MODALS_HTML
 
 logger = get_logger("Builder")
+
+# === CABINA DI REGIA AFFILIAZIONI (RENDITE PASSIVE) ===
+AMAZON_LINK_BOOK = "https://www.amazon.it/s?k=trading+in+the+zone+libro&tag=mip081-21"
+AMAZON_LINK_MONITOR = "https://www.amazon.it/s?k=monitor+lg+34+pollici+ultrawide&tag=mip081-21"
+AMAZON_LINK_LEDGER = "https://www.amazon.it/s?k=ledger+nano+x+wallet&tag=mip081-21"
+BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=1218170181"
+BYBIT_AFFILIATE_LINK = "https://www.bybit.eu/invite?ref=PXANQ70"
+
+ACADEMY_CONTENT = {
+    "mod1": {
+        "title": "MODULE 1: THE MINDSET 🧠", 
+        "lessons": [
+            {
+                "id": "lez1_1", 
+                "title": "1.1 The 1% Psychology", 
+                "vip": False, 
+                "html": f'''
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">The 1% Psychology</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Welcome to Market Insider Pro. Before touching any algorithm or chart, you must understand a brutal truth: <b>90% of retail traders lose money</b>. Why? Because they trade with emotion, FOMO (Fear Of Missing Out), and panic.</p>
+                <h3 style="color:#fff; margin-top:30px;">The Institutional Edge</h3>
+                <p style="color:#888; line-height:1.6;">Institutions do not feel fear. They use algorithms to execute trades based on pure data, volume, and statistical probability. To win, you must rewire your brain to think like a machine.</p>
+                <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FFD700; border-radius:8px;'>
+                    <h3 style="color:#FFD700; margin-top:0;">📚 Required Reading</h3>
+                    <p style="color:#ccc;">We highly recommend starting your journey by reading "Trading in the Zone" by Mark Douglas. It will completely destroy your emotional biases.</p>
+                    <a href='{AMAZON_LINK_BOOK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black; text-decoration:none; display:inline-block; margin-top:10px;'>BUY ON AMAZON 🛒</a>
+                </div>
+                '''
+            }
+        ]
+    },
+    "mod2": {
+        "title": "MODULE 2: TECHNICAL MASTERY 📈", 
+        "lessons": [
+            {
+                "id": "lez2_1", 
+                "title": "2.1 Naked Charting", 
+                "vip": False, 
+                "html": f'''
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Naked Charting & Liquidity</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Throw away your complex indicators. Retail traders crowd their screens with RSI, MACD, and Bollinger Bands. Smart money only looks at two things: <b>Price Action</b> and <b>Volume</b>.</p>
+                <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FCD535; border-radius:8px;'>
+                    <h3 style="color:#FCD535; margin-top:0;">🖥️ The Pro Setup</h3>
+                    <p style="color:#ccc;">You cannot trade order blocks on a laptop screen. An Ultrawide Monitor is mandatory to see the full market structure without scrolling.</p>
+                    <a href='{AMAZON_LINK_MONITOR}' target='_blank' class='vip-btn' style='background:#f5f5f5; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>GET THE LG 34" ULTRAWIDE 🛒</a>
+                </div>
+                <div style='margin-top:20px; padding:30px; background:#1a1a1a; border-left:4px solid #FCD535; border-radius:8px;'>
+                    <h3 style="color:#FCD535; margin-top:0;">🏦 The Right Exchange</h3>
+                    <p style="color:#ccc;">To trade our volume strategies, you need an exchange with the highest global liquidity and zero-slippage execution. We exclusively use Binance.</p>
+                    <a href='{BINANCE_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#FCD535; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>CLAIM $100 BINANCE BONUS</a>
+                </div>
+                '''
+            }
+        ]
+    },
+    "mod3": {
+        "title": "MODULE 3: WHALE TRACKING 🐳", 
+        "lessons": [
+            {
+                "id": "lez3_1", 
+                "title": "3.1 Order Block Secrets", 
+                "vip": True, 
+                "html": f'''
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Finding The Whale Order Blocks</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">This is the exact strategy used by institutional banks. We track large wallet movements and front-run the retail liquidity.</p>
+                <p style="color:#888; line-height:1.6;">Order Blocks (OBs) are specific areas on a chart where central banks or large institutions have accumulated or distributed massive quantities of an asset. They leave a footprint.</p>
+                <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #00C853; border-radius:8px;'>
+                    <h3 style="color:#00C853; margin-top:0;">🔐 Securing Whale Profits</h3>
+                    <p style="color:#ccc;">When you track whales, you make whale money. NEVER keep large capital on an exchange. Store your long-term holdings offline securely.</p>
+                    <a href='{AMAZON_LINK_LEDGER}' target='_blank' class='vip-btn' style='background:#00C853; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>BUY LEDGER NANO X 🛒</a>
+                </div>
+                '''
+            }
+        ]
+    },
+    "mod4": {
+        "title": "MODULE 4: ALGO & BOTS 🤖", 
+        "lessons": [
+            {
+                "id": "lez4_1", 
+                "title": "4.1 Setup Auto-Trading", 
+                "vip": True, 
+                "html": f'''
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Connecting the AI</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">You now have the knowledge. It's time to automate it. Our API Hub allows you to connect your exchange via secure API keys and let our algorithm execute Order Block strategies 24/7.</p>
+                <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FF9900; border-radius:8px;'>
+                    <h3 style="color:#FF9900; margin-top:0;">⚡ Mandatory Requirement</h3>
+                    <p style="color:#ccc;">Our high-frequency bots require extremely low API latency. We strongly advise setting up a dedicated Bybit Pro account for algorithm execution.</p>
+                    <a href='{BYBIT_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#17181E; border:1px solid #FF9900; color:#FF9900; text-decoration:none; display:inline-block; margin-top:10px;'>OPEN BYBIT PRO ACCOUNT</a>
+                </div>
+                '''
+            }
+        ]
+    }
+}
 
 ASSETS_DB = {
     "BTC": {"name": "Bitcoin", "symbol": "BINANCE:BTCUSDT", "type": "crypto", "has_chart": True},
@@ -209,12 +303,9 @@ def build_api_hub():
     scrivi_file("api_hub.html", html)
 
 def build_brokers_page():
-    # HO INSERITO IL TUO REALE CODICE BINANCE QUI!
-    BINANCE_REAL_LINK = "https://accounts.binance.com/register?ref=1218170181"
-    
     brokers = [
-        {"name": "Binance", "type": "Crypto", "pros": "Low fees, high liquidity", "link": BINANCE_REAL_LINK, "cta": "CLAIM $100 BONUS"},
-        {"name": "Bybit", "type": "Crypto Futures", "pros": "Best for Leverage, Pro UI", "link": "https://www.bybit.com/register?affiliate_id=TUO_CODICE", "cta": "OPEN PRO ACCOUNT"},
+        {"name": "Binance", "type": "Crypto", "pros": "Low fees, high liquidity", "link": BINANCE_AFFILIATE_LINK, "cta": "CLAIM $100 BONUS"},
+        {"name": "Bybit", "type": "Crypto Futures", "pros": "Best for Leverage, Pro UI", "link": BYBIT_AFFILIATE_LINK, "cta": "OPEN PRO ACCOUNT"},
         {"name": "Trade Republic", "type": "Stocks & ETF", "pros": "4% Interest on Cash, Free Savings Plans", "link": "https://ref.trade.re/TUO_CODICE", "cta": "GET FREE STOCK"}
     ]
     html_cards = "".join([f'<div class="broker-card"><div style="display:flex; align-items:center;"><div class="broker-logo">🏦</div><div class="broker-info"><h3 style="margin:0; color:#fff;">{b["name"]}</h3><div class="broker-tags"><span>{b["type"]}</span><span>{b["pros"]}</span></div></div></div><a href="{b["link"]}" target="_blank" class="btn-trade" style="padding:12px 24px; text-align:center;">{b["cta"]}</a></div>' for b in brokers])
@@ -299,21 +390,13 @@ def build_chart_pages(assets: List[Dict]):
     pass
 
 def build_academy():
-    # L'ACADEMY ORA USA IL LINK UFFICIALE (IMPORTATO IN ALTO) ANCHE NEL CODICE DEI BOTTONI!
-    
     sidebar = "".join([f"<div class='module-title'>{m['title']}</div>" + "".join([f'''<div onclick="window.location.href='academy_{l['id']}.html'" class="lesson-link">{"🔒" if l.get("vip") else "📄"} {l['title']}</div>''' for l in m['lessons']]) for _, m in ACADEMY_CONTENT.items()])
-    
-    # PER SICUREZZA, AGGIORNO ANCHE IL DIZIONARIO DINAMICAMENTE PRIMA DELLA COSTRUZIONE
-    BINANCE_REAL_LINK = "https://accounts.binance.com/register?ref=1218170181"
     
     for _, m in ACADEMY_CONTENT.items():
         for l in m['lessons']:
-            # Cerco e rimpiazzo il finto link col vero
-            html_content = l['html'].replace("https://accounts.binance.com/register?ref=TUO_CODICE", BINANCE_REAL_LINK)
-            
             if l.get("vip"):
                 c_html = f'''
-                <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">{html_content}</div>
+                <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">{l['html']}</div>
                 <div id="vip-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--accent); border-radius:12px; z-index:10; width:90%; max-width:400px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
                     <h2 style="color:#FFD700; margin-top:0;">🔒 VIP CONTENT</h2>
                     <p style="color:#aaa; margin-bottom:20px;">This institutional strategy is reserved for VIP members.</p>
@@ -331,7 +414,7 @@ def build_academy():
                 </script>
                 '''
             else:
-                c_html = html_content
+                c_html = l['html']
                 
             html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>{l['title']}</title>{CSS_CORE}</head><body>{get_header('academy')}<div class="container"><div class="academy-grid"><div class="sidebar">{sidebar}</div><div class="lesson-content" style="position:relative;">{c_html}</div></div></div>{MODALS_HTML}{get_footer()}</body></html>'''
             scrivi_file(f"academy_{l['id']}.html", html)
@@ -427,8 +510,6 @@ def build_success_page():
     scrivi_file("success.html", html)
 
 def build_cheatsheets():
-    BINANCE_REAL_LINK = "https://accounts.binance.com/register?ref=1218170181"
-    
     ob_html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Order Block Strategy Document</title>{CSS_CORE}</head><body>{get_header('vip')}
     <div class="container" style="max-width:800px; padding: 40px 20px;">
         <div style="background:#111; border:1px solid var(--accent); padding:40px; border-radius:8px; box-shadow: 0 10px 30px rgba(41, 98, 255, 0.1);">
@@ -447,7 +528,7 @@ def build_cheatsheets():
             <div style="margin-top:50px; padding:30px; background:rgba(255,215,0,0.05); border:1px dashed var(--gold); border-radius:8px; text-align:center;">
                 <h3 style="color:var(--gold); margin-top:0;">⚡ MAXIMIZE YOUR EDGE</h3>
                 <p style="color:#aaa; font-size:0.95rem; margin-bottom:20px;">To execute Order Block strategies successfully, you need an exchange with deep liquidity, institutional-grade charts, and absolutely zero slippage.</p>
-                <a href="{BINANCE_REAL_LINK}" target="_blank" class="btn-trade" style="padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none; border-color:var(--gold); color:var(--gold);">CLAIM $100 BINANCE BONUS ↗</a>
+                <a href="{BINANCE_AFFILIATE_LINK}" target="_blank" class="btn-trade" style="padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none; border-color:var(--gold); color:var(--gold);">CLAIM $100 BINANCE BONUS ↗</a>
             </div>
             <button onclick="window.close()" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; display:block; margin:30px auto 0;">Close Document</button>
         </div>
