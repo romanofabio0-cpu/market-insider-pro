@@ -528,7 +528,7 @@ def build_cheatsheets():
             <div style="margin-top:50px; padding:30px; background:rgba(255,215,0,0.05); border:1px dashed var(--gold); border-radius:8px; text-align:center;">
                 <h3 style="color:var(--gold); margin-top:0;">⚡ MAXIMIZE YOUR EDGE</h3>
                 <p style="color:#aaa; font-size:0.95rem; margin-bottom:20px;">To execute Order Block strategies successfully, you need an exchange with deep liquidity, institutional-grade charts, and absolutely zero slippage.</p>
-                <a href="{BINANCE_AFFILIATE_LINK}" target="_blank" class="btn-trade" style="padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none; border-color:var(--gold); color:var(--gold);">CLAIM $100 BINANCE BONUS ↗</a>
+                <a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="btn-trade" style="padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none;">OPEN PRO EXCHANGE ACCOUNT ↗</a>
             </div>
             <button onclick="window.close()" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; display:block; margin:30px auto 0;">Close Document</button>
         </div>
@@ -698,3 +698,51 @@ def build_stories_page():
     </div>
     {MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("stories.html", html)
+
+def build_tools_page():
+    # Placeholder per i tuoi futuri link affiliati
+    AFF_FTMO = "https://ftmo.com/en/?affiliates=TUO_CODICE"
+    AFF_TRADINGVIEW = "https://www.tradingview.com/?aff_id=TUO_CODICE"
+    AFF_KOINLY = "https://koinly.io/?via=TUO_CODICE"
+    AFF_NORDVPN = "https://go.nordvpn.net/aff_c?offer_id=TUO_CODICE"
+
+    html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Trader's Arsenal</title>{CSS_CORE}</head><body>{get_header('tools')}
+    <div class="container">
+        <div style="text-align:center; margin-bottom:50px;">
+            <h1 style="font-size:3rem; margin-bottom:10px;">TRADER'S <span style="color:var(--accent);">ARSENAL</span> 🛠️</h1>
+            <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">The exact institutional software stack used by our AI and elite members. Do not trade without these tools.</p>
+        </div>
+
+        <div class="grid">
+            <div class="panel" style="border:1px solid #333; position:relative;">
+                <div style="position:absolute; top:-15px; left:20px; background:#fff; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">CAPITAL FUNDING</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Proprietary Trading Firm</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Don't risk your own money. Pass the evaluation phase and get funded with up to $200,000 of institutional capital to trade our Order Block strategies. Keep 80% of the profits.</p>
+                <a href="{AFF_FTMO}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; background:#00C853; color:#000;">GET FUNDED (Up to $200k) ↗</a>
+            </div>
+
+            <div class="panel" style="border:1px solid #333; position:relative;">
+                <div style="position:absolute; top:-15px; left:20px; background:var(--accent); color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">CHARTING</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">TradingView Pro</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The absolute industry standard for technical analysis. Essential for drawing Order Blocks, Fibonacci retracements, and tracking multi-exchange liquidity.</p>
+                <a href="{AFF_TRADINGVIEW}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:43px; box-sizing:border-box;">UPGRADE TO PRO ↗</a>
+            </div>
+
+            <div class="panel" style="border:1px solid #333; position:relative;">
+                <div style="position:absolute; top:-15px; left:20px; background:var(--gold); color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">COMPLIANCE</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Crypto Tax Automation</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The IRS and local governments are tracking wallets. Connect your exchange via read-only API and let software automatically generate your legal tax reports in minutes.</p>
+                <a href="{AFF_KOINLY}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">AUTOMATE YOUR TAXES ↗</a>
+            </div>
+
+            <div class="panel" style="border:1px solid #333; position:relative;">
+                <div style="position:absolute; top:-15px; left:20px; background:#FF3D00; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">SECURITY</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Military-Grade VPN</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Never connect your Exchange API or Web3 wallets on a public network. Encrypt your trading connection and bypass regional restrictions for global exchanges.</p>
+                <a href="{AFF_NORDVPN}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF3D00; color:#FF3D00;">SECURE CONNECTION ↗</a>
+            </div>
+        </div>
+
+    </div>
+    {MODALS_HTML} {get_footer()}</body></html>'''
+    scrivi_file("tools.html", html)
