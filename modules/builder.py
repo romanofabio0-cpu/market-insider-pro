@@ -1,5 +1,6 @@
 import os
 import json
+import datetime
 from typing import List, Dict
 from core.config import OUTPUT_FOLDER, get_logger
 from core.styles import CSS_CORE
@@ -13,6 +14,10 @@ AMAZON_LINK_MONITOR = "https://www.amazon.it/s?k=monitor+lg+34+pollici+ultrawide
 AMAZON_LINK_LEDGER = "https://www.amazon.it/s?k=ledger+nano+x+wallet&tag=mip081-21"
 BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=1218170181"
 BYBIT_AFFILIATE_LINK = "https://www.bybit.eu/invite?ref=PXANQ70"
+AFF_FTMO = "https://ftmo.com/en/?affiliates=TUO_CODICE"
+AFF_TRADINGVIEW = "https://www.tradingview.com/?aff_id=TUO_CODICE"
+AFF_KOINLY = "https://koinly.io/?via=TUO_CODICE"
+AFF_NORDVPN = "https://go.nordvpn.net/aff_c?offer_id=TUO_CODICE"
 
 ACADEMY_CONTENT = {
     "mod1": {
@@ -700,19 +705,12 @@ def build_stories_page():
     scrivi_file("stories.html", html)
 
 def build_tools_page():
-    # Placeholder per i tuoi futuri link affiliati
-    AFF_FTMO = "https://ftmo.com/en/?affiliates=TUO_CODICE"
-    AFF_TRADINGVIEW = "https://www.tradingview.com/?aff_id=TUO_CODICE"
-    AFF_KOINLY = "https://koinly.io/?via=TUO_CODICE"
-    AFF_NORDVPN = "https://go.nordvpn.net/aff_c?offer_id=TUO_CODICE"
-
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Trader's Arsenal</title>{CSS_CORE}</head><body>{get_header('tools')}
     <div class="container">
         <div style="text-align:center; margin-bottom:50px;">
             <h1 style="font-size:3rem; margin-bottom:10px;">TRADER'S <span style="color:var(--accent);">ARSENAL</span> 🛠️</h1>
             <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">The exact institutional software stack used by our AI and elite members. Do not trade without these tools.</p>
         </div>
-
         <div class="grid">
             <div class="panel" style="border:1px solid #333; position:relative;">
                 <div style="position:absolute; top:-15px; left:20px; background:#fff; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">CAPITAL FUNDING</div>
@@ -720,21 +718,18 @@ def build_tools_page():
                 <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Don't risk your own money. Pass the evaluation phase and get funded with up to $200,000 of institutional capital to trade our Order Block strategies. Keep 80% of the profits.</p>
                 <a href="{AFF_FTMO}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; background:#00C853; color:#000;">GET FUNDED (Up to $200k) ↗</a>
             </div>
-
             <div class="panel" style="border:1px solid #333; position:relative;">
                 <div style="position:absolute; top:-15px; left:20px; background:var(--accent); color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">CHARTING</div>
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">TradingView Pro</h3>
                 <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The absolute industry standard for technical analysis. Essential for drawing Order Blocks, Fibonacci retracements, and tracking multi-exchange liquidity.</p>
                 <a href="{AFF_TRADINGVIEW}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:43px; box-sizing:border-box;">UPGRADE TO PRO ↗</a>
             </div>
-
             <div class="panel" style="border:1px solid #333; position:relative;">
                 <div style="position:absolute; top:-15px; left:20px; background:var(--gold); color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">COMPLIANCE</div>
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Crypto Tax Automation</h3>
                 <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The IRS and local governments are tracking wallets. Connect your exchange via read-only API and let software automatically generate your legal tax reports in minutes.</p>
                 <a href="{AFF_KOINLY}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">AUTOMATE YOUR TAXES ↗</a>
             </div>
-
             <div class="panel" style="border:1px solid #333; position:relative;">
                 <div style="position:absolute; top:-15px; left:20px; background:#FF3D00; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">SECURITY</div>
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Military-Grade VPN</h3>
@@ -742,7 +737,45 @@ def build_tools_page():
                 <a href="{AFF_NORDVPN}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF3D00; color:#FF3D00;">SECURE CONNECTION ↗</a>
             </div>
         </div>
-
     </div>
     {MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("tools.html", html)
+
+
+# === IL NUOVO MOTORE SEO (SITEMAP E ROBOTS.TXT) ===
+def build_seo_files():
+    BASE_URL = "https://marketinsiderpro.com"
+    today = datetime.datetime.now().strftime("%Y-%m-%d")
+    
+    # Raccogliamo tutte le pagine generate
+    pages = [
+        "index.html", "signals.html", "api_hub.html", "brokers.html", 
+        "referral.html", "pricing.html", "leaderboard.html", "legal.html",
+        "academy_lez1_1.html", "academy_lez2_1.html", "academy_lez3_1.html", "academy_lez4_1.html",
+        "chat.html", "wallet.html", "vip_lounge.html", "stories.html", "tools.html"
+    ]
+    
+    # 1. COSTRUZIONE SITEMAP.XML (Protocollo Ufficiale)
+    sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    sitemap_xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    for page in pages:
+        # Priorità più alta per index e pricing
+        priority = "1.0" if page == "index.html" else ("0.9" if page == "pricing.html" else "0.8")
+        sitemap_xml += f'  <url>\n    <loc>{BASE_URL}/{page}</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>daily</lastmod>\n    <priority>{priority}</priority>\n  </url>\n'
+    
+    sitemap_xml += '</urlset>'
+    scrivi_file("sitemap.xml", sitemap_xml)
+    
+    # 2. COSTRUZIONE ROBOTS.TXT (Regole per Google)
+    robots_txt = f"""User-agent: *
+Allow: /
+Disallow: /success.html
+Disallow: /cheatsheet_ob.html
+Disallow: /cheatsheet_risk.html
+
+# Indicazione Sitemap per i motori di ricerca
+Sitemap: {BASE_URL}/sitemap.xml
+"""
+    scrivi_file("robots.txt", robots_txt)
+    logger.info("🕸️ Motore SEO generato: sitemap.xml e robots.txt pronti per Google.")

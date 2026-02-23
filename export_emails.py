@@ -1,0 +1,10 @@
+# export_emails.py
+print("==================================================")
+print("📥 MARKET INSIDER PRO - ESPORTATORE EMAIL FIREBASE")
+print("==================================================")
+print("Per scaricare la lista dei tuoi clienti/waitlist in formato Excel (CSV):")
+print("1. Vai sulla Console di Firebase: https://console.firebase.google.com/")
+print("2. Clicca sul progetto 'market-insider-pro'")
+print("3. Nel menu a sinistra, clicca su 'Firestore Database'")
+print("4. Lì vedrai la tua lista 'waitlist_emails'. Puoi copiare le email e caricarle su Mailchimp, Sendinblue o ActiveCampaign.")
+print("==================================================")
