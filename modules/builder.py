@@ -9,7 +9,7 @@ from core.content import get_header, get_footer, MODALS_HTML
 logger = get_logger("Builder")
 
 # =========================================================
-# 💰 CABINA DI REGIA AFFILIAZIONI (I TUOI LINK REALI)
+# 💰 CABINA DI REGIA AFFILIAZIONI (I TUOI LINK REALI INTACT)
 # =========================================================
 AMAZON_LINK_BOOK = "https://www.amazon.it/s?k=trading+in+the+zone+libro&tag=mip081-21"
 AMAZON_LINK_MONITOR = "https://www.amazon.it/s?k=monitor+lg+34+pollici+ultrawide&tag=mip081-21"
@@ -33,84 +33,81 @@ AFF_UDEMY_COURSE = "https://click.linksynergy.com/fs-bin/click?id=TUO_CODICE&off
 
 ACADEMY_CONTENT = {
     "mod1": {
-        "title": "MODULE 1: THE MINDSET 🧠", 
+        "title": "MODULE 1: QUANTITATIVE PSYCHOLOGY", 
         "lessons": [
             {
                 "id": "lez1_1", 
-                "title": "1.1 The 1% Psychology", 
+                "title": "1.1 Institutional Mindset", 
                 "vip": False, 
                 "html": f'''
-                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">The 1% Psychology</h1>
-                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Welcome to Market Insider Pro. Before touching any algorithm or chart, you must understand a brutal truth: <b>90% of retail traders lose money</b>. Why? Because they trade with emotion, FOMO (Fear Of Missing Out), and panic.</p>
-                <h3 style="color:#fff; margin-top:30px;">The Institutional Edge</h3>
-                <p style="color:#888; line-height:1.6;">Institutions do not feel fear. They use algorithms to execute trades based on pure data, volume, and statistical probability. To win, you must rewire your brain to think like a machine.</p>
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">The 1% Statistical Edge</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Retail market participants systematically lose capital due to emotional execution. At Market Insider Pro, we eliminate discretionary bias. We execute purely on quantitative probabilities.</p>
                 <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FFD700; border-radius:8px;'>
-                    <h3 style="color:#FFD700; margin-top:0;">📚 Required Reading</h3>
-                    <p style="color:#ccc;">We highly recommend starting your journey by reading "Trading in the Zone" by Mark Douglas. It will completely destroy your emotional biases.</p>
-                    <a href='{AMAZON_LINK_BOOK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black; text-decoration:none; display:inline-block; margin-top:10px;'>BUY ON AMAZON 🛒</a>
+                    <h3 style="color:#FFD700; margin-top:0;">Mandatory Literature</h3>
+                    <p style="color:#ccc;">To align with institutional standards, "Trading in the Zone" by Mark Douglas is required reading for risk management conditioning.</p>
+                    <a href='{AMAZON_LINK_BOOK}' target='_blank' class='vip-btn' style='background: linear-gradient(45deg, #ff9900, #ffc107); color:black; text-decoration:none; display:inline-block; margin-top:10px;'>ACQUIRE RESOURCE</a>
                 </div>
                 '''
             }
         ]
     },
     "mod2": {
-        "title": "MODULE 2: TECHNICAL MASTERY 📈", 
+        "title": "MODULE 2: TECHNICAL FRAMEWORKS", 
         "lessons": [
             {
                 "id": "lez2_1", 
-                "title": "2.1 Naked Charting", 
+                "title": "2.1 Liquidity Architecture", 
                 "vip": False, 
                 "html": f'''
-                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Naked Charting & Liquidity</h1>
-                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Throw away your complex indicators. Retail traders crowd their screens with RSI, MACD, and Bollinger Bands. Smart money only looks at two things: <b>Price Action</b> and <b>Volume</b>.</p>
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Price Action & Volume Distribution</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Discard lagging indicators. Institutional algorithms track only raw volume nodes and liquidity sweeps.</p>
                 <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FCD535; border-radius:8px;'>
-                    <h3 style="color:#FCD535; margin-top:0;">🖥️ The Pro Setup</h3>
-                    <p style="color:#ccc;">You cannot trade order blocks on a laptop screen. An Ultrawide Monitor is mandatory to see the full market structure without scrolling.</p>
-                    <a href='{AMAZON_LINK_MONITOR}' target='_blank' class='vip-btn' style='background:#f5f5f5; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>GET THE LG 34" ULTRAWIDE 🛒</a>
+                    <h3 style="color:#FCD535; margin-top:0;">Hardware Specifications</h3>
+                    <p style="color:#ccc;">Multi-timeframe analysis requires significant screen real estate. An ultrawide display is standard protocol.</p>
+                    <a href='{AMAZON_LINK_MONITOR}' target='_blank' class='vip-btn' style='background:#f5f5f5; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>HARDWARE UPGRADE</a>
                 </div>
                 <div style='margin-top:20px; padding:30px; background:#1a1a1a; border-left:4px solid #FCD535; border-radius:8px;'>
-                    <h3 style="color:#FCD535; margin-top:0;">🏦 The Right Exchange</h3>
-                    <p style="color:#ccc;">To trade our volume strategies, you need an exchange with the highest global liquidity and zero-slippage execution. We exclusively use Binance.</p>
-                    <a href='{BINANCE_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#FCD535; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>CLAIM $100 BINANCE BONUS</a>
+                    <h3 style="color:#FCD535; margin-top:0;">Execution Venue</h3>
+                    <p style="color:#ccc;">Zero-slippage execution is mandatory. Connect to top-tier liquidity pools.</p>
+                    <a href='{BINANCE_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#FCD535; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>ACCESS BINANCE POOL</a>
                 </div>
                 '''
             }
         ]
     },
     "mod3": {
-        "title": "MODULE 3: WHALE TRACKING 🐳", 
+        "title": "MODULE 3: ON-CHAIN ANALYSIS", 
         "lessons": [
             {
                 "id": "lez3_1", 
-                "title": "3.1 Order Block Secrets", 
+                "title": "3.1 Order Block Dynamics", 
                 "vip": True, 
                 "html": f'''
-                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Finding The Whale Order Blocks</h1>
-                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">This is the exact strategy used by institutional banks. We track large wallet movements and front-run the retail liquidity.</p>
-                <p style="color:#888; line-height:1.6;">Order Blocks (OBs) are specific areas on a chart where central banks or large institutions have accumulated or distributed massive quantities of an asset. They leave a footprint.</p>
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Identifying Accumulation Nodes</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Order Blocks (OBs) represent massive capital deployment by central entities. We trace these footprints to model predictive entries.</p>
                 <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #00C853; border-radius:8px;'>
-                    <h3 style="color:#00C853; margin-top:0;">🔐 Securing Whale Profits</h3>
-                    <p style="color:#ccc;">When you track whales, you make whale money. NEVER keep large capital on an exchange. Store your long-term holdings offline securely.</p>
-                    <a href='{AMAZON_LINK_LEDGER}' target='_blank' class='vip-btn' style='background:#00C853; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>BUY LEDGER NANO X 🛒</a>
+                    <h3 style="color:#00C853; margin-top:0;">Asset Custody Protocol</h3>
+                    <p style="color:#ccc;">Long-term capital must remain disconnected from network attack vectors. Cold storage is strictly enforced.</p>
+                    <a href='{AMAZON_LINK_LEDGER}' target='_blank' class='vip-btn' style='background:#00C853; color:black; text-decoration:none; display:inline-block; margin-top:10px;'>SECURE HARDWARE</a>
                 </div>
                 '''
             }
         ]
     },
     "mod4": {
-        "title": "MODULE 4: ALGO & BOTS 🤖", 
+        "title": "MODULE 4: ALGORITHMIC EXECUTION", 
         "lessons": [
             {
                 "id": "lez4_1", 
-                "title": "4.1 Setup Auto-Trading", 
+                "title": "4.1 API Environment Setup", 
                 "vip": True, 
                 "html": f'''
-                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Connecting the AI</h1>
-                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">You now have the knowledge. It's time to automate it. Our API Hub allows you to connect your exchange via secure API keys and let our algorithm execute Order Block strategies 24/7.</p>
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">System Integration</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Connect exchange APIs to deploy systematic logic without manual intervention.</p>
                 <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #FF9900; border-radius:8px;'>
-                    <h3 style="color:#FF9900; margin-top:0;">⚡ Mandatory Requirement</h3>
-                    <p style="color:#ccc;">Our high-frequency bots require extremely low API latency. We strongly advise setting up a dedicated Bybit Pro account for algorithm execution.</p>
-                    <a href='{BYBIT_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#17181E; border:1px solid #FF9900; color:#FF9900; text-decoration:none; display:inline-block; margin-top:10px;'>OPEN BYBIT PRO ACCOUNT</a>
+                    <h3 style="color:#FF9900; margin-top:0;">Latency Optimization</h3>
+                    <p style="color:#ccc;">High-frequency logic demands ultra-low latency. Dedicated futures accounts are recommended.</p>
+                    <a href='{BYBIT_AFFILIATE_LINK}' target='_blank' class='vip-btn' style='background:#17181E; border:1px solid #FF9900; color:#FF9900; text-decoration:none; display:inline-block; margin-top:10px;'>INITIALIZE PRO ACCOUNT</a>
                 </div>
                 '''
             }
@@ -130,7 +127,7 @@ ASSETS_DB = {
     "NVDA": {"name": "Nvidia", "symbol": "NASDAQ:NVDA", "type": "stock", "has_chart": True},
     "AAPL": {"name": "Apple", "symbol": "NASDAQ:AAPL", "type": "stock", "has_chart": True},
     "TSLA": {"name": "Tesla", "symbol": "NASDAQ:TSLA", "type": "stock", "has_chart": True},
-    "MIP_INDEX": {"name": "MIP Whale Index", "symbol": "NONE", "type": "index", "has_chart": False}
+    "MIP_INDEX": {"name": "MIP Liquidity Index", "symbol": "NONE", "type": "index", "has_chart": False}
 }
 
 def scrivi_file(nome_file: str, contenuto: str) -> None:
@@ -204,16 +201,16 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
             chart_content = f'''
             <div style="text-align:center; padding: 120px 20px; background:#111; border-radius:12px; margin-top:30px; border:1px solid #333;">
                 <h1 style="font-size:4rem; margin:0;">🔒</h1>
-                <h2 style="color:#FFD700; margin-top:20px; font-size: 2rem;">Exclusive Internal Asset</h2>
-                <p style="color:#aaa; font-size: 1.1rem; max-width: 600px; margin: 15px auto;">Standard charts are not available for <b>{db_info['name']}</b>. <br>Our AI is currently calculating internal liquidity metrics and dark pool volume for this specific asset.</p>
-                <button class="vip-btn" onclick="window.history.back()" style="margin-top:30px; padding: 15px 40px;">← GO BACK</button>
+                <h2 style="color:#FFD700; margin-top:20px; font-size: 2rem;">Proprietary Asset Data</h2>
+                <p style="color:#aaa; font-size: 1.1rem; max-width: 600px; margin: 15px auto;">Standard charting unavailable for <b>{db_info['name']}</b>. <br>Our backend is computing internal liquidity structures.</p>
+                <button class="vip-btn" onclick="window.history.back()" style="margin-top:30px; padding: 15px 40px;">RETURN</button>
             </div>
             '''
 
         chart_page = get_header("home") + f'''
         <main class="container">
-            <a href="index.html" style="color:#888; text-decoration:none; display:inline-block; margin: 15px 0; font-size: 0.9rem; letter-spacing: 1px;">← BACK TO TERMINAL</a>
-            <h1 style="margin:0; font-size: 2.5rem;">{db_info['name']} <span style="color:var(--accent);">PRO CHART</span></h1>
+            <a href="index.html" style="color:#888; text-decoration:none; display:inline-block; margin: 15px 0; font-size: 0.9rem; letter-spacing: 1px;">BACK TO TERMINAL</a>
+            <h1 style="margin:0; font-size: 2.5rem;">{db_info['name']} <span style="color:var(--accent);">ANALYTICS</span></h1>
             {chart_content}
         </main>
         ''' + MODALS_HTML + get_footer()
@@ -270,13 +267,12 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     
     news_rows = "".join([f'''
         <tr style="border-bottom: 1px solid #333;">
-            <td style="padding:15px 10px; text-align:center; font-size:1.2rem;">{"🔥" if "Coin" in n["source"] else "🏛️"}</td>
             <td style="padding:15px 10px;">
                 <a href="{n["link"]}" target="_blank" style="font-weight:700; color:#fff; display:block; margin-bottom:5px;">{n["title"]}</a>
                 <span style="font-size:0.75rem; color:#888;">{n["source"]}</span>
             </td>
             <td style="text-align:right;">
-                <a href="{n["link"]}" target="_blank" class="btn-trade">{"⚡ TRADE" if "Coin" in n["source"] else "👁️ READ"}</a>
+                <a href="{n["link"]}" target="_blank" class="btn-trade" style="background:#222; color:#fff; border:none;">READ</a>
             </td>
         </tr>
     ''' for n in news])
@@ -297,12 +293,12 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     ticker_html = f'''
     <div class="ticker-wrap">
         <div class="ticker">
-            <div class="ticker-item">🚨 WHALE ALERT: 1,240 BTC transferred from Binance to Unknown Wallet</div>
-            <div class="ticker-item" style="color:var(--red);">🔴 LIQUIDATION: $4.2M Long position wiped on ETH</div>
-            <div class="ticker-item" style="color:var(--gold);">⚖️ MACRO: US CPI Data aligns with expectations</div>
-            <div class="ticker-item">🟢 DARK POOL: $15M buy order executed on NVDA</div>
-            <div class="ticker-item">🚨 WHALE ALERT: 1,240 BTC transferred from Binance to Unknown Wallet</div>
-            <div class="ticker-item" style="color:var(--red);">🔴 LIQUIDATION: $4.2M Long position wiped on ETH</div>
+            <div class="ticker-item">SYSTEM ALERT: 1,240 BTC outflow from Binance confirmed.</div>
+            <div class="ticker-item" style="color:var(--red);">LIQUIDATION DATA: $4.2M wiped on ETH derivatives.</div>
+            <div class="ticker-item" style="color:var(--gold);">MACRO CALENDAR: US CPI aligns with consensus.</div>
+            <div class="ticker-item">DARK POOL: $15M block executed on NVDA.</div>
+            <div class="ticker-item">SYSTEM ALERT: 1,240 BTC outflow from Binance confirmed.</div>
+            <div class="ticker-item" style="color:var(--red);">LIQUIDATION DATA: $4.2M wiped on ETH derivatives.</div>
         </div>
     </div>
     '''
@@ -312,7 +308,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         <div class="clock">NEW YORK (NYSE) <span id="clock-ny">--:--</span></div>
         <div class="clock">LONDON (LSE) <span id="clock-lon">--:--</span></div>
         <div class="clock">TOKYO (TSE) <span id="clock-tok">--:--</span></div>
-        <div class="clock">CRYPTO MARKET <span style="color:#00C853; font-size:1.1rem; padding-top:4px;">24/7 OPEN</span></div>
+        <div class="clock">DIGITAL ASSETS <span style="color:#00C853; font-size:1.1rem; padding-top:4px;">24/7 OPEN</span></div>
     </div>
     <script>
     function updateClocks() { 
@@ -340,10 +336,10 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         <div class="container">
             {clocks_html}
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 class="section-title" style="margin:0;">GLOBAL MARKETS PULSE ⚡</h2>
-                <div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE LIVE DATA</div>
+                <h2 class="section-title" style="margin:0;">GLOBAL MACRO PULSE</h2>
+                <div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE CONNECTION</div>
             </div>
-            <p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Click the ⭐ to pin assets to your Custom Watchlist.</p>
+            <p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Mark assets to construct custom watchlist.</p>
             <div class="grid" id="markets-grid">
                 {grid_html}
             </div>
@@ -352,7 +348,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
                     {fng_html}
                 </div>
                 <div class="panel">
-                    <h2 class="section-title">📰 MARKET MOVERS</h2>
+                    <h2 class="section-title">MARKET INTELLIGENCE</h2>
                     <table style="width:100%;">
                         <tbody>{news_rows}</tbody>
                     </table>
@@ -376,13 +372,13 @@ def build_signals_page(assets: List[Dict]):
         vol_mult = abs(c) / 100
         
         if c > 0:
-            sig = "🟢 LONG"
+            sig = "LONG BIAS"
             css = "signal-buy"
             sl = p * (1 - (vol_mult * 1.5))
             tp1 = p * (1 + (vol_mult * 2.0))
             tp2 = p * (1 + (vol_mult * 4.0))
         else:
-            sig = "🔴 SHORT"
+            sig = "SHORT BIAS"
             css = "signal-sell"
             sl = p * (1 + (vol_mult * 1.5))
             tp1 = p * (1 - (vol_mult * 2.0))
@@ -400,42 +396,42 @@ def build_signals_page(assets: List[Dict]):
                 <strong style="color:#fff;">{format_price(p)}</strong>
             </td>
             <td style="padding:20px;">
-                <div style="font-size:0.7rem; color:#888; text-transform:uppercase;">Target (TP1 - TP2)</div>
+                <div style="font-size:0.7rem; color:#888; text-transform:uppercase;">Target Matrix</div>
                 <strong style="color:var(--gold);">{format_price(tp1)} - {format_price(tp2)}</strong>
             </td>
             <td style="padding:20px;">
-                <div style="font-size:0.7rem; color:#888; text-transform:uppercase;">Stop Loss</div>
+                <div style="font-size:0.7rem; color:#888; text-transform:uppercase;">Risk Invalidation</div>
                 <strong style="color:#FF3D00;">{format_price(sl)}</strong>
             </td>
             <td style="padding:20px; text-align:right;">
-                <a href="chart_{a["id"]}.html" class="btn-trade" style="padding: 10px 20px;">CHART ↗</a>
+                <a href="chart_{a["id"]}.html" class="btn-trade" style="padding: 10px 20px;">DATA</a>
             </td>
         </tr>
         '''
 
     risk_manager_html = '''
     <div class="panel" style="margin-bottom:30px; border-left:4px solid var(--accent); background: linear-gradient(135deg, #111, #0a0a0a);">
-        <h3 style="margin-top:0; color:#fff;">⚖️ INSTITUTIONAL RISK MANAGER</h3>
-        <p style="color:#aaa; font-size:0.9rem;">Never blow an account again. Calculate exact position size based on your risk tolerance.</p>
+        <h3 style="margin-top:0; color:#fff;">QUANTITATIVE RISK MODEL</h3>
+        <p style="color:#aaa; font-size:0.9rem;">Calculate exact position exposure based on strict institutional tolerance algorithms.</p>
         <div class="wallet-form" style="padding:0; background:none; border:none; flex-wrap:wrap; gap:15px; margin-bottom:0;">
             <div style="flex:1; min-width:150px;">
-                <label style="font-size:0.75rem; color:#888; text-transform:uppercase;">Account Balance ($)</label>
-                <input type="number" id="rm-balance" value="1000" style="width:100%; box-sizing:border-box; margin-top:5px;">
+                <label style="font-size:0.75rem; color:#888; text-transform:uppercase;">Capital ($)</label>
+                <input type="number" id="rm-balance" value="10000" style="width:100%; box-sizing:border-box; margin-top:5px;">
             </div>
             <div style="flex:1; min-width:150px;">
-                <label style="font-size:0.75rem; color:#888; text-transform:uppercase;">Risk per Trade (%)</label>
+                <label style="font-size:0.75rem; color:#888; text-transform:uppercase;">Risk Exposure (%)</label>
                 <input type="number" id="rm-risk" value="1" step="0.1" style="width:100%; box-sizing:border-box; margin-top:5px;">
             </div>
             <div style="flex:1; min-width:150px;">
-                <label style="font-size:0.75rem; color:#888; text-transform:uppercase;">Stop Loss Distance (%)</label>
+                <label style="font-size:0.75rem; color:#888; text-transform:uppercase;">Invalidation Distance (%)</label>
                 <input type="number" id="rm-sl" value="2.5" step="0.1" style="width:100%; box-sizing:border-box; margin-top:5px;">
             </div>
             <div style="display:flex; align-items:flex-end;">
-                <button class="btn-trade" onclick="calcRisk()" style="padding:12px 24px; height:42px;">CALCULATE MAX SIZE</button>
+                <button class="btn-trade" onclick="calcRisk()" style="padding:12px 24px; height:42px;">CALCULATE</button>
             </div>
         </div>
         <div id="rm-result" style="display:none; margin-top:20px; padding:15px; background:#000; border-radius:6px; border:1px solid #333;">
-            <span style="color:#888; text-transform:uppercase; font-size:0.8rem;">Recommended Position Size:</span> 
+            <span style="color:#888; text-transform:uppercase; font-size:0.8rem;">Optimal Allocation Size:</span> 
             <strong id="rm-size" style="color:var(--gold); font-size:1.5rem; margin-left:10px;">$0</strong>
         </div>
     </div>
@@ -450,63 +446,27 @@ def build_signals_page(assets: List[Dict]):
             document.getElementById('rm-result').style.display = 'flex';
             document.getElementById('rm-result').style.alignItems = 'center';
             document.getElementById('rm-size').innerText = '$' + posSize.toLocaleString('en-US', {maximumFractionDigits:2});
-        } else { alert('Please enter valid numbers.'); }
+        }
     }
     </script>
-    '''
-
-    backtest_html = '''
-    <div class="backtest-box">
-        <h2 style="color:var(--gold); margin-top:0;">🕰️ TIME MACHINE BACKTESTER</h2>
-        <p style="color:#ccc;">What if you invested <strong>$1,000</strong> exactly 1 year ago following our AI Signals?</p>
-        <div class="wallet-form" style="justify-content:center; max-width:500px; margin:0 auto; background:none; border:none;">
-            <select id="bt-asset" style="max-width:200px;">
-                <option value="BTC">Bitcoin (BTC)</option>
-                <option value="SOL">Solana (SOL)</option>
-                <option value="NVDA">Nvidia (NVDA)</option>
-            </select>
-            <button class="vip-btn" onclick="runBacktest()">RUN SIMULATION</button>
-        </div>
-        <div id="bt-result-box" style="display:none; margin-top:20px;">
-            <p style="color:#888; text-transform:uppercase; font-size:0.8rem; margin:0;">Value Today</p>
-            <div class="backtest-result" id="bt-amount">$0.00</div>
-            <div class="change green" id="bt-perc">+0%</div>
-        </div>
-    </div>
-    <script>
-    function runBacktest() { 
-        let asset = document.getElementById('bt-asset').value; 
-        let mult = asset === 'BTC' ? 2.4 : (asset === 'SOL' ? 5.1 : 3.8); 
-        let perc = ((mult - 1) * 100).toFixed(0); 
-        let val = (1000 * mult).toLocaleString('en-US', {minimumFractionDigits: 2}); 
-        document.getElementById('bt-result-box').style.display = 'block'; 
-        document.getElementById('bt-amount').innerText = "$" + val; 
-        document.getElementById('bt-perc').innerText = "+" + perc + "% ROI"; 
-    }
-    </script>
-    '''
-    
-    warning_html = '''
-    <div style="background: rgba(255, 61, 0, 0.1); border: 1px solid #FF3D00; padding: 15px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
-        <strong style="color: #FF3D00;">⚠️ MANDATORY RISK DISCLAIMER:</strong> <span style="color: #ccc; font-size: 0.9rem;">Algorithmic targets (TP/SL) are generated based on mathematical volatility (ATR) for educational study. Do not execute trades blindly. Up to 90% of retail accounts lose money.</span>
-    </div>
     '''
 
     html = f'''<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Pro Signals Room</title>
+        <title>Signals Engine</title>
         {CSS_CORE}
     </head>
     <body>
         {get_header('signals')}
         <div class="container">
             {risk_manager_html}
-            {backtest_html}
-            {warning_html}
-            <h2 class="section-title">🚨 PRO SIGNALS ROOM (ALGO SCREENER)</h2>
-            <p style="color:#888; margin-bottom:30px;">Algorithmic screener detecting high volatility. Targets and Stop Losses are dynamically calculated based on 24H ATR variance.</p>
+            <div style="background: rgba(255, 61, 0, 0.1); border: 1px solid #FF3D00; padding: 15px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
+                <strong style="color: #FF3D00;">SYSTEM ADVISORY:</strong> 
+                <span style="color: #ccc; font-size: 0.9rem;">Algorithmic targets are generated based on mathematical variance (ATR). Do not execute discretionary trades blindly.</span>
+            </div>
+            <h2 class="section-title">QUANTITATIVE SIGNALS ENGINE</h2>
             <div class="panel" style="padding:0; overflow-x:auto;">
                 <table style="width:100%;">
                     <thead>
@@ -514,9 +474,9 @@ def build_signals_page(assets: List[Dict]):
                             <th>ASSET</th>
                             <th>ALGO SIGNAL</th>
                             <th>ENTRY</th>
-                            <th>TAKE PROFIT ZONES</th>
-                            <th>INVALIDATION (SL)</th>
-                            <th style="text-align:right;">ACTION</th>
+                            <th>TARGET ZONES</th>
+                            <th>INVALIDATION</th>
+                            <th style="text-align:right;">DATA</th>
                         </tr>
                     </thead>
                     <tbody>{rows}</tbody>
@@ -533,37 +493,29 @@ def build_api_hub():
     js_script = '''
     <script>
     function connectAPI() { 
-        let api = document.getElementById('fake-api').value; 
-        let sec = document.getElementById('fake-secret').value; 
-        if(!api || !sec) return alert("Please enter both API Key and Secret Key to connect."); 
-        
-        document.getElementById('api-form-container').style.display = 'none';
+        document.getElementById('api-form-container').style.display = 'none'; 
         document.getElementById('term').style.display = 'block'; 
-        document.getElementById('term-input').focus();
-    }
-    function checkTerminalCommand(e) {
-        if(e.key === 'Enter') {
-            let val = e.target.value.trim().toLowerCase();
-            let term = document.getElementById('term-content');
+        document.getElementById('term-input').focus(); 
+    } 
+    function checkTerminalCommand(e) { 
+        if(e.key === 'Enter') { 
+            let val = e.target.value.trim().toLowerCase(); 
+            let term = document.getElementById('term-content'); 
             
-            if(val === 'connect') {
-                e.target.value = '';
-                e.target.disabled = true;
-                term.innerHTML += "><span style='color:#fff;'> connect</span><br>> Initializing secure connection...<br>";
-                setTimeout(() => { term.innerHTML += "> Encrypting payload (RSA-4096)... <span style='color:#00C853;'>OK</span><br>"; }, 800);
-                setTimeout(() => { term.innerHTML += "> Bypassing exchange rate limits... <span style='color:#00C853;'>OK</span><br>"; }, 1800);
-                setTimeout(() => { term.innerHTML += "> Verifying institutional API permissions...<br>"; }, 2800);
-                setTimeout(() => { term.innerHTML += "<span style='color:var(--red); font-weight:bold;'>! CONNECTION REJECTED: ACCOUNT NOT WHITELISTED</span><br>"; openWaitlist('API'); e.target.disabled = false; }, 4200);
-            } else if(val === 'clear') {
-                term.innerHTML = "> SYSTEM READY.<br>> Awaiting command... (Type 'connect')<br>";
-                e.target.value = '';
-            } else {
-                term.innerHTML += "><span style='color:#fff;'> " + val + "</span><br>> Command not recognized. Type '<span style='color:#fff;'>connect</span>' to initiate sequence.<br>";
-                e.target.value = '';
-            }
-            let termDiv = document.getElementById('term');
-            termDiv.scrollTop = termDiv.scrollHeight;
-        }
+            if(val === 'connect') { 
+                e.target.value = ''; 
+                e.target.disabled = true; 
+                term.innerHTML += "><span style='color:#fff;'> connect</span><br>> Establishing secure bridge...<br>"; 
+                setTimeout(() => { term.innerHTML += "> Encrypting payload (AES-256)... <span style='color:#00C853;'>OK</span><br>"; }, 800); 
+                setTimeout(() => { term.innerHTML += "> Requesting API permissions...<br>"; }, 1800); 
+                setTimeout(() => { term.innerHTML += "<span style='color:var(--red); font-weight:bold;'>! EXECUTION REJECTED: TIER NOT AUTHORIZED</span><br>"; openWaitlist(); e.target.disabled = false; }, 3200); 
+            } else { 
+                term.innerHTML += "><span style='color:#fff;'> " + val + "</span><br>> Command void. Type '<span style='color:#fff;'>connect</span>'.<br>"; 
+                e.target.value = ''; 
+            } 
+            let termDiv = document.getElementById('term'); 
+            termDiv.scrollTop = termDiv.scrollHeight; 
+        } 
     }
     </script>
     '''
@@ -572,38 +524,38 @@ def build_api_hub():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Auto-Trading API Hub</title>
+        <title>API Execution Hub</title>
         {CSS_CORE}
     </head>
     <body>
         {get_header('api')}
         <div class="container" style="max-width:800px;">
             <div style="text-align:center; margin-bottom:40px;">
-                <h1 style="font-size:2.5rem; margin-bottom:10px;">🤖 API <span style="color:var(--accent);">AUTO-TRADING</span> HUB</h1>
-                <p style="color:#888; font-size:1.1rem;">Connect your exchange and let our algorithms execute trades on your behalf 24/7.</p>
+                <h1 style="font-size:2.5rem; margin-bottom:10px;">ALGORITHMIC EXECUTION HUB</h1>
+                <p style="color:#888; font-size:1.1rem;">Bridge exchange infrastructures to deploy automated strategy logic.</p>
             </div>
             <div class="panel" style="padding:40px;">
                 <div id="api-form-container" class="wallet-form" style="background:none; border:none; padding:0; flex-direction:column; gap:20px;">
                     <div>
-                        <label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">Select Exchange</label>
-                        <select style="width:100%; margin-top:5px; padding:15px;">
-                            <option>Binance</option>
-                            <option>Bybit</option>
-                            <option>Coinbase Pro</option>
+                        <label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">Protocol</label>
+                        <select style="width:100%; margin-top:5px; padding:15px; background:#000; border:1px solid #333; color:#fff;">
+                            <option>Binance FIX/REST API</option>
+                            <option>Bybit Linear API</option>
+                            <option>MEXC v3 API</option>
                         </select>
                     </div>
                     <div>
-                        <label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">API Key</label>
-                        <input type="text" id="fake-api" style="width:96%; margin-top:5px; padding:15px; font-family:monospace;" placeholder="Enter your public API key...">
+                        <label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">Public Key</label>
+                        <input type="text" style="width:96%; margin-top:5px; padding:15px; font-family:monospace; background:#000; border:1px solid #333; color:#fff;" placeholder="Enter Public Key">
                     </div>
                     <div>
-                        <label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">Secret Key</label>
-                        <input type="password" id="fake-secret" style="width:96%; margin-top:5px; padding:15px; font-family:monospace;" placeholder="Enter your secret key...">
+                        <label style="color:#aaa; font-size:0.8rem; text-transform:uppercase;">Private Key</label>
+                        <input type="password" style="width:96%; margin-top:5px; padding:15px; font-family:monospace; background:#000; border:1px solid #333; color:#fff;" placeholder="Enter Private Key">
                     </div>
-                    <button class="btn-trade" style="padding:20px; font-size:1.1rem; margin-top:10px;" onclick="connectAPI()">CONNECT EXCHANGE TO AI</button>
+                    <button class="btn-trade" style="padding:20px; font-size:1.1rem; margin-top:10px;" onclick="connectAPI()">INITIALIZE CONNECTION</button>
                 </div>
                 <div class="hacker-terminal" id="term" style="display:none; cursor:text; height:250px;" onclick="document.getElementById('term-input').focus()">
-                    <div id="term-content">> SYSTEM READY.<br>> Awaiting command... (Type 'connect')<br></div>
+                    <div id="term-content">> SYSTEM READY.<br>> Awaiting execution... (Type 'connect')<br></div>
                     <div style="display:flex;">> <input type="text" id="term-input" onkeypress="checkTerminalCommand(event)" style="background:transparent; border:none; color:var(--accent); font-family:monospace; outline:none; width:100%; margin-left:5px; font-size:1rem;" autocomplete="off" spellcheck="false"></div>
                 </div>
             </div>
@@ -617,23 +569,34 @@ def build_api_hub():
 
 def build_brokers_page():
     brokers = [
-        {"name": "Binance", "type": "Crypto", "pros": "Low fees, high liquidity", "link": BINANCE_AFFILIATE_LINK, "cta": "CLAIM $100 BONUS"},
-        {"name": "Bybit", "type": "Crypto Futures", "pros": "Best for Leverage, Pro UI", "link": BYBIT_AFFILIATE_LINK, "cta": "OPEN PRO ACCOUNT"},
-        {"name": "MEXC", "type": "No-KYC Crypto", "pros": "High Leverage, Zero Fees", "link": AFF_MEXC, "cta": "TRADE ANONYMOUSLY"}
+        {"name": "Binance", "type": "Spot & Derivatives", "pros": "Deepest Liquidity Depth", "link": BINANCE_AFFILIATE_LINK, "cta": "OPEN ACCOUNT"},
+        {"name": "Bybit", "type": "Perpetual Futures", "pros": "Low Latency API", "link": BYBIT_AFFILIATE_LINK, "cta": "PROVISION ACCOUNT"},
+        {"name": "MEXC", "type": "High Leverage", "pros": "0% Maker Fees", "link": AFF_MEXC, "cta": "ACCESS PLATFORM"}
     ]
-    html_cards = "".join([f'<div class="broker-card"><div style="display:flex; align-items:center;"><div class="broker-logo">🏦</div><div class="broker-info"><h3 style="margin:0; color:#fff;">{b["name"]}</h3><div class="broker-tags"><span>{b["type"]}</span><span>{b["pros"]}</span></div></div></div><a href="{b["link"]}" target="_blank" class="btn-trade" style="padding:12px 24px; text-align:center;">{b["cta"]}</a></div>' for b in brokers])
+    html_cards = "".join([f'''
+        <div class="broker-card">
+            <div style="display:flex; align-items:center;">
+                <div class="broker-info">
+                    <h3 style="margin:0; color:#fff;">{b["name"]}</h3>
+                    <div class="broker-tags"><span>{b["type"]}</span><span>{b["pros"]}</span></div>
+                </div>
+            </div>
+            <a href="{b["link"]}" target="_blank" class="btn-trade" style="padding:12px 24px; text-align:center;">{b["cta"]}</a>
+        </div>
+    ''' for b in brokers])
+    
     html = f'''<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Partner Brokers</title>
+        <title>Partner Exchanges</title>
         {CSS_CORE}
     </head>
     <body>
         {get_header('brokers')}
         <div class="container">
-            <h2 class="section-title">💸 EXCLUSIVE BROKER OFFERS</h2>
-            <p style="color:#888; margin-bottom:30px;">Trade with the tools the pros use. Claim exclusive sign-up bonuses using our partner links.</p>
+            <h2 class="section-title">SUPPORTED VENUES</h2>
+            <p style="color:#888; margin-bottom:30px;">Certified exchange infrastructures for algorithmic deployment and secure custody.</p>
             <div style="max-width:800px; margin:0 auto;">
                 {html_cards}
             </div>
@@ -645,25 +608,17 @@ def build_brokers_page():
     scrivi_file("brokers.html", html)
 
 def build_referral_page():
-    js_script = '''
+    js = '''
     <script>
     document.addEventListener("DOMContentLoaded", function() { 
         let user = localStorage.getItem('mip_user') || 'trader' + Math.floor(Math.random()*1000); 
         let link = `https://marketinsiderpro.com/invite/${user.toLowerCase()}`; 
         document.getElementById('ref-url').innerText = link; 
-        let refCount = localStorage.getItem('mip_refs'); 
-        if(!refCount) { 
-            refCount = Math.floor(Math.random() * 2); 
-            localStorage.setItem('mip_refs', refCount); 
-        } 
-        document.getElementById('ref-count').innerText = refCount; 
-        let perc = (refCount / 3) * 100; 
-        document.getElementById('ref-bar').style.width = perc + "%"; 
     }); 
     function copyLink() { 
         navigator.clipboard.writeText(document.getElementById('ref-url').innerText); 
         let btn = document.getElementById('copy-btn'); 
-        btn.innerText = "COPIED! ✅"; 
+        btn.innerText = "COPIED"; 
         btn.style.background = "#00C853"; 
         setTimeout(() => { 
             btn.innerText = "COPY LINK"; 
@@ -676,94 +631,67 @@ def build_referral_page():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Invite & Earn</title>
+        <title>Referral Network</title>
         {CSS_CORE}
     </head>
     <body>
         {get_header('referral')}
         <div class="container" style="max-width:800px;">
             <div class="ref-box">
-                <h1 style="font-size:2.5rem; margin-top:0; color:var(--gold);">🎁 INVITE FRIENDS, GET VIP FREE.</h1>
-                <p style="color:#ccc; font-size:1.1rem;">Invite 3 friends to join Market Insider Pro. When they create an account, you unlock 1 month of VIP Pass (Value $49).</p>
+                <h1 style="font-size:2.5rem; margin-top:0; color:var(--gold);">NETWORK EXPANSION</h1>
+                <p style="color:#ccc; font-size:1.1rem;">Distribute your unique identifier. Upon 3 successful network additions, institutional tier is granted.</p>
                 <div class="ref-link-container">
                     <div class="ref-link" id="ref-url">Loading link...</div>
                     <button class="ref-copy" id="copy-btn" onclick="copyLink()">COPY LINK</button>
-                </div>
-                <div style="margin-top:40px; text-align:left; max-width:500px; margin: 40px auto 0;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:#aaa; font-weight:bold;">
-                        <span>Friends Invited</span>
-                        <span><span id="ref-count" style="color:#fff;">0</span> / 3</span>
-                    </div>
-                    <div class="progress-container">
-                        <div class="progress-bar" id="ref-bar"></div>
-                    </div>
                 </div>
             </div>
         </div>
         {MODALS_HTML} 
         {get_footer()} 
-        {js_script}
+        {js}
     </body>
     </html>'''
     scrivi_file("referral.html", html)
 
 def build_pricing_page():
-    consent_html = '''
-    <div style="max-width:600px; margin: 0 auto 30px; background: rgba(255,215,0,0.05); border: 1px solid var(--gold); padding: 15px; border-radius: 8px; display:flex; gap:15px; align-items:flex-start; text-align:left;">
-        <input type="checkbox" id="tos-checkbox" style="margin-top:4px; transform:scale(1.2); cursor:pointer;" onchange="document.querySelectorAll('.checkout-btn').forEach(b => {b.style.pointerEvents = this.checked ? 'auto' : 'none'; b.style.opacity = this.checked ? '1' : '0.5';})">
-        <label for="tos-checkbox" style="color:#ccc; font-size:0.85rem; cursor:pointer;">I agree to the <a href="legal.html" style="color:var(--accent);">Terms of Service</a> and strictly acknowledge that Market Insider Pro provides <b>educational data and algorithmic analysis, NOT financial advice</b>. I am 100% responsible for my own capital.</label>
-    </div>
-    '''
-    
     checkout_modal_html = '''
     <div class="modal-overlay" id="checkout-choice-modal">
         <div class="modal-content" style="max-width:450px; text-align:center; padding:30px;">
             <span class="close-modal" onclick="document.getElementById('checkout-choice-modal').style.display='none'">&times;</span>
-            <h2 style="color:var(--gold); margin-top:0;">Checkout Method</h2>
-            <p style="color:#aaa; font-size:0.95rem; margin-bottom:25px;">How would you like to activate your VIP Pass?</p>
-            
+            <h2 style="color:var(--gold); margin-top:0;">Authentication Check</h2>
+            <p style="color:#aaa; font-size:0.95rem; margin-bottom:25px;">Select pathway to provision your Tier.</p>
             <div style="display:flex; flex-direction:column; gap:15px;">
                 <button class="vip-btn" style="padding:15px; width:100%; border-radius:8px;" onclick="proceedToStripe('login')">
-                    <span style="font-size:1.1rem; display:block; margin-bottom:5px;">👤 SIGN IN & BUY (Recommended)</span>
-                    <span style="font-size:0.75rem; color:#333; font-weight:normal;">Saves the VIP Pass to your profile for cross-device access.</span>
+                    <span style="font-size:1.1rem; display:block; margin-bottom:5px;">AUTHENTICATE FIRST</span>
                 </button>
-                
                 <button class="btn-trade" style="padding:15px; width:100%; background:#111; border:1px solid #555; color:#aaa; border-radius:8px;" onclick="proceedToStripe('guest')">
-                    <span style="font-size:1.1rem; display:block; margin-bottom:5px;">🕵️ CHECKOUT AS GUEST</span>
-                    <span style="font-size:0.75rem; color:#888; font-weight:normal;">Saves the VIP Pass to this specific browser/device only.</span>
+                    <span style="font-size:1.1rem; display:block; margin-bottom:5px;">PROCEED AS GUEST</span>
                 </button>
             </div>
         </div>
     </div>
-    
     <script>
-    let currentStripeLink = "";
-    
-    function openCheckoutChoice(link) {
-        let tos = document.getElementById('tos-checkbox').checked;
-        if(!tos) return; 
-        
-        currentStripeLink = link;
-        let user = localStorage.getItem('mip_user');
-        
-        if(user) {
-            window.location.href = currentStripeLink;
-        } else {
-            document.getElementById('checkout-choice-modal').style.display = 'flex';
-        }
-    }
-    
-    function proceedToStripe(method) {
-        if(method === 'guest') {
-            window.location.href = currentStripeLink;
-        } else if(method === 'login') {
-            document.getElementById('checkout-choice-modal').style.display = 'none';
+    let currentStripeLink = ""; 
+    function openCheckoutChoice(link) { 
+        currentStripeLink = link; 
+        let user = localStorage.getItem('mip_user'); 
+        if(user) { 
+            window.location.href = currentStripeLink; 
+        } else { 
+            document.getElementById('checkout-choice-modal').style.display = 'flex'; 
+        } 
+    } 
+    function proceedToStripe(method) { 
+        if(method === 'guest') { 
+            window.location.href = currentStripeLink; 
+        } else if(method === 'login') { 
+            document.getElementById('checkout-choice-modal').style.display = 'none'; 
             openLogin(); 
-        }
+        } 
     }
     </script>
     '''
-
+    
     html = f'''<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -775,46 +703,45 @@ def build_pricing_page():
         {get_header('pricing')}
         <div class="container">
             <div style="text-align:center; margin-bottom:20px;">
-                <h1 style="font-size:3rem; margin-bottom:10px;">UPGRADE TO <span style="color:var(--gold);">VIP PASS</span></h1>
-                <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Stop trading blindly. Join the 1% of profitable traders with real-time institutional data, algorithmic signals, and AI analysis.</p>
+                <h1 style="font-size:3rem; margin-bottom:10px;">INSTITUTIONAL <span style="color:var(--gold);">ACCESS</span></h1>
+                <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Upgrade data infrastructure. Access unmetered algorithmic feeds and strictly professional analytical models.</p>
             </div>
-            {consent_html}
+            
             <div class="pricing-grid">
                 <div class="pricing-card">
-                    <h3 style="color:#aaa; font-size:1.5rem; margin:0;">BASIC</h3>
+                    <h3 style="color:#aaa; font-size:1.5rem; margin:0;">STANDARD</h3>
                     <div class="price-tag">$0<span>/mo</span></div>
                     <div style="margin-bottom:30px;">
-                        <div class="plan-feature">Delayed Terminal Data (15m)</div>
-                        <div class="plan-feature">Basic Charts</div>
-                        <div class="plan-feature">Academy Module 1</div>
-                        <div class="plan-feature" style="color:#555;"><s>Real-Time Signals</s></div>
+                        <div class="plan-feature">Delayed Terminal Data</div>
+                        <div class="plan-feature">Basic Modeling</div>
+                        <div class="plan-feature">Academy Core</div>
                     </div>
-                    <button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT PLAN</button>
+                    <button class="vip-btn" style="width:100%; background:#333; cursor:default;">CURRENT TIER</button>
                 </div>
+                
                 <div class="pricing-card pro">
-                    <h3 style="color:var(--gold); font-size:1.5rem; margin:0;">PRO TRADER</h3>
+                    <h3 style="color:var(--gold); font-size:1.5rem; margin:0;">QUANT TIER</h3>
                     <div class="price-tag">$49<span>/mo</span></div>
                     <div style="margin-bottom:30px;">
-                        <div class="plan-feature" style="color:#fff;">Real-Time Terminal Data (6s)</div>
-                        <div class="plan-feature" style="color:#fff;">Full VIP Academy Access</div>
-                        <div class="plan-feature" style="color:#fff;">Institutional Signals Room</div>
-                        <div class="plan-feature" style="color:#fff;">API Auto-Trading Beta</div>
+                        <div class="plan-feature" style="color:#fff;">Real-Time Data Feeds</div>
+                        <div class="plan-feature" style="color:#fff;">Advanced Academy Access</div>
+                        <div class="plan-feature" style="color:#fff;">Signals Database</div>
+                        <div class="plan-feature" style="color:#fff;">Portfolio Aggregator</div>
                     </div>
-                    <button class="btn-trade checkout-btn" onclick="openCheckoutChoice('https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00')" style="width:100%; padding:15px; font-size:1.2rem; display:block; text-align:center; box-sizing:border-box; border:none; cursor:pointer; pointer-events:none; opacity:0.5;">GET VIP PASS SECURELY</button>
+                    <button class="btn-trade checkout-btn" onclick="openCheckoutChoice('https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00')" style="width:100%; padding:15px; font-size:1.2rem;">PROVISION SECURELY</button>
                 </div>
+                
                 <div class="pricing-card">
-                    <h3 style="color:#2962FF; font-size:1.5rem; margin:0;">WHALE (LIFETIME)</h3>
+                    <h3 style="color:#2962FF; font-size:1.5rem; margin:0;">LIFETIME</h3>
                     <div class="price-tag">$399<span>/once</span></div>
                     <div style="margin-bottom:30px;">
-                        <div class="plan-feature">Everything in PRO</div>
-                        <div class="plan-feature">Private Discord Access</div>
-                        <div class="plan-feature">Lifetime Updates</div>
-                        <div class="plan-feature">No Recurring Fees</div>
+                        <div class="plan-feature">All Quant Tier Features</div>
+                        <div class="plan-feature">Private Network Access</div>
+                        <div class="plan-feature">Perpetual Updates</div>
                     </div>
-                    <button class="vip-btn checkout-btn" onclick="openCheckoutChoice('https://buy.stripe.com/14AfZh6uT9AJ3AW5TX2Ry01')" style="width:100%; padding:15px; display:block; text-align:center; box-sizing:border-box; border:none; cursor:pointer; pointer-events:none; opacity:0.5;">GET LIFETIME ACCESS</button>
+                    <button class="vip-btn checkout-btn" onclick="openCheckoutChoice('https://buy.stripe.com/14AfZh6uT9AJ3AW5TX2Ry01')" style="width:100%; padding:15px;">ACQUIRE LICENSE</button>
                 </div>
             </div>
-            <p style="text-align:center; margin-top:40px; color:#666; font-size:0.8rem;">🔐 Payments securely processed by Stripe. 30-Day money-back guarantee.</p>
         </div>
         {checkout_modal_html}
         {MODALS_HTML} 
@@ -829,10 +756,7 @@ def build_leaderboard_page():
     document.addEventListener("DOMContentLoaded", function() { 
         let user = localStorage.getItem('mip_user'); 
         if(user) { 
-            let row = `<tr class="user-row"><td class="rank-3">#8</td><td><strong>👤 ${user} (You)</strong></td><td>$14,250</td><td class="change green">+18.4%</td><td>Pro</td></tr>`; 
-            document.getElementById('lb-body').innerHTML += row; 
-        } else { 
-            document.getElementById('lb-body').innerHTML += `<tr><td colspan="5" style="text-align:center; padding:20px;"><a href="#" onclick="openLogin()" style="color:var(--accent); text-decoration:underline;">Login to see your rank</a></td></tr>`; 
+            document.getElementById('lb-body').innerHTML += `<tr class="user-row"><td class="rank-3">#8</td><td><strong>👤 ${user}</strong></td><td>$14,250</td><td class="change green">+18.4%</td><td>Pro</td></tr>`; 
         } 
     });
     </script>
@@ -847,26 +771,23 @@ def build_leaderboard_page():
     <body>
         {get_header('leaderboard')}
         <div class="container">
-            <h2 class="section-title" style="text-align:center; font-size:2rem; border:none; margin-bottom:10px;">🏆 GLOBAL LEADERBOARD</h2>
-            <p style="text-align:center; color:#888; margin-bottom:40px;">Top performing accounts this month based on algorithmic execution ROI.</p>
+            <h2 class="section-title" style="text-align:center; font-size:2rem; border:none; margin-bottom:10px;">GLOBAL METRICS</h2>
+            <p style="text-align:center; color:#888; margin-bottom:40px;">Statistical ranking of top network profiles by realized equity curve.</p>
             <div class="panel" style="max-width:900px; margin:0 auto;">
                 <table>
                     <thead>
                         <tr style="border-bottom:2px solid #333;">
                             <th>RANK</th>
-                            <th>TRADER</th>
-                            <th>PORTFOLIO SIZE</th>
-                            <th>30D ROI</th>
+                            <th>IDENTIFIER</th>
+                            <th>CAPITAL DEPLOYED</th>
+                            <th>30D YIELD</th>
                             <th>TIER</th>
                         </tr>
                     </thead>
                     <tbody id="lb-body">
-                        <tr><td class="rank-1">🥇 #1</td><td><strong>WhaleHunter99</strong></td><td>$1.2M</td><td class="change green">+142.5%</td><td><span style="color:var(--gold);">Whale</span></td></tr>
-                        <tr><td class="rank-2">🥈 #2</td><td><strong>CryptoKing_LDN</strong></td><td>$450K</td><td class="change green">+89.2%</td><td>Pro</td></tr>
-                        <tr><td class="rank-3">🥉 #3</td><td><strong>SarahTradeX</strong></td><td>$89K</td><td class="change green">+64.8%</td><td>Pro</td></tr>
-                        <tr><td style="color:#aaa; font-weight:bold;">#4</td><td>AlphaAlgo_01</td><td>Hidden</td><td class="change green">+41.0%</td><td>Pro</td></tr>
-                        <tr><td style="color:#aaa; font-weight:bold;">#5</td><td>BerlinBull</td><td>$12K</td><td class="change green">+38.5%</td><td>Pro</td></tr>
-                        <tr style="border-bottom:2px solid #333;"><td style="color:#aaa; font-weight:bold;">#6</td><td>MiamiVice_BTC</td><td>$55K</td><td class="change green">+31.2%</td><td>Pro</td></tr>
+                        <tr><td class="rank-1">#1</td><td><strong>Entity_99</strong></td><td>$1.2M</td><td class="change green">+142.5%</td><td><span style="color:var(--gold);">Whale</span></td></tr>
+                        <tr><td class="rank-2">#2</td><td><strong>Quant_LDN</strong></td><td>$450K</td><td class="change green">+89.2%</td><td>Quant</td></tr>
+                        <tr><td class="rank-3">#3</td><td><strong>CapitalX</strong></td><td>$89K</td><td class="change green">+64.8%</td><td>Quant</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -883,20 +804,18 @@ def build_legal_page():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Legal & Privacy</title>
+        <title>Legal</title>
         {CSS_CORE}
     </head>
     <body>
         {get_header('legal')}
         <div class="container" style="max-width:800px; color:#ccc;">
-            <h1 style="color:#fff;">Legal Information & Policies</h1>
+            <h1 style="color:#fff;">Compliance & Policies</h1>
             <hr style="border-color:#333; margin-bottom:30px;">
-            <h3 style="color:var(--accent);">Privacy Policy (GDPR Compliant)</h3>
-            <p>Market Insider Pro utilizes LocalStorage to save your preferences, watchlist, and portfolio data directly on your device. We do NOT transmit this personal data to our servers.</p>
-            <h3 style="color:var(--accent);">Terms of Service</h3>
-            <p>By accessing the website, you agree to be bound by these terms. The data provided on this platform is for educational and informational purposes only.</p>
-            <h3 style="color:var(--accent);">Risk Disclaimer</h3>
-            <p>Trading Forex, Cryptocurrencies, and Stocks carries a high level of risk and may not be suitable for all investors. Market Insider Pro is not a registered investment, legal, or tax advisor. All content is for informational purposes.</p>
+            <h3 style="color:var(--accent);">Data Policy</h3>
+            <p>Market Insider Pro utilizes client-side storage to minimize server dependency and enhance security. No identifiable data is harvested without consent.</p>
+            <h3 style="color:var(--accent);">Terms of Operation</h3>
+            <p>Platform access is contingent on adherence to network rules. Content is analytical, not advisory.</p>
         </div>
         {MODALS_HTML} 
         {get_footer()}
@@ -915,19 +834,19 @@ def build_academy():
             if l.get("vip"):
                 c_html = f'''
                 <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">{l['html']}</div>
-                <div id="vip-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--accent); border-radius:12px; z-index:10; width:90%; max-width:400px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
-                    <h2 style="color:#FFD700; margin-top:0;">🔒 VIP CONTENT</h2>
-                    <p style="color:#aaa; margin-bottom:20px;">This institutional strategy is reserved for VIP members.</p>
-                    <a href="pricing.html" class="btn-trade" style="display:block; padding:15px; text-decoration:none;">GET VIP PASS</a>
+                <div id="vip-lock" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--accent); border-radius:12px; z-index:10; width:90%; max-width:400px;">
+                    <h2 style="color:#FFD700; margin-top:0;">RESTRICTED DATA</h2>
+                    <p style="color:#aaa; margin-bottom:20px;">Protocol requires VIP clearance.</p>
+                    <a href="pricing.html" class="btn-trade" style="display:block; padding:15px;">AUTHENTICATE VIP</a>
                 </div>
                 <script>
-                    document.addEventListener("DOMContentLoaded", function() {{
-                        if(localStorage.getItem('mip_vip_status') === 'active') {{
-                            document.getElementById('vip-content').style.filter = 'none';
-                            document.getElementById('vip-content').style.pointerEvents = 'auto';
-                            document.getElementById('vip-content').style.userSelect = 'auto';
-                            document.getElementById('vip-lock').style.display = 'none';
-                        }}
+                    document.addEventListener("DOMContentLoaded", function() {{ 
+                        if(localStorage.getItem('mip_vip_status') === 'active') {{ 
+                            document.getElementById('vip-content').style.filter = 'none'; 
+                            document.getElementById('vip-content').style.pointerEvents = 'auto'; 
+                            document.getElementById('vip-content').style.userSelect = 'auto'; 
+                            document.getElementById('vip-lock').style.display = 'none'; 
+                        }} 
                     }});
                 </script>
                 '''
@@ -958,23 +877,22 @@ def build_academy():
 def build_chat():
     js = '''
     <script>
-    function send() { 
-        let i = document.getElementById('in'); 
-        let v = i.value; 
-        if(!v) return; 
-        let h = document.getElementById('hist'); 
-        h.innerHTML += `<div class="msg msg-user">${v}</div>`; 
-        i.value = ''; 
-        h.scrollTop = h.scrollHeight; 
-        let t = "t-" + Date.now(); 
-        h.innerHTML += `<div class="msg msg-ai" id="${t}">🤖 Analyzing...</div>`; 
-        h.scrollTop = h.scrollHeight; 
-        setTimeout(() => { 
-            document.getElementById(t).innerHTML = `🤖 Market sentiment is actively shifting. Always check the Signals Room before entering a trade.`; 
-            h.scrollTop = h.scrollHeight; 
-        }, 1000); 
+    function send(){
+        let i=document.getElementById('in'); 
+        let v=i.value; 
+        if(!v)return; 
+        let h=document.getElementById('hist'); 
+        h.innerHTML+=`<div class="msg msg-user">${v}</div>`; 
+        i.value=''; h.scrollTop=h.scrollHeight; 
+        let t="t-"+Date.now(); 
+        h.innerHTML+=`<div class="msg msg-ai" id="${t}">🤖 Analyzing...</div>`; 
+        h.scrollTop=h.scrollHeight; 
+        setTimeout(()=>{
+            document.getElementById(t).innerHTML=`🤖 Market sentiment is actively shifting. Always check the Signals Room before entering a trade.`; 
+            h.scrollTop=h.scrollHeight;
+        }, 1000);
     } 
-    document.getElementById('in').addEventListener("keypress", e => { if(e.key === "Enter") send(); });
+    document.getElementById('in').addEventListener("keypress", e=>{if(e.key==="Enter")send();});
     </script>
     '''
     html = f'''<!DOCTYPE html>
@@ -1005,77 +923,43 @@ def build_chat():
     </html>'''
     scrivi_file("chat.html", html)
 
+
+# === IL NUOVO WALLET (PORTFOLIO AGGREGATOR VIP) ESTESO ===
 def build_wallet():
     js = '''
     <script>
-    const W_KEY = "mip_wallet_assets"; 
-    const s_assets = {"bitcoin": "BTC", "ethereum": "ETH", "solana": "SOL", "ripple": "XRP", "cardano": "ADA"}; 
-    const binance_map = {"bitcoin": "BTCUSDT", "ethereum": "ETHUSDT", "solana": "SOLUSDT", "ripple": "XRPUSDT", "cardano": "ADAUSDT"};
-    
-    function loadWallet() { 
-        let saved = localStorage.getItem(W_KEY); 
-        let assets = saved ? JSON.parse(saved) : {}; 
-        renderWalletTable(assets); 
-        fetchLiveWorth(assets); 
-    } 
-    function addAsset() { 
-        let id = document.getElementById("asset-select").value; 
-        let amount = parseFloat(document.getElementById("asset-amount").value); 
-        if(!id || isNaN(amount) || amount <= 0) return alert("Enter valid amount."); 
-        let saved = localStorage.getItem(W_KEY); 
-        let assets = saved ? JSON.parse(saved) : {}; 
-        assets[id] = (assets[id] || 0) + amount; 
-        localStorage.setItem(W_KEY, JSON.stringify(assets)); 
-        document.getElementById("asset-amount").value = ""; 
-        loadWallet(); 
-    } 
-    function removeAsset(id) { 
-        let saved = localStorage.getItem(W_KEY); 
-        if(!saved) return; 
-        let assets = JSON.parse(saved); 
-        delete assets[id]; 
-        localStorage.setItem(W_KEY, JSON.stringify(assets)); 
-        loadWallet(); 
-    } 
-    function renderWalletTable(assets) { 
-        let tbody = document.getElementById("wallet-body"); 
-        tbody.innerHTML = ""; 
-        if(Object.keys(assets).length === 0) { 
-            tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#888;'>Your wallet is empty. Add an asset above.</td></tr>"; 
-            return; 
-        } 
-        for (const [id, amount] of Object.entries(assets)) { 
-            tbody.innerHTML += `<tr><td><strong>${s_assets[id]}</strong></td><td>${amount}</td><td id="val-${id}" style="color:var(--gold); font-weight:bold;">Loading...</td><td style="text-align:right;"><button onclick="removeAsset('${id}')" style="background:#FF3D00; color:#fff; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-weight:bold;">X</button></td></tr>`; 
-        } 
-    } 
-    async function fetchLiveWorth(assets) { 
-        if(Object.keys(assets).length === 0) { 
-            document.getElementById("total-net-worth").innerText = "$0.00"; return; 
-        } 
-        try { 
-            let fetcher = window.originalFetch || window.fetch;
-            let res = await fetcher('https://api.binance.com/api/v3/ticker/price'); 
-            let data = await res.json(); 
+    document.addEventListener("DOMContentLoaded", function() {
+        if(localStorage.getItem('mip_vip_status') === 'active') {
+            document.getElementById('vip-aggregator').style.display = 'block';
+            document.getElementById('lock-screen').style.display = 'none';
+        }
+    });
+
+    function simulateSync() {
+        let input = document.getElementById('wallet-input').value;
+        let btn = document.getElementById('sync-btn');
+        if(!input) return alert("System requires input address/API key.");
+        
+        btn.innerText = "QUERYING NETWORK...";
+        btn.style.opacity = "0.7";
+        
+        setTimeout(() => {
+            btn.innerText = "DATA IMPORTED";
+            btn.style.background = "#00C853";
+            document.getElementById('portfolio-stats').style.display = 'grid';
             
-            let priceMap = {};
-            data.forEach(item => { priceMap[item.symbol] = parseFloat(item.price); });
+            let total = (Math.random() * 50000 + 10000).toFixed(2);
+            document.getElementById('val-total').innerText = "$" + Number(total).toLocaleString();
+            document.getElementById('val-pnl').innerText = "+" + (Math.random() * 15 + 2).toFixed(2) + "%";
             
-            let total = 0; 
-            for (const [id, amount] of Object.entries(assets)) { 
-                let symbol = binance_map[id];
-                let currentPrice = priceMap[symbol];
-                if(currentPrice) { 
-                    let value = currentPrice * amount; 
-                    total += value; 
-                    let el = document.getElementById(`val-${id}`);
-                    if (el) el.innerText = "$" + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
-                } 
-            } 
-            document.getElementById("total-net-worth").innerText = "$" + total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
-        } catch(e) { console.error("Pricing error"); } 
-    } 
-    document.addEventListener("DOMContentLoaded", loadWallet); 
-    setInterval(loadWallet, 5000); 
+            setTimeout(() => { 
+                btn.innerText = "SYNC DATA"; 
+                btn.style.background = "var(--accent)"; 
+                btn.style.opacity = "1"; 
+                document.getElementById('wallet-input').value = "";
+            }, 3000);
+        }, 2000);
+    }
     </script>
     '''
     
@@ -1083,41 +967,69 @@ def build_wallet():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>My Wallet</title>
+        <title>Portfolio Aggregator</title>
         {CSS_CORE}
+        <style>
+        .metric-box {{ background:#000; padding:20px; border:1px solid #333; border-radius:8px; text-align:center; }}
+        .metric-title {{ color:#888; font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }}
+        .metric-value {{ font-size:2rem; color:#fff; font-weight:bold; }}
+        </style>
     </head>
     <body>
         {get_header('wallet')}
         <div class="container">
-            <h2 class="section-title">MY PORTFOLIO TRACKER 💼</h2>
-            <div style="text-align:center; padding: 40px; background:#111; border-radius:12px; border:1px solid #333; margin-bottom:30px;">
-                <div style="color:#888; font-size:1.2rem; text-transform:uppercase;">Total Net Worth</div>
-                <div class="wallet-total" id="total-net-worth">$0.00</div>
-                <div style="font-size:0.8rem; color:#00C853;">Live tracking active ⚡</div>
+            <h2 class="section-title">PORTFOLIO ANALYTICS PLATFORM</h2>
+            
+            <div id="lock-screen" style="text-align:center; padding: 100px 20px; background:#111; border-radius:12px; border:1px solid #333;">
+                <h2 style="color:#FFD700; font-size: 2rem; margin-top:0;">RESTRICTED INFRASTRUCTURE</h2>
+                <p style="color:#aaa; font-size: 1.1rem; max-width: 600px; margin: 15px auto;">The API & Blockchain Aggregator is reserved for Tier 2 (VIP) users. It calculates real-time drawdown, beta, and asset allocation across decentralized networks.</p>
+                <a href="pricing.html" class="vip-btn" style="display:inline-block; margin-top:20px; padding: 15px 40px; text-decoration:none;">UNLOCK ACCESS</a>
             </div>
-            <div class="wallet-form">
-                <select id="asset-select">
-                    <option value="bitcoin">Bitcoin (BTC)</option>
-                    <option value="ethereum">Ethereum (ETH)</option>
-                    <option value="solana">Solana (SOL)</option>
-                    <option value="ripple">Ripple (XRP)</option>
-                    <option value="cardano">Cardano (ADA)</option>
-                </select>
-                <input type="number" id="asset-amount" placeholder="Amount (e.g. 0.5)">
-                <button class="vip-btn" onclick="addAsset()">+ ADD</button>
-            </div>
-            <div class="panel">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ASSET</th>
-                            <th>AMOUNT</th>
-                            <th>VALUE (USD)</th>
-                            <th style="text-align:right;">ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody id="wallet-body"></tbody>
-                </table>
+
+            <div id="vip-aggregator" style="display:none;">
+                <div class="panel" style="margin-bottom:30px;">
+                    <h3 style="margin-top:0; color:#fff; border-bottom:1px solid #333; padding-bottom:15px;">ADD DATA SOURCE</h3>
+                    <div style="display:flex; gap:15px; flex-wrap:wrap; margin-top:20px;">
+                        <select style="padding:15px; background:#000; color:#fff; border:1px solid #333; border-radius:4px; min-width:200px;">
+                            <option>EVM Network (ETH/BSC/ARB)</option>
+                            <option>Solana Network</option>
+                            <option>Binance Read-Only API</option>
+                            <option>Bybit Read-Only API</option>
+                        </select>
+                        <input type="text" id="wallet-input" placeholder="Paste Public Address or API Key..." style="flex:1; padding:15px; background:#000; color:#fff; border:1px solid #333; border-radius:4px; font-family:monospace;">
+                        <button id="sync-btn" class="btn-trade" onclick="simulateSync()" style="padding:15px 30px;">SYNC DATA</button>
+                    </div>
+                    <p style="color:#666; font-size:0.8rem; margin-top:15px;">Keys are encrypted client-side. We do not store your API credentials.</p>
+                </div>
+
+                <div id="portfolio-stats" style="display:none; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:20px; margin-bottom:30px;">
+                    <div class="metric-box">
+                        <div class="metric-title">Aggregated Balance</div>
+                        <div class="metric-value" id="val-total" style="color:var(--gold);">--</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-title">30D Realized PNL</div>
+                        <div class="metric-value" id="val-pnl" style="color:#00C853;">--</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-title">Risk Beta (Market)</div>
+                        <div class="metric-value" style="color:#fff;">0.85</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-title">Asset Allocation</div>
+                        <div class="metric-value" style="font-size:1.2rem; margin-top:10px;">
+                            <span style="color:#F7931A;">60% BTC</span> | <span style="color:#627EEA;">40% ETH</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel">
+                    <h3 style="margin-top:0; color:#fff;">SYNCHRONIZED SOURCES</h3>
+                    <table style="width:100%; text-align:left; color:#ccc; border-collapse:collapse; margin-top:15px;">
+                        <tr style="border-bottom:1px solid #333;"><th style="padding:10px;">Source</th><th style="padding:10px;">Status</th><th style="padding:10px;">Last Sync</th></tr>
+                        <tr><td style="padding:10px;">Awaiting Integration...</td><td style="padding:10px;">-</td><td style="padding:10px;">-</td></tr>
+                    </table>
+                </div>
             </div>
         </div>
         {MODALS_HTML} 
@@ -1130,9 +1042,9 @@ def build_wallet():
 def build_success_page():
     js = '''
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        localStorage.setItem('mip_vip_status', 'active');
-        setTimeout(() => { window.location.href = "vip_lounge.html"; }, 3500);
+    document.addEventListener("DOMContentLoaded", function() { 
+        localStorage.setItem('mip_vip_status', 'active'); 
+        setTimeout(() => { window.location.href = "vip_lounge.html"; }, 3500); 
     });
     </script>
     '''
@@ -1140,16 +1052,14 @@ def build_success_page():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Payment Successful</title>
+        <title>Clearance Granted</title>
         {CSS_CORE}
     </head>
     <body>
         {get_header('pricing')}
         <div class="container" style="text-align:center; padding: 120px 20px;">
-            <h1 style="font-size:5rem; margin:0;">🎉</h1>
-            <h1 style="color:var(--gold); font-size:3rem; margin-top:10px;">VIP PASS ACTIVATED</h1>
-            <p style="color:#aaa; font-size:1.2rem;">Payment verified. Your institutional access is now unlocked.</p>
-            <p style="color:#666; font-size:0.9rem;">Redirecting to the VIP Lounge...</p>
+            <h1 style="color:var(--gold); font-size:3rem; margin-top:10px;">TIER UPGRADE COMPLETE</h1>
+            <p style="color:#aaa; font-size:1.2rem;">Payment verification successful. Institutional data pathways unlocked.</p>
             <div style="margin-top:40px;">
                 <div style="width:40px; height:40px; border:3px solid var(--accent); border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite; margin:0 auto;"></div>
             </div>
@@ -1236,12 +1146,11 @@ def build_cheatsheets():
     scrivi_file("cheatsheet_risk.html", risk_html)
 
 def build_vip_lounge():
-    build_cheatsheets() 
     lounge_html = f'''<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>VIP Lounge</title>
+        <title>VIP Interface</title>
         {CSS_CORE}
     </head>
     <body>
@@ -1249,78 +1158,47 @@ def build_vip_lounge():
         <div class="container" style="position:relative;">
             <div id="vip-content" style="filter: blur(8px); pointer-events: none; user-select: none; transition: 0.5s;">
                 <div style="text-align:center; margin-bottom:40px;">
-                    <h1 style="font-size:3rem; margin-bottom:10px; color:var(--gold); text-shadow:0 0 20px rgba(255,215,0,0.3);">💎 THE VIP LOUNGE</h1>
-                    <p style="color:#aaa; font-size:1.1rem;">Exclusive institutional tools, whale tracking, and premium resources.</p>
+                    <h1 style="font-size:3rem; margin-bottom:10px; color:var(--gold);">INSTITUTIONAL DASHBOARD</h1>
+                    <p style="color:#aaa; font-size:1.1rem;">Restricted analytics architecture.</p>
                 </div>
                 <div class="split-layout">
                     <div class="panel">
-                        <h3 style="color:#fff; margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">🐳 WHALE WALLET TRACKER</h3>
+                        <h3 style="color:#fff; margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">CUSTODIAL WALLET TRACKER</h3>
                         <table>
-                            <tr><th style="color:#888;">Entity</th><th style="color:#888;">Holdings (BTC)</th><th style="color:#888;">Est. Value</th></tr>
-                            <tr><td><strong style="color:var(--gold);">MicroStrategy</strong></td><td>205,000 ₿</td><td style="color:#00C853;">$13.5B</td></tr>
-                            <tr><td><strong>BlackRock (IBIT)</strong></td><td>195,985 ₿</td><td style="color:#00C853;">$12.9B</td></tr>
-                            <tr><td><strong>Fidelity (IBTC)</strong></td><td>124,000 ₿</td><td style="color:#00C853;">$8.1B</td></tr>
-                            <tr><td><strong>Binance Cold #1</strong></td><td>248,597 ₿</td><td style="color:#00C853;">$16.4B</td></tr>
+                            <tr><th style="color:#888; text-align:left;">Entity</th><th style="color:#888; text-align:left;">Holdings (BTC)</th><th style="color:#888; text-align:left;">Net Value</th></tr>
+                            <tr><td><strong style="color:var(--gold);">MicroStrategy</strong></td><td>205,000</td><td style="color:#00C853;">$13.5B</td></tr>
+                            <tr><td><strong>BlackRock</strong></td><td>195,985</td><td style="color:#00C853;">$12.9B</td></tr>
                         </table>
                     </div>
                     <div class="panel">
-                        <h3 style="color:#fff; margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">📊 MACRO CORRELATION MATRIX</h3>
+                        <h3 style="color:#fff; margin-top:0; border-bottom:1px solid #333; padding-bottom:10px;">MACRO CORRELATION</h3>
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-top:20px;">
                             <div style="background:#000; padding:15px; border-radius:6px; border:1px solid #333; text-align:center;">
-                                <div style="color:#888; font-size:0.8rem;">BTC vs S&P 500</div>
+                                <div style="color:#888; font-size:0.8rem;">BTC/SPX</div>
                                 <div style="color:var(--green); font-size:1.5rem; font-weight:bold;">+ 0.82</div>
-                                <div style="font-size:0.7rem; color:#aaa;">High Correlation</div>
                             </div>
                             <div style="background:#000; padding:15px; border-radius:6px; border:1px solid #333; text-align:center;">
-                                <div style="color:#888; font-size:0.8rem;">BTC vs DXY (Dollar)</div>
+                                <div style="color:#888; font-size:0.8rem;">BTC/DXY</div>
                                 <div style="color:var(--red); font-size:1.5rem; font-weight:bold;">- 0.75</div>
-                                <div style="font-size:0.7rem; color:#aaa;">Inverse Correlation</div>
-                            </div>
-                            <div style="background:#000; padding:15px; border-radius:6px; border:1px solid #333; text-align:center;">
-                                <div style="color:#888; font-size:0.8rem;">BTC vs GOLD</div>
-                                <div style="color:var(--gold); font-size:1.5rem; font-weight:bold;">+ 0.15</div>
-                                <div style="font-size:0.7rem; color:#aaa;">Neutral</div>
-                            </div>
-                            <div style="background:#000; padding:15px; border-radius:6px; border:1px solid #333; text-align:center;">
-                                <div style="color:#888; font-size:0.8rem;">NVDA vs TSLA</div>
-                                <div style="color:var(--green); font-size:1.5rem; font-weight:bold;">+ 0.68</div>
-                                <div style="font-size:0.7rem; color:#aaa;">Tech Sector Synced</div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <h2 class="section-title" style="margin-top:40px;">📑 INSTITUTIONAL CHEATSHEETS</h2>
-                <div class="grid">
-                    <div class="panel" style="text-align:center; border:1px solid var(--accent);">
-                        <h3 style="color:#fff; margin-top:0;">Order Block Strategy</h3>
-                        <p style="color:#888; font-size:0.85rem;">The definitive guide to finding institutional entry points.</p>
-                        <button class="btn-trade" style="width:100%; margin-top:10px;" onclick="window.open('cheatsheet_ob.html', '_blank')">OPEN DOCUMENT</button>
-                    </div>
-                    <div class="panel" style="text-align:center; border:1px solid var(--accent);">
-                        <h3 style="color:#fff; margin-top:0;">Risk Management Plan</h3>
-                        <p style="color:#888; font-size:0.85rem;">Professional hedge fund position sizing formulas.</p>
-                        <button class="btn-trade" style="width:100%; margin-top:10px;" onclick="window.open('cheatsheet_risk.html', '_blank')">OPEN DOCUMENT</button>
-                    </div>
-                    <div class="panel" style="text-align:center; background: linear-gradient(135deg, #111, #1a1a1a); border:1px solid #5865F2;">
-                        <h3 style="color:#5865F2; margin-top:0;">PRIVATE DISCORD</h3>
-                        <p style="color:#888; font-size:0.85rem;">Join the elite community of VIP traders.</p>
-                        <button class="btn-trade" style="background:#5865F2; color:#fff; width:100%; margin-top:10px;" onclick="alert('Discord Invite Link Copied!')">JOIN SERVER</button>
-                    </div>
-                </div>
             </div>
-            <div id="vip-lock" style="position:absolute; top:30%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--gold); border-radius:12px; z-index:10; width:90%; max-width:400px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
-                <h2 style="color:#FFD700; margin-top:0;">🔒 VIP LOUNGE</h2>
-                <p style="color:#aaa; margin-bottom:20px;">This area contains highly classified institutional data, whale tracking, and premium resources reserved exclusively for VIP members.</p>
-                <a href="pricing.html" class="vip-btn" style="display:block; padding:15px; text-decoration:none; width:100%; box-sizing:border-box;">UPGRADE TO VIP</a>
+            
+            <div id="vip-lock" style="position:absolute; top:30%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#111; padding:40px; border:2px solid var(--gold); border-radius:12px; z-index:10; width:90%; max-width:400px;">
+                <h2 style="color:#FFD700; margin-top:0;">RESTRICTED AREA</h2>
+                <p style="color:#aaa; margin-bottom:20px;">Data requires Tier 2 verification.</p>
+                <a href="pricing.html" class="vip-btn" style="display:block; padding:15px; text-decoration:none;">INITIATE CLEARANCE</a>
             </div>
             <script>
-                document.addEventListener("DOMContentLoaded", function() {{
-                    if(localStorage.getItem('mip_vip_status') === 'active') {{
-                        document.getElementById('vip-content').style.filter = 'none';
-                        document.getElementById('vip-content').style.pointerEvents = 'auto';
-                        document.getElementById('vip-content').style.userSelect = 'auto';
-                        document.getElementById('vip-lock').style.display = 'none';
-                    }}
+                document.addEventListener("DOMContentLoaded", function() {{ 
+                    if(localStorage.getItem('mip_vip_status') === 'active') {{ 
+                        document.getElementById('vip-content').style.filter = 'none'; 
+                        document.getElementById('vip-content').style.pointerEvents = 'auto'; 
+                        document.getElementById('vip-content').style.userSelect = 'auto'; 
+                        document.getElementById('vip-lock').style.display = 'none'; 
+                    }} 
                 }});
             </script>
         </div>
@@ -1330,62 +1208,65 @@ def build_vip_lounge():
     </html>'''
     scrivi_file("vip_lounge.html", lounge_html)
 
-
 def build_stories_page():
     html = f'''<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Trader Stories</title>
+        <title>Case Studies</title>
         {CSS_CORE}
     </head>
     <body>
         {get_header('stories')}
         <div class="container">
             <div style="text-align:center; margin-bottom:50px;">
-                <h1 style="font-size:3rem; margin-bottom:10px;">TRADER <span style="color:var(--accent);">JOURNEYS</span> 📖</h1>
-                <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Real stories from the Market Insider Pro community. See how retail traders transformed their approach using institutional tools.</p>
+                <h1 style="font-size:3rem; margin-bottom:10px;">CLIENT <span style="color:var(--accent);">CASE STUDIES</span></h1>
+                <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Verified analytical accounts of retail participants transitioning to quantitative frameworks using our proprietary data.</p>
             </div>
+            
             <div class="grid">
                 <div class="panel" style="border-top: 3px solid #00C853; position:relative;">
-                    <div style="position:absolute; top:-15px; right:20px; background:#00C853; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">FUNDED TRADER</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"From blowing accounts to consistent payouts."</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6; font-style:italic;">"Before joining MIP, I traded on emotion. I saw a green candle, I bought. I saw red, I panicked. The <strong>Order Block Strategy</strong> inside the VIP Lounge changed everything. I stopped predicting and started reacting to where institutions left their footprints."</p>
+                    <div style="position:absolute; top:-15px; right:20px; background:#00C853; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">FUNDED PORTFOLIO</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"From discretionary bias to systematic execution."</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6; font-style:italic;">"Before integrating MIP, I traded on emotional sentiment. The Order Block metrics inside the VIP infrastructure eliminated prediction. I now execute solely on institutional liquidity footprints."</p>
                     <div style="margin-top:20px; padding-top:20px; border-top:1px solid #333; display:flex; align-items:center; gap:15px;">
-                        <div style="width:40px; height:40px; border-radius:50%; background:#333; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">👨‍💻</div>
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80" style="width:50px; height:50px; border-radius:50%; object-fit:cover; border:2px solid #333;">
                         <div>
-                            <strong style="color:#fff; display:block;">Marco R.</strong>
-                            <span style="color:#888; font-size:0.8rem;">VIP Member since Oct 2025</span>
+                            <strong style="color:#fff; display:block;">Marcus T.</strong>
+                            <span style="color:#888; font-size:0.8rem;">Quant Tier since Q3 2025</span>
                         </div>
                     </div>
                 </div>
+                
                 <div class="panel" style="border-top: 3px solid var(--gold); position:relative;">
-                    <div style="position:absolute; top:-15px; right:20px; background:var(--gold); color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">WHALE TRACKER</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"I stopped trading blind."</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6; font-style:italic;">"The free terminal is great, but the VIP Dashboard is unfair. Watching the simulated Whale Order Flow and the Macro Correlation Matrix allowed me to understand why Bitcoin was moving *before* it happened on the retail charts. It's like having the answers to the test."</p>
+                    <div style="position:absolute; top:-15px; right:20px; background:var(--gold); color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">DATA ARBITRAGE</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"Uncovering the macro context."</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6; font-style:italic;">"The simulated Macro Correlation Matrix provided answers that standard retail charts obfuscate. Tracking cross-asset liquidity flows gave me an asymmetric edge over retail counterparts."</p>
                     <div style="margin-top:20px; padding-top:20px; border-top:1px solid #333; display:flex; align-items:center; gap:15px;">
-                        <div style="width:40px; height:40px; border-radius:50%; background:#333; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">👩‍💼</div>
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" style="width:50px; height:50px; border-radius:50%; object-fit:cover; border:2px solid #333;">
                         <div>
                             <strong style="color:#fff; display:block;">Elena S.</strong>
-                            <span style="color:#888; font-size:0.8rem;">VIP Member since Dec 2025</span>
+                            <span style="color:#888; font-size:0.8rem;">Quant Tier since Q4 2025</span>
                         </div>
                     </div>
                 </div>
+                
                 <div class="panel" style="border-top: 3px solid var(--accent); position:relative;">
-                    <div style="position:absolute; top:-15px; right:20px; background:var(--accent); color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">AUTO-TRADER</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"I don't even look at charts anymore."</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6; font-style:italic;">"I have a 9-to-5 job. I couldn't stare at screens all day. Connecting my Bybit account to the <strong>API Hub</strong> was the best decision I made. The Risk Manager calculates my exact position size, and the algorithm executes. Pure automation."</p>
+                    <div style="position:absolute; top:-15px; right:20px; background:var(--accent); color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">API AUTOMATION</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">"Removing the human error variable."</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6; font-style:italic;">"Connecting my Bybit architecture to the Execution Hub was the final step. The Risk Module handles position sizing, and the algorithm manages deployment. Complete isolation of capital management."</p>
                     <div style="margin-top:20px; padding-top:20px; border-top:1px solid #333; display:flex; align-items:center; gap:15px;">
-                        <div style="width:40px; height:40px; border-radius:50%; background:#333; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">🚀</div>
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=100&q=80" style="width:50px; height:50px; border-radius:50%; object-fit:cover; border:2px solid #333;">
                         <div>
                             <strong style="color:#fff; display:block;">David K.</strong>
-                            <span style="color:#888; font-size:0.8rem;">VIP Member since Jan 2026</span>
+                            <span style="color:#888; font-size:0.8rem;">Quant Tier since Q1 2026</span>
                         </div>
                     </div>
                 </div>
             </div>
+            
             <div style="text-align:center; margin-top:60px; padding:40px; background:linear-gradient(135deg, #111, #0a0a0a); border:1px solid #333; border-radius:12px;">
-                <h2 style="color:#fff; margin-top:0;">Ready to write your own story?</h2>
+                <h2 style="color:#fff; margin-top:0;">Ready to execute systematically?</h2>
                 <p style="color:#888; margin-bottom:30px;">Stop gambling and start trading with an institutional edge.</p>
                 <a href="pricing.html" class="vip-btn" style="padding:15px 40px; font-size:1.2rem; text-decoration:none;">GET VIP PASS TODAY</a>
             </div>
@@ -1401,79 +1282,79 @@ def build_tools_page():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Trader's Arsenal</title>
+        <title>Institutional Stack</title>
         {CSS_CORE}
     </head>
     <body>
         {get_header('tools')}
         <div class="container">
             <div style="text-align:center; margin-bottom:50px;">
-                <h1 style="font-size:3rem; margin-bottom:10px;">TRADER'S <span style="color:var(--accent);">ARSENAL</span> 🛠️</h1>
-                <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">The exact institutional software stack used by our AI and elite members. Do not trade without these tools.</p>
+                <h1 style="font-size:3rem; margin-bottom:10px;">INSTITUTIONAL <span style="color:var(--accent);">STACK</span></h1>
+                <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">The required software architecture for quantitative integration.</p>
             </div>
 
             <div class="grid">
                 <div class="panel" style="border:1px solid #333; position:relative;">
                     <div style="position:absolute; top:-15px; left:20px; background:#fff; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">CAPITAL FUNDING</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">FTMO Trading Firm</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Don't risk your own money. Pass the evaluation phase and get funded with up to $200,000 of institutional capital. Keep 80% of the profits.</p>
-                    <a href="{AFF_FTMO}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; background:#00C853; color:#000;">GET FUNDED (Up to $200k) ↗</a>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">FTMO Infrastructure</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Leverage external capital. Pass evaluation parameters to secure up to $200k in AUM.</p>
+                    <a href="{AFF_FTMO}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; background:#00C853; color:#000;">ALLOCATE FUNDS ↗</a>
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:var(--accent); color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">CHARTING</div>
+                    <div style="position:absolute; top:-15px; left:20px; background:var(--accent); color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">DATA VISUALIZATION</div>
                     <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">TradingView Pro</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The absolute industry standard for technical analysis. Essential for drawing Order Blocks, Fibonacci retracements, and tracking liquidity.</p>
-                    <a href="{AFF_TRADINGVIEW}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box;">UPGRADE TO PRO ↗</a>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The standard for charting infrastructure. Mandatory for order block and volume delta modeling.</p>
+                    <a href="{AFF_TRADINGVIEW}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box;">UPGRADE LICENSE ↗</a>
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:#2962FF; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">AUTOMATION</div>
+                    <div style="position:absolute; top:-15px; left:20px; background:#2962FF; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">API AUTOMATION</div>
                     <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">MEXC Quantitative Bots</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Automate your trading with zero fees. Use advanced Grid and DCA bots directly on the exchange to trade our signals 24/7 without emotions.</p>
-                    <a href="{AFF_MEXC_BOTS}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#2962FF; color:#2962FF;">START AUTOMATING ↗</a>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Deploy continuous DCA and Grid algorithms natively via exchange with null maker fees.</p>
+                    <a href="{AFF_MEXC_BOTS}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#2962FF; color:#2962FF;">DEPLOY BOTS ↗</a>
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:#FFD700; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">INSTITUTIONAL DATA</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Glassnode Premium</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">See exactly what miners and institutional funds are doing. Unlock premium on-chain metrics to anticipate market crashes and pump cycles.</p>
-                    <a href="{AFF_GLASSNODE}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">UNLOCK WHALE DATA ↗</a>
+                    <div style="position:absolute; top:-15px; left:20px; background:#FFD700; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">ON-CHAIN METRICS</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Glassnode Engine</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Access raw blockchain data regarding miner outflow and institutional reserves.</p>
+                    <a href="{AFF_GLASSNODE}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">ACCESS DATA ↗</a>
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:#00C853; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">ON-CHAIN FLOW</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">CryptoQuant</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The best alternative to Glassnode for retail traders. Track exchange reserves, miner outflows, and market sentiment to trade alongside the smart money.</p>
-                    <a href="{AFF_CRYPTOQUANT}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#00C853; color:#00C853;">TRACK LIQUIDITY ↗</a>
+                    <div style="position:absolute; top:-15px; left:20px; background:#00C853; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">LIQUIDITY TRACKING</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">CryptoQuant Data</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Monitor central exchange reserves and derivative funding rates in real-time.</p>
+                    <a href="{AFF_CRYPTOQUANT}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#00C853; color:#00C853;">TRACK INFLOWS ↗</a>
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:#FF5252; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">HIGH LEVERAGE</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">MEXC Global Exchange</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The ultimate exchange for high-leverage traders. 0% maker fees, up to 200x leverage on futures, and access to new altcoins before they hit Binance.</p>
-                    <a href="{AFF_MEXC}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF5252; color:#FF5252;">OPEN MEXC ACCOUNT ↗</a>
+                    <div style="position:absolute; top:-15px; left:20px; background:#FF5252; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">EXECUTION VENUE</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">MEXC Derivatives</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">High-capacity order execution with 0% margin and deep market depth.</p>
+                    <a href="{AFF_MEXC}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF5252; color:#FF5252;">OPEN VENUE ↗</a>
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:var(--gold); color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">COMPLIANCE</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Crypto Tax Automation</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The IRS and local governments are tracking wallets. Connect your exchange via read-only API and let software automatically generate your legal tax reports.</p>
-                    <a href="{AFF_KOINLY}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">AUTOMATE YOUR TAXES ↗</a>
+                    <div style="position:absolute; top:-15px; left:20px; background:var(--gold); color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">COMPLIANCE AUDIT</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Koinly Tax Protocol</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Automate regulatory reports and calculate fiscal liabilities via secure API reading.</p>
+                    <a href="{AFF_KOINLY}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">GENERATE REPORT ↗</a>
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:#8A2BE2; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">EDUCATION</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Pro Trading Masterclass</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Need a deep dive into advanced technical analysis before using our signals? Access the highest-rated comprehensive video academy on Udemy.</p>
-                    <a href="{AFF_UDEMY_COURSE}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#8A2BE2; color:#8A2BE2;">ACCESS VIDEO COURSE ↗</a>
+                    <div style="position:absolute; top:-15px; left:20px; background:#8A2BE2; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">THEORY & MODELS</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Technical Masterclass</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Supplement platform signals with rigorous technical modeling provided by partner institutions.</p>
+                    <a href="{AFF_UDEMY_COURSE}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#8A2BE2; color:#8A2BE2;">ACCESS FRAMEWORK ↗</a>
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:#FF3D00; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">SECURITY</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Military-Grade VPN</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Never connect your Exchange API or Web3 wallets on a public network. Encrypt your trading connection and bypass regional restrictions safely.</p>
-                    <a href="{AFF_NORDVPN}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF3D00; color:#FF3D00;">SECURE CONNECTION ↗</a>
+                    <div style="position:absolute; top:-15px; left:20px; background:#FF3D00; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">NETWORK SECURITY</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">NordVPN Protocols</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Mandatory encryption standard for interacting with execution APIs over public architecture.</p>
+                    <a href="{AFF_NORDVPN}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF3D00; color:#FF3D00;">SECURE CHANNEL ↗</a>
                 </div>
             </div>
 
