@@ -20,13 +20,14 @@ BYBIT_AFFILIATE_LINK = "https://www.bybit.eu/invite?ref=PXANQ70"
 AFF_TRADINGVIEW = "https://it.tradingview.com/?aff_id=163720"
 AFF_KOINLY = "https://koinly.io/?via=2B79173F&utm_source=affiliate"
 
-# --- Placeholder per i futuri link dell'Arsenale ---
+# --- Placeholder per i futuri link dell'Arsenale definitivo ---
 AFF_FTMO = "https://ftmo.com/en/?affiliates=TUO_CODICE"
 AFF_NORDVPN = "https://go.nordvpn.net/aff_c?offer_id=TUO_CODICE"
 AFF_3COMMAS = "https://3commas.io/?c=TUO_CODICE"
 AFF_GLASSNODE = "https://glassnode.com/?via=TUO_CODICE"
-AFF_TANGEM = "https://tangem.com/pricing/?promocode=TUO_CODICE"
-AFF_TOPSTEP = "https://www.topstep.com/ref/TUO_CODICE"
+AFF_CRYPTOQUANT = "https://cryptoquant.com/sign-up?my-friend=TUO_CODICE"
+AFF_MEXC = "https://www.mexc.com/register?inviteCode=TUO_CODICE"
+AFF_UDEMY_COURSE = "https://click.linksynergy.com/fs-bin/click?id=TUO_CODICE&offerid=UDEMY_TRADING_COURSE"
 # =========================================================
 
 
@@ -322,7 +323,7 @@ def build_brokers_page():
     brokers = [
         {"name": "Binance", "type": "Crypto", "pros": "Low fees, high liquidity", "link": BINANCE_AFFILIATE_LINK, "cta": "CLAIM $100 BONUS"},
         {"name": "Bybit", "type": "Crypto Futures", "pros": "Best for Leverage, Pro UI", "link": BYBIT_AFFILIATE_LINK, "cta": "OPEN PRO ACCOUNT"},
-        {"name": "Trade Republic", "type": "Stocks & ETF", "pros": "4% Interest on Cash, Free Savings Plans", "link": "https://ref.trade.re/TUO_CODICE", "cta": "GET FREE STOCK"}
+        {"name": "MEXC", "type": "No-KYC Crypto", "pros": "High Leverage, Zero Fees", "link": AFF_MEXC, "cta": "TRADE ANONYMOUSLY"}
     ]
     html_cards = "".join([f'<div class="broker-card"><div style="display:flex; align-items:center;"><div class="broker-logo">🏦</div><div class="broker-info"><h3 style="margin:0; color:#fff;">{b["name"]}</h3><div class="broker-tags"><span>{b["type"]}</span><span>{b["pros"]}</span></div></div></div><a href="{b["link"]}" target="_blank" class="btn-trade" style="padding:12px 24px; text-align:center;">{b["cta"]}</a></div>' for b in brokers])
     html = f'''<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Partner Brokers</title>{CSS_CORE}</head><body>{get_header('brokers')}<div class="container"><h2 class="section-title">💸 EXCLUSIVE BROKER OFFERS</h2><p style="color:#888; margin-bottom:30px;">Trade with the tools the pros use. Claim exclusive sign-up bonuses using our partner links.</p><div style="max-width:800px; margin:0 auto;">{html_cards}</div></div>{MODALS_HTML} {get_footer()}</body></html>'''
@@ -746,24 +747,24 @@ def build_tools_page():
             </div>
 
             <div class="panel" style="border:1px solid #333; position:relative;">
-                <div style="position:absolute; top:-15px; left:20px; background:#FFD700; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">ON-CHAIN DATA</div>
+                <div style="position:absolute; top:-15px; left:20px; background:#FFD700; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">INSTITUTIONAL DATA</div>
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Glassnode Premium</h3>
                 <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">See exactly what miners and institutional funds are doing. Unlock premium on-chain metrics to anticipate market crashes and pump cycles.</p>
                 <a href="{AFF_GLASSNODE}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">UNLOCK WHALE DATA ↗</a>
             </div>
 
             <div class="panel" style="border:1px solid #333; position:relative;">
-                <div style="position:absolute; top:-15px; left:20px; background:#000; border:1px solid #555; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">COLD STORAGE</div>
-                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Tangem Hardware Wallet</h3>
-                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The ultimate secure cold storage shaped like a credit card. No batteries, no cables. Secure your long-term crypto holdings against exchange bankruptcies.</p>
-                <a href="{AFF_TANGEM}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; background:#111; color:#fff; border-color:#fff;">SECURE YOUR CRYPTO ↗</a>
+                <div style="position:absolute; top:-15px; left:20px; background:#00C853; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">ON-CHAIN FLOW</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">CryptoQuant</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The best alternative to Glassnode for retail traders. Track exchange reserves, miner outflows, and market sentiment to trade alongside the smart money.</p>
+                <a href="{AFF_CRYPTOQUANT}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#00C853; color:#00C853;">TRACK LIQUIDITY ↗</a>
             </div>
 
             <div class="panel" style="border:1px solid #333; position:relative;">
-                <div style="position:absolute; top:-15px; left:20px; background:#FF5252; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">FUTURES FUNDING</div>
-                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Topstep Futures</h3>
-                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Prefer trading Nasdaq, S&P500, or Crude Oil? Pass the Topstep combine and get a funded Futures account. Keep 100% of your first $10k in profits.</p>
-                <a href="{AFF_TOPSTEP}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF5252; color:#FF5252;">GET FUTURES FUNDED ↗</a>
+                <div style="position:absolute; top:-15px; left:20px; background:#FF5252; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">HIGH LEVERAGE</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">MEXC Global Exchange</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The ultimate exchange for high-leverage traders. 0% maker fees, up to 200x leverage on futures, and access to new altcoins before they hit Binance.</p>
+                <a href="{AFF_MEXC}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF5252; color:#FF5252;">OPEN MEXC ACCOUNT ↗</a>
             </div>
 
             <div class="panel" style="border:1px solid #333; position:relative;">
@@ -771,6 +772,13 @@ def build_tools_page():
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Crypto Tax Automation</h3>
                 <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The IRS and local governments are tracking wallets. Connect your exchange via read-only API and let software automatically generate your legal tax reports.</p>
                 <a href="{AFF_KOINLY}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">AUTOMATE YOUR TAXES ↗</a>
+            </div>
+
+            <div class="panel" style="border:1px solid #333; position:relative;">
+                <div style="position:absolute; top:-15px; left:20px; background:#8A2BE2; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">EDUCATION</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Pro Trading Masterclass</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Need a deep dive into advanced technical analysis before using our signals? Access the highest-rated comprehensive video academy on Udemy.</p>
+                <a href="{AFF_UDEMY_COURSE}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#8A2BE2; color:#8A2BE2;">ACCESS VIDEO COURSE ↗</a>
             </div>
 
             <div class="panel" style="border:1px solid #333; position:relative;">
