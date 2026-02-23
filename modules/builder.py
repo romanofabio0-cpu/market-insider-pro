@@ -8,16 +8,27 @@ from core.content import get_header, get_footer, MODALS_HTML
 
 logger = get_logger("Builder")
 
-# === CABINA DI REGIA AFFILIAZIONI (RENDITE PASSIVE) ===
+# =========================================================
+# 💰 CABINA DI REGIA AFFILIAZIONI (I TUOI LINK REALI)
+# =========================================================
 AMAZON_LINK_BOOK = "https://www.amazon.it/s?k=trading+in+the+zone+libro&tag=mip081-21"
 AMAZON_LINK_MONITOR = "https://www.amazon.it/s?k=monitor+lg+34+pollici+ultrawide&tag=mip081-21"
 AMAZON_LINK_LEDGER = "https://www.amazon.it/s?k=ledger+nano+x+wallet&tag=mip081-21"
+
 BINANCE_AFFILIATE_LINK = "https://accounts.binance.com/register?ref=1218170181"
 BYBIT_AFFILIATE_LINK = "https://www.bybit.eu/invite?ref=PXANQ70"
+AFF_TRADINGVIEW = "https://it.tradingview.com/?aff_id=163720"
+AFF_KOINLY = "https://koinly.io/?via=2B79173F&utm_source=affiliate"
+
+# --- Placeholder per i futuri link dell'Arsenale ---
 AFF_FTMO = "https://ftmo.com/en/?affiliates=TUO_CODICE"
-AFF_TRADINGVIEW = "https://www.tradingview.com/?aff_id=TUO_CODICE"
-AFF_KOINLY = "https://koinly.io/?via=TUO_CODICE"
 AFF_NORDVPN = "https://go.nordvpn.net/aff_c?offer_id=TUO_CODICE"
+AFF_3COMMAS = "https://3commas.io/?c=TUO_CODICE"
+AFF_GLASSNODE = "https://glassnode.com/?via=TUO_CODICE"
+AFF_TANGEM = "https://tangem.com/pricing/?promocode=TUO_CODICE"
+AFF_TOPSTEP = "https://www.topstep.com/ref/TUO_CODICE"
+# =========================================================
+
 
 ACADEMY_CONTENT = {
     "mod1": {
@@ -711,43 +722,74 @@ def build_tools_page():
             <h1 style="font-size:3rem; margin-bottom:10px;">TRADER'S <span style="color:var(--accent);">ARSENAL</span> 🛠️</h1>
             <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">The exact institutional software stack used by our AI and elite members. Do not trade without these tools.</p>
         </div>
+
         <div class="grid">
             <div class="panel" style="border:1px solid #333; position:relative;">
                 <div style="position:absolute; top:-15px; left:20px; background:#fff; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">CAPITAL FUNDING</div>
-                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Proprietary Trading Firm</h3>
-                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Don't risk your own money. Pass the evaluation phase and get funded with up to $200,000 of institutional capital to trade our Order Block strategies. Keep 80% of the profits.</p>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">FTMO Trading Firm</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Don't risk your own money. Pass the evaluation phase and get funded with up to $200,000 of institutional capital. Keep 80% of the profits.</p>
                 <a href="{AFF_FTMO}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; background:#00C853; color:#000;">GET FUNDED (Up to $200k) ↗</a>
             </div>
+
             <div class="panel" style="border:1px solid #333; position:relative;">
                 <div style="position:absolute; top:-15px; left:20px; background:var(--accent); color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">CHARTING</div>
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">TradingView Pro</h3>
-                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The absolute industry standard for technical analysis. Essential for drawing Order Blocks, Fibonacci retracements, and tracking multi-exchange liquidity.</p>
-                <a href="{AFF_TRADINGVIEW}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:43px; box-sizing:border-box;">UPGRADE TO PRO ↗</a>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The absolute industry standard for technical analysis. Essential for drawing Order Blocks, Fibonacci retracements, and tracking liquidity.</p>
+                <a href="{AFF_TRADINGVIEW}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box;">UPGRADE TO PRO ↗</a>
             </div>
+
+            <div class="panel" style="border:1px solid #333; position:relative;">
+                <div style="position:absolute; top:-15px; left:20px; background:#2962FF; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">AUTOMATION</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">3Commas Algo Bots</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The most advanced platform for automated Grid and DCA bots. Connect it to your exchange and let machines trade our signals 24/7 without emotions.</p>
+                <a href="{AFF_3COMMAS}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#2962FF; color:#2962FF;">START AUTOMATING ↗</a>
+            </div>
+
+            <div class="panel" style="border:1px solid #333; position:relative;">
+                <div style="position:absolute; top:-15px; left:20px; background:#FFD700; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">ON-CHAIN DATA</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Glassnode Premium</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">See exactly what miners and institutional funds are doing. Unlock premium on-chain metrics to anticipate market crashes and pump cycles.</p>
+                <a href="{AFF_GLASSNODE}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">UNLOCK WHALE DATA ↗</a>
+            </div>
+
+            <div class="panel" style="border:1px solid #333; position:relative;">
+                <div style="position:absolute; top:-15px; left:20px; background:#000; border:1px solid #555; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">COLD STORAGE</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Tangem Hardware Wallet</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The ultimate secure cold storage shaped like a credit card. No batteries, no cables. Secure your long-term crypto holdings against exchange bankruptcies.</p>
+                <a href="{AFF_TANGEM}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; background:#111; color:#fff; border-color:#fff;">SECURE YOUR CRYPTO ↗</a>
+            </div>
+
+            <div class="panel" style="border:1px solid #333; position:relative;">
+                <div style="position:absolute; top:-15px; left:20px; background:#FF5252; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">FUTURES FUNDING</div>
+                <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Topstep Futures</h3>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Prefer trading Nasdaq, S&P500, or Crude Oil? Pass the Topstep combine and get a funded Futures account. Keep 100% of your first $10k in profits.</p>
+                <a href="{AFF_TOPSTEP}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF5252; color:#FF5252;">GET FUTURES FUNDED ↗</a>
+            </div>
+
             <div class="panel" style="border:1px solid #333; position:relative;">
                 <div style="position:absolute; top:-15px; left:20px; background:var(--gold); color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">COMPLIANCE</div>
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Crypto Tax Automation</h3>
-                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The IRS and local governments are tracking wallets. Connect your exchange via read-only API and let software automatically generate your legal tax reports in minutes.</p>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The IRS and local governments are tracking wallets. Connect your exchange via read-only API and let software automatically generate your legal tax reports.</p>
                 <a href="{AFF_KOINLY}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:var(--gold); color:var(--gold);">AUTOMATE YOUR TAXES ↗</a>
             </div>
+
             <div class="panel" style="border:1px solid #333; position:relative;">
                 <div style="position:absolute; top:-15px; left:20px; background:#FF3D00; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">SECURITY</div>
                 <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Military-Grade VPN</h3>
-                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Never connect your Exchange API or Web3 wallets on a public network. Encrypt your trading connection and bypass regional restrictions for global exchanges.</p>
+                <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Never connect your Exchange API or Web3 wallets on a public network. Encrypt your trading connection and bypass regional restrictions safely.</p>
                 <a href="{AFF_NORDVPN}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF3D00; color:#FF3D00;">SECURE CONNECTION ↗</a>
             </div>
         </div>
+
     </div>
     {MODALS_HTML} {get_footer()}</body></html>'''
     scrivi_file("tools.html", html)
-
 
 # === IL NUOVO MOTORE SEO (SITEMAP E ROBOTS.TXT) ===
 def build_seo_files():
     BASE_URL = "https://marketinsiderpro.com"
     today = datetime.datetime.now().strftime("%Y-%m-%d")
     
-    # Raccogliamo tutte le pagine generate
     pages = [
         "index.html", "signals.html", "api_hub.html", "brokers.html", 
         "referral.html", "pricing.html", "leaderboard.html", "legal.html",
@@ -755,26 +797,22 @@ def build_seo_files():
         "chat.html", "wallet.html", "vip_lounge.html", "stories.html", "tools.html"
     ]
     
-    # 1. COSTRUZIONE SITEMAP.XML (Protocollo Ufficiale)
     sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
     sitemap_xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     
     for page in pages:
-        # Priorità più alta per index e pricing
         priority = "1.0" if page == "index.html" else ("0.9" if page == "pricing.html" else "0.8")
         sitemap_xml += f'  <url>\n    <loc>{BASE_URL}/{page}</loc>\n    <lastmod>{today}</lastmod>\n    <changefreq>daily</lastmod>\n    <priority>{priority}</priority>\n  </url>\n'
     
     sitemap_xml += '</urlset>'
     scrivi_file("sitemap.xml", sitemap_xml)
     
-    # 2. COSTRUZIONE ROBOTS.TXT (Regole per Google)
     robots_txt = f"""User-agent: *
 Allow: /
 Disallow: /success.html
 Disallow: /cheatsheet_ob.html
 Disallow: /cheatsheet_risk.html
 
-# Indicazione Sitemap per i motori di ricerca
 Sitemap: {BASE_URL}/sitemap.xml
 """
     scrivi_file("robots.txt", robots_txt)
