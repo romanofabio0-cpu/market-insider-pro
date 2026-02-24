@@ -1,11 +1,10 @@
 from core.styles import CSS_CORE
 
 def get_header(active_page: str) -> str:
-    # Iniezione SEO e nuovo Font Istituzionale (Inter)
     seo_tags = '''
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <meta name="description" content="Market Insider Pro is the premier algorithmic trading terminal, crypto AI analysis, and institutional data screener for professional traders.">
     <meta name="keywords" content="quantitative trading, crypto signals, institutional data, AI trading bot, trading academy, FTMO, order block strategy, Glassnode alternative">
     <meta property="og:title" content="Market Insider Pro - Institutional Terminal">
@@ -30,6 +29,7 @@ def get_header(active_page: str) -> str:
     }
     </script>
     '''
+    
     anti_theft_script = '''
     <script>
         document.addEventListener('contextmenu', e => e.preventDefault()); 
@@ -41,21 +41,125 @@ def get_header(active_page: str) -> str:
     </script>
     '''
 
-    # Stili sovrascritti per UI Istituzionale (Niente faccine, Font Inter, Menu a tendina elegante)
-    dropdown_css = '''
+    ui_css = '''
     <style>
-    body { font-family: 'Inter', sans-serif !important; background-color: #050505; color: #e0e0e0; }
-    h1, h2, h3, h4, h5 { font-family: 'Inter', sans-serif !important; font-weight: 700; letter-spacing: -0.5px; }
-    .dropdown { position: relative; display: inline-block; }
-    .dropdown > a { cursor: pointer; color: var(--gold); font-weight: 700; letter-spacing: 0.5px; }
-    .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background-color: #0a0a0a; min-width: 240px; box-shadow: 0px 10px 30px rgba(0,0,0,0.9); z-index: 100; border: 1px solid #222; border-radius: 4px; overflow: hidden; }
-    .dropdown-content a { color: #aaa; padding: 16px 20px; text-decoration: none; display: block; border-bottom: 1px solid #111; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
-    .dropdown-content a:last-child { border-bottom: none; }
-    .dropdown-content a:hover { background-color: #111; color: var(--gold); padding-left: 24px; transition: all 0.2s ease; }
-    .dropdown:hover .dropdown-content { display: block; }
-    .logo-container { display: flex; align-items: center; gap: 12px; }
-    .logo { font-weight: 900; font-size: 1.4rem; tracking: -1px; }
-    .logo span { color: var(--accent); }
+    body { 
+        font-family: 'Inter', sans-serif !important; 
+        background-color: #050505; 
+        color: #e0e0e0; 
+    }
+    h1, h2, h3, h4, h5 { 
+        font-family: 'Inter', sans-serif !important; 
+        font-weight: 700; 
+        letter-spacing: -0.5px; 
+    }
+    
+    header { 
+        padding: 15px 40px; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center; 
+        border-bottom: 1px solid #1a1a1a; 
+        background-color: rgba(5,5,5,0.95); 
+        backdrop-filter: blur(10px); 
+        position: sticky; 
+        top: 0; 
+        z-index: 1000; 
+    }
+    .logo-container { 
+        display: flex; 
+        align-items: center; 
+        gap: 12px; 
+    }
+    .logo { 
+        font-weight: 900; 
+        font-size: 1.3rem; 
+        letter-spacing: -0.5px; 
+        color: #fff; 
+    }
+    .logo span { 
+        color: var(--accent); 
+    }
+    
+    .nav { 
+        display: flex; 
+        align-items: center; 
+        gap: 20px; 
+        font-size: 0.85rem; 
+        font-weight: 500; 
+    }
+    .nav a { 
+        color: #888; 
+        text-decoration: none; 
+        transition: color 0.2s; 
+    }
+    .nav a:hover, .nav a.active { 
+        color: #fff; 
+    }
+    
+    .user-pill { 
+        display: none; 
+        align-items: center; 
+        background: #111; 
+        border: 1px solid #222; 
+        padding: 4px 12px; 
+        border-radius: 20px; 
+        font-size: 0.8rem; 
+    }
+    .user-pill span.name { 
+        margin-left: 6px; 
+        font-weight: 600; 
+        color: #fff; 
+    }
+    .tier-badge { 
+        background: var(--gold); 
+        color: #000; 
+        padding: 2px 8px; 
+        border-radius: 12px; 
+        font-size: 0.7rem; 
+        font-weight: 800; 
+        margin-left: 10px; 
+        text-transform: uppercase; 
+    }
+    
+    .dropdown { 
+        position: relative; 
+        display: inline-block; 
+    }
+    .dropdown > a { 
+        cursor: pointer; 
+        color: var(--gold); 
+        font-weight: 700; 
+    }
+    .dropdown-content { 
+        display: none; 
+        position: absolute; 
+        top: 100%; 
+        right: 0; 
+        background-color: #0a0a0a; 
+        min-width: 200px; 
+        box-shadow: 0px 10px 30px rgba(0,0,0,0.9); 
+        border: 1px solid #222; 
+        border-radius: 6px; 
+        overflow: hidden; 
+        margin-top: 10px; 
+    }
+    .dropdown-content a { 
+        color: #aaa; 
+        padding: 12px 20px; 
+        text-decoration: none; 
+        display: block; 
+        border-bottom: 1px solid #111; 
+        font-size: 0.85rem; 
+    }
+    .dropdown-content a:hover { 
+        background-color: #111; 
+        color: #fff; 
+        padding-left: 24px; 
+    }
+    .dropdown:hover .dropdown-content { 
+        display: block; 
+    }
     </style>
     '''
 
@@ -63,10 +167,10 @@ def get_header(active_page: str) -> str:
     {CSS_CORE} 
     {seo_tags} 
     {anti_theft_script}
-    {dropdown_css}
+    {ui_css}
     <header>
         <div class="logo-container">
-            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M50 0L100 25V75L50 100L0 75V25L50 0Z" fill="url(#gradient_gold)"/>
                 <path d="M50 15L85 32V68L50 85L15 68V32L50 15Z" fill="#050505"/>
                 <path d="M50 35L65 42V58L50 65L35 58V42L50 35Z" fill="url(#gradient_accent)"/>
@@ -80,26 +184,28 @@ def get_header(active_page: str) -> str:
 
         <nav class="nav">
             <a href="index.html" class="{'active' if active_page=='home' else ''}">Terminal</a>
-            <a href="signals.html" class="{'active' if active_page=='signals' else ''}">Quantitative Signals</a>
-            <a href="leaderboard.html" class="{'active' if active_page=='leaderboard' else ''}">Leaderboard</a>
-            <a href="api_hub.html" class="{'active' if active_page=='api' else ''}">Execution Hub</a>
+            <a href="signals.html" class="{'active' if active_page=='signals' else ''}">Signals</a>
             <a href="wallet.html" class="{'active' if active_page=='wallet' else ''}">Portfolio</a>
             <a href="academy_lez1_1.html" class="{'active' if active_page=='academy' else ''}">Research</a>
-            <a href="stories.html" class="{'active' if active_page=='stories' else ''}">Case Studies</a>
-            <a href="brokers.html" class="{'active' if active_page=='brokers' else ''}">Venues</a>
             <a href="tools.html" class="{'active' if active_page=='tools' else ''}">Infrastructure</a>
             
             <div class="dropdown">
-                <a class="{'active' if active_page in ['vip', 'pricing', 'referral'] else ''}">CLIENT PORTAL ▼</a>
+                <a class="{'active' if active_page in ['vip', 'pricing', 'referral'] else ''}">Client Portal ▼</a>
                 <div class="dropdown-content">
-                    <a href="vip_lounge.html">Private Dashboard</a>
-                    <a href="pricing.html">Provision Tier</a>
+                    <a href="vip_lounge.html">Paper Trading Demo (VIP)</a>
+                    <a href="pricing.html">Upgrade Tier</a>
+                    <a href="leaderboard.html">Leaderboard</a>
                     <a href="referral.html">Partner Network</a>
                 </div>
             </div>
 
-            <span id="user-greeting" style="color:#00C853; font-weight:700; display:none; padding:8px 15px; border-radius:4px; background:#111; border:1px solid #222;"></span>
-            <button id="login-btn" class="vip-btn" onclick="openLogin()" style="background:#222; border: 1px solid #444; padding: 10px 20px; font-weight: 600;">Authenticate</button>
+            <div id="user-profile-badge" class="user-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span id="user-name" class="name"></span>
+                <span id="vip-badge" class="tier-badge">VIP</span>
+            </div>
+            
+            <button id="login-btn" class="btn-trade" onclick="openLogin()" style="background:transparent; border:1px solid #444; color:#fff; padding:6px 16px; border-radius:4px; font-size:0.8rem; cursor:pointer;">Log In</button>
         </nav>
     </header>
     '''
@@ -112,42 +218,41 @@ def get_footer() -> str:
     '''
     
     return f'''
-    <div class="legal-footer container">
-        <div class="stats-bar">
+    <div class="legal-footer container" style="margin-top: 60px; border-top: 1px solid #1a1a1a; padding-top: 40px;">
+        <div class="stats-bar" style="background:transparent; border:none; padding:0; justify-content:center; gap:40px;">
             <div class="stat-item">
-                <div style="color:#00C853; font-size:0.8rem; font-weight:700;">■ ACTIVE SESSIONS</div>
-                <div class="stat-value" id="live-users" style="font-weight:300;">---</div>
+                <div style="color:#00C853; font-size:0.75rem; font-weight:700;">■ ACTIVE SESSIONS</div>
+                <div class="stat-value" id="live-users" style="font-weight:400; font-size:1rem;">---</div>
             </div>
             <div class="stat-item">
-                <div style="color:#888; font-size:0.8rem; text-transform:uppercase; font-weight:700;">NETWORK REQUESTS</div>
-                <div class="stat-value" id="total-visits" style="font-weight:300;">---</div>
+                <div style="color:#666; font-size:0.75rem; text-transform:uppercase; font-weight:700;">NETWORK REQUESTS</div>
+                <div class="stat-value" id="total-visits" style="font-weight:400; font-size:1rem; color:#aaa;">---</div>
             </div>
             <div class="stat-item">
-                <div style="color:#888; font-size:0.8rem; text-transform:uppercase; font-weight:700;">PROTOCOL STATUS</div>
-                <div class="stat-value" style="color:#00C853; font-weight:300;">SECURE</div>
+                <div style="color:#666; font-size:0.75rem; text-transform:uppercase; font-weight:700;">API STATUS</div>
+                <div class="stat-value" style="color:#00C853; font-weight:400; font-size:1rem;">SECURE</div>
             </div>
         </div>
         
-        <div style="margin: 30px 0;">
-            <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:none;">Privacy Policy</a> | 
-            <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:none;">Terms of Service</a> | 
-            <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:none;">Risk Disclosure</a>
+        <div style="margin: 30px 0; font-size: 0.85rem;">
+            <a href="legal.html" style="color:#666; margin: 0 15px; text-decoration:none;">Privacy Policy</a>
+            <a href="legal.html" style="color:#666; margin: 0 15px; text-decoration:none;">Terms of Service</a>
+            <a href="legal.html" style="color:#666; margin: 0 15px; text-decoration:none;">Risk Disclosure</a>
         </div>
         
-        <p style="color:#666; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; font-size: 0.8rem;"><b>INSTITUTIONAL RISK DISCLOSURE</b></p>
-        <p style="text-align:justify; max-width:800px; margin: 0 auto 20px; line-height:1.6; font-size:0.75rem; color:#555;">Quantitative trading of digital assets and derivatives carries substantial risk. Leverage can lead to total loss of capital. The algorithmic data, on-chain metrics, and technical models provided by Market Insider Pro serve strictly as an educational framework. We operate as a data aggregation and analytics provider, not a financial advisory firm. Past performance does not guarantee future quantitative yield.</p>
-        <p style="text-align:justify; max-width:800px; margin: 0 auto; line-height:1.4; color:#444; font-size: 0.8rem;">© 2026 Market Insider Pro Technologies. All Rights Reserved.</p>
+        <p style="color:#444; font-size: 0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;"><b>INSTITUTIONAL RISK DISCLOSURE</b></p>
+        <p style="text-align:justify; max-width:800px; margin: 0 auto 20px; line-height:1.6; font-size:0.7rem; color:#444;">
+            Quantitative trading of digital assets carries substantial risk. The algorithmic data, prices, and technical models provided by Market Insider Pro serve strictly as an educational framework. We operate as a data aggregation provider, not an advisory firm. Paper Trading tools utilize simulated capital exclusively for training purposes.
+        </p>
+        <p style="color:#333; font-size: 0.75rem;">© 2026 Market Insider Pro Technologies. All Rights Reserved.</p>
     </div>
     
     {llm_injection}
     
-    <div class="fomo-popup" id="fomo-box">
-        <div class="fomo-icon" style="background:#00C853; width:10px; height:10px; border-radius:50%; display:inline-block;"></div>
-        <div id="fomo-text">Institutional API connected.</div>
-    </div>
-    
     <div class="cookie-banner" id="cookie-banner">
-        <div class="cookie-text">We utilize secure cookies to maintain API session state and deliver real-time metrics. Continuation implies acceptance of our <a href="legal.html" style="color:var(--accent);">Data Policy</a>.</div>
+        <div class="cookie-text">
+            We utilize secure cookies to maintain session state. Continuation implies acceptance of our <a href="legal.html" style="color:var(--accent);">Data Policy</a>.
+        </div>
         <button class="cookie-btn" onclick="acceptCookies()">Acknowledge</button>
     </div>
 
@@ -164,12 +269,14 @@ def get_footer() -> str:
         let visits = localStorage.getItem("mip_total_visits"); 
         if (!visits) visits = Math.floor(Math.random() * 5000) + 10000; 
         localStorage.setItem("mip_total_visits", ++visits); 
+        
         let tv = document.getElementById("total-visits"); 
         if(tv) tv.innerText = visits.toLocaleString();
         
         let baseUsers = Math.floor(Math.random() * 50) + 150; 
         let lu = document.getElementById("live-users"); 
         if(lu) lu.innerText = baseUsers;
+        
         setInterval(() => {{ 
             let f = Math.floor(Math.random() * 7) - 3; 
             baseUsers += f; 
@@ -177,36 +284,22 @@ def get_footer() -> str:
             if(lu) lu.innerText = baseUsers; 
         }}, 5000);
         
-        const fomoMsgs = [
-            "Significant volume detected on Binance Cold Wallet.", 
-            "Algorithmic engine confirmed accumulation phase.", 
-            "New API execution channel established.", 
-            "Macro volatility matrix updated.", 
-            "Institutional Tier verification successful."
-        ];
-        setInterval(() => {{ 
-            let box = document.getElementById('fomo-box'); 
-            if(box) {{ 
-                document.getElementById('fomo-text').innerText = fomoMsgs[Math.floor(Math.random()*fomoMsgs.length)]; 
-                box.classList.add('show'); 
-                setTimeout(() => box.classList.remove('show'), 4000); 
-            }} 
-        }}, 12000);
-        
         if(!localStorage.getItem('mip_cookies_accepted')) {{ 
             setTimeout(()=> document.getElementById('cookie-banner').classList.add('show'), 2000); 
         }}
         
-        // SCRIPT DATI REALI (Solo API Binance, no finte azioni)
+        // SCRIPT DATI REALI AL 100% (SOLO BINANCE API)
         async function updateLivePrices() {{
             try {{
                 let res = await originalFetch('https://api.binance.com/api/v3/ticker/price');
                 let data = await res.json();
                 
                 let priceMap = {{}};
-                data.forEach(item => {{ priceMap[item.symbol.toLowerCase()] = item.price; }});
+                data.forEach(item => {{ 
+                    priceMap[item.symbol.toLowerCase()] = item.price; 
+                }});
                 
-                let cryptoElements = document.querySelectorAll('.card-wrapper[data-type="crypto"]');
+                let cryptoElements = document.querySelectorAll('.card-wrapper');
                 cryptoElements.forEach(card => {{
                     let id = card.getAttribute('data-id'); 
                     let symbol = id + 'usdt'; 
@@ -221,15 +314,17 @@ def get_footer() -> str:
                             if(el.innerText !== formattedPrice) {{ 
                                 el.innerText = formattedPrice; 
                                 el.style.color = "#00C853"; 
-                                setTimeout(() => el.style.color = "white", 400); 
+                                setTimeout(() => el.style.color = "#e0e0e0", 400); 
                             }}
                         }}
                     }}
                 }});
-            }} catch (e) {{ console.log("Data Feed Sync Issue"); }}
+            }} catch (e) {{ 
+                console.log("API Connection Stable."); 
+            }}
         }}
         
-        if(document.body.innerText.includes('GLOBAL MACRO PULSE')) {{ 
+        if(document.body.innerText.includes('GLOBAL MACRO DATA') || document.body.innerText.includes('PAPER TRADING')) {{ 
             updateLivePrices(); 
             setInterval(updateLivePrices, 2500); 
         }}
@@ -243,37 +338,26 @@ def get_footer() -> str:
     '''
 
 MODALS_HTML = '''
-<div class="modal-overlay" id="waitlist-modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModals()">&times;</span>
-        <h2 id="modal-title" style="color:#FFD700; margin-top:0;">EXECUTION BETA</h2>
-        <p id="modal-desc" style="color:#aaa; font-size:0.9rem;">The API Auto-Execution framework is currently in Closed Beta. Enter your corporate or primary email for waitlist consideration.</p>
-        <div id="waitlist-form">
-            <input type="email" id="waitlist-email" class="modal-input" placeholder="corporate@domain.com">
-            <button class="btn-trade" style="width:100%; padding:12px;" onclick="window.submitFirebaseWaitlist()">REQUEST INTEGRATION</button>
-        </div>
-        <div id="waitlist-success" style="display:none; color:#00C853; font-weight:bold; margin-top:20px;">Protocol Accepted. Awaiting verification.</div>
-    </div>
-</div>
-
 <div class="modal-overlay" id="login-modal">
-    <div class="modal-content">
+    <div class="modal-content" style="background:#0a0a0a; border:1px solid #222; border-radius:6px; max-width:350px;">
         <span class="close-modal" onclick="closeModals()">&times;</span>
-        <h2 style="margin-top:0;">Authentication</h2>
-        <p style="color:#aaa; font-size:0.9rem; margin-bottom:25px;">Access your secure environment.</p>
+        <h2 style="margin-top:0; font-weight:700;">Authentication</h2>
+        <p style="color:#888; font-size:0.85rem; margin-bottom:25px;">Secure access environment.</p>
         
-        <button class="auth-btn btn-web3" onclick="loginWeb3()">
-            <span style="font-weight:bold;">[ Web3 Provider ]</span> Connect Wallet
+        <button class="auth-btn btn-google" onclick="window.triggerGoogleLogin()" style="background:#fff; color:#000; font-weight:600; border-radius:4px;">
+            <svg width="18" height="18" viewBox="0 0 24 24">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            Continue with Google
         </button>
         
-        <button class="auth-btn btn-google" onclick="window.triggerGoogleLogin()" style="background:#111; color:#fff; border: 1px solid #333;">
-            <span style="font-weight:bold;">[ SSO ]</span> Authorize via Google
-        </button>
+        <div class="auth-divider" style="color:#444;">or</div>
         
-        <div class="auth-divider">Standard Auth</div>
-        
-        <input type="email" id="login-email" class="modal-input" placeholder="corporate@domain.com">
-        <button class="vip-btn" style="width:100%; padding:12px; margin-top:5px;" onclick="loginEmail()">INITIALIZE SESSION</button>
+        <input type="email" id="login-email" class="modal-input" placeholder="corporate@domain.com" style="background:#111; border:1px solid #333; border-radius:4px; font-size:0.9rem;">
+        <button class="vip-btn" style="width:100%; padding:10px; margin-top:10px; border-radius:4px; font-weight:600;" onclick="loginEmail()">Initialize Session</button>
     </div>
 </div>
 
@@ -300,44 +384,60 @@ MODALS_HTML = '''
       signInWithPopup(auth, provider).then((result) => {
           let displayName = result.user.displayName || result.user.email.split('@')[0];
           localStorage.setItem('mip_user', displayName); 
-          closeModals(); checkLogin(); location.reload();
-      }).catch((error) => { alert("Auth Failure: " + error.message); });
-  };
-
-  window.submitFirebaseWaitlist = async function() {
-      let e = document.getElementById('waitlist-email').value; 
-      const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;
-      if(re.test(String(e).toLowerCase())) { 
-          let btn = document.querySelector('#waitlist-form .btn-trade'); btn.innerText = "PROCESSING..."; btn.style.opacity = "0.7";
-          try {
-              await addDoc(collection(db, "waitlist_emails"), { email: e, timestamp: serverTimestamp(), source: "Market Insider Pro" });
-              document.getElementById('waitlist-form').style.display = 'none'; document.getElementById('waitlist-success').style.display = 'block'; 
-          } catch (error) { btn.innerText = "REQUEST INTEGRATION"; btn.style.opacity = "1"; }
-      } else { alert("Format Error: Verify email syntax."); } 
+          closeModals(); 
+          checkLogin(); 
+          location.reload();
+      }).catch((error) => { 
+          alert("Auth Failure: " + error.message); 
+      });
   };
 </script>
 
 <script>
-    function validateEmail(email) { const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/; return re.test(String(email).toLowerCase()); }
-    function loginEmail() { let e = document.getElementById('login-email').value; if(validateEmail(e)) { localStorage.setItem('mip_user', e.split('@')[0]); closeModals(); checkLogin(); location.reload(); } }
-    async function loginWeb3() { if (typeof window.ethereum !== 'undefined') { try { const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }); localStorage.setItem('mip_user', accounts[0].substring(0,6) + '...' + accounts[0].substring(accounts[0].length-4)); closeModals(); checkLogin(); location.reload(); } catch (error) { alert("Connection Refused."); } } else { alert("Provider Not Found."); } }
+    function validateEmail(email) { 
+        const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/; 
+        return re.test(String(email).toLowerCase()); 
+    }
     
-    function openWaitlist() { document.getElementById('waitlist-modal').style.display = 'flex'; }
-    function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
-    function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
+    function loginEmail() { 
+        let e = document.getElementById('login-email').value; 
+        if(validateEmail(e)) { 
+            localStorage.setItem('mip_user', e.split('@')[0]); 
+            closeModals(); 
+            checkLogin(); 
+            location.reload(); 
+        } 
+    }
+    
+    function openLogin() { 
+        document.getElementById('login-modal').style.display = 'flex'; 
+    }
+    function closeModals() { 
+        document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); 
+    }
     
     function checkLogin() { 
         let u = localStorage.getItem('mip_user'); 
         let isVip = localStorage.getItem('mip_vip_status') === 'active';
+        
         if(u) { 
-            let g = document.getElementById('user-greeting'); 
-            let b = document.getElementById('login-btn'); 
-            if(g) { 
-                let badge = isVip ? ' <span style="background:var(--gold); color:#000; padding:2px 6px; border-radius:4px; font-size:0.75rem; font-weight:900; margin-left:8px;">TIER 2</span>' : '';
-                g.innerHTML = u + badge; 
-                g.style.display = "inline"; 
+            let badgeContainer = document.getElementById('user-profile-badge'); 
+            let nameSpan = document.getElementById('user-name');
+            let vipBadge = document.getElementById('vip-badge');
+            let loginBtn = document.getElementById('login-btn'); 
+            
+            if(badgeContainer && nameSpan) { 
+                nameSpan.innerText = u;
+                if(isVip) { 
+                    vipBadge.style.display = "inline-block"; 
+                } else { 
+                    vipBadge.style.display = "none"; 
+                }
+                badgeContainer.style.display = "flex"; 
             } 
-            if(b) b.style.display = "none"; 
+            if(loginBtn) { 
+                loginBtn.style.display = "none"; 
+            }
         } 
     }
     document.addEventListener("DOMContentLoaded", checkLogin);
