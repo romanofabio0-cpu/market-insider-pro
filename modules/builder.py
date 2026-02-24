@@ -584,7 +584,6 @@ def build_brokers_page():
             <a href="{b["link"]}" target="_blank" class="btn-trade" style="padding:10px 20px; text-align:center; font-size:0.85rem; border-radius:2px; background:transparent; border:1px solid #333; color:#ccc; font-weight:600; letter-spacing:1px;">{b["cta"]}</a>
         </div>
     ''' for b in brokers])
-    
     html = f'''<!DOCTYPE html>
     <html lang="en">
     <head>
