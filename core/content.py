@@ -1,8 +1,11 @@
 from core.styles import CSS_CORE
 
 def get_header(active_page: str) -> str:
-    # LA MAGIA SEO E IA INIZIA QUI: JSON-LD SCHEMA MARKUP
+    # Iniezione SEO e nuovo Font Istituzionale (Inter)
     seo_tags = '''
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <meta name="description" content="Market Insider Pro is the premier algorithmic trading terminal, crypto AI analysis, and institutional data screener for professional traders.">
     <meta name="keywords" content="quantitative trading, crypto signals, institutional data, AI trading bot, trading academy, FTMO, order block strategy, Glassnode alternative">
     <meta property="og:title" content="Market Insider Pro - Institutional Terminal">
@@ -38,18 +41,21 @@ def get_header(active_page: str) -> str:
     </script>
     '''
 
-    # CSS per il Menu Dropdown del VIP HUB (Elegante e integrato)
+    # Stili sovrascritti per UI Istituzionale (Niente faccine, Font Inter, Menu a tendina elegante)
     dropdown_css = '''
     <style>
+    body { font-family: 'Inter', sans-serif !important; background-color: #050505; color: #e0e0e0; }
+    h1, h2, h3, h4, h5 { font-family: 'Inter', sans-serif !important; font-weight: 700; letter-spacing: -0.5px; }
     .dropdown { position: relative; display: inline-block; }
-    .dropdown > a { cursor: pointer; color: var(--gold); font-weight: bold; }
-    .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background-color: #0a0a0a; min-width: 220px; box-shadow: 0px 10px 30px rgba(0,0,0,0.9); z-index: 100; border: 1px solid #333; border-radius: 6px; overflow: hidden; }
-    .dropdown-content a { color: #ccc; padding: 15px 20px; text-decoration: none; display: block; border-bottom: 1px solid #1a1a1a; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+    .dropdown > a { cursor: pointer; color: var(--gold); font-weight: 700; letter-spacing: 0.5px; }
+    .dropdown-content { display: none; position: absolute; top: 100%; right: 0; background-color: #0a0a0a; min-width: 240px; box-shadow: 0px 10px 30px rgba(0,0,0,0.9); z-index: 100; border: 1px solid #222; border-radius: 4px; overflow: hidden; }
+    .dropdown-content a { color: #aaa; padding: 16px 20px; text-decoration: none; display: block; border-bottom: 1px solid #111; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
     .dropdown-content a:last-child { border-bottom: none; }
-    .dropdown-content a:hover { background-color: #1a1a1a; color: var(--gold); padding-left: 25px; transition: 0.3s; }
+    .dropdown-content a:hover { background-color: #111; color: var(--gold); padding-left: 24px; transition: all 0.2s ease; }
     .dropdown:hover .dropdown-content { display: block; }
-    
     .logo-container { display: flex; align-items: center; gap: 12px; }
+    .logo { font-weight: 900; font-size: 1.4rem; tracking: -1px; }
+    .logo span { color: var(--accent); }
     </style>
     '''
 
@@ -60,19 +66,13 @@ def get_header(active_page: str) -> str:
     {dropdown_css}
     <header>
         <div class="logo-container">
-            <svg width="35" height="35" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M50 0L100 25V75L50 100L0 75V25L50 0Z" fill="url(#gradient_gold)"/>
-                <path d="M50 15L85 32V68L50 85L15 68V32L50 15Z" fill="#111111"/>
+                <path d="M50 15L85 32V68L50 85L15 68V32L50 15Z" fill="#050505"/>
                 <path d="M50 35L65 42V58L50 65L35 58V42L50 35Z" fill="url(#gradient_accent)"/>
                 <defs>
-                    <linearGradient id="gradient_gold" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#FFD700"/>
-                        <stop offset="1" stop-color="#F57F17"/>
-                    </linearGradient>
-                    <linearGradient id="gradient_accent" x1="35" y1="35" x2="65" y2="65" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#00C853"/>
-                        <stop offset="1" stop-color="#2962FF"/>
-                    </linearGradient>
+                    <linearGradient id="gradient_gold" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#FFD700"/><stop offset="1" stop-color="#F57F17"/></linearGradient>
+                    <linearGradient id="gradient_accent" x1="35" y1="35" x2="65" y2="65" gradientUnits="userSpaceOnUse"><stop stop-color="#00C853"/><stop offset="1" stop-color="#2962FF"/></linearGradient>
                 </defs>
             </svg>
             <div class="logo">MARKET<span>INSIDER</span> PRO</div>
@@ -80,26 +80,26 @@ def get_header(active_page: str) -> str:
 
         <nav class="nav">
             <a href="index.html" class="{'active' if active_page=='home' else ''}">Terminal</a>
-            <a href="signals.html" class="{'active' if active_page=='signals' else ''}">Signals Engine</a>
+            <a href="signals.html" class="{'active' if active_page=='signals' else ''}">Quantitative Signals</a>
             <a href="leaderboard.html" class="{'active' if active_page=='leaderboard' else ''}">Leaderboard</a>
-            <a href="api_hub.html" class="{'active' if active_page=='api' else ''}">API Hub</a>
+            <a href="api_hub.html" class="{'active' if active_page=='api' else ''}">Execution Hub</a>
             <a href="wallet.html" class="{'active' if active_page=='wallet' else ''}">Portfolio</a>
-            <a href="academy_lez1_1.html" class="{'active' if active_page=='academy' else ''}">Academy</a>
+            <a href="academy_lez1_1.html" class="{'active' if active_page=='academy' else ''}">Research</a>
             <a href="stories.html" class="{'active' if active_page=='stories' else ''}">Case Studies</a>
-            <a href="brokers.html" class="{'active' if active_page=='brokers' else ''}">Exchanges</a>
-            <a href="tools.html" class="{'active' if active_page=='tools' else ''}">Stack</a>
+            <a href="brokers.html" class="{'active' if active_page=='brokers' else ''}">Venues</a>
+            <a href="tools.html" class="{'active' if active_page=='tools' else ''}">Infrastructure</a>
             
             <div class="dropdown">
-                <a class="{'active' if active_page in ['vip', 'pricing', 'referral'] else ''}">VIP HUB ▼</a>
+                <a class="{'active' if active_page in ['vip', 'pricing', 'referral'] else ''}">CLIENT PORTAL ▼</a>
                 <div class="dropdown-content">
-                    <a href="pricing.html">💳 Provision Tier</a>
-                    <a href="vip_lounge.html">💎 VIP Dashboard</a>
-                    <a href="referral.html">🤝 Partner Network</a>
+                    <a href="vip_lounge.html">Private Dashboard</a>
+                    <a href="pricing.html">Provision Tier</a>
+                    <a href="referral.html">Partner Network</a>
                 </div>
             </div>
 
-            <span id="user-greeting" style="color:#00C853; font-weight:bold; display:none; padding:8px 15px; border-radius:4px; background:#111; border:1px solid #333;"></span>
-            <button id="login-btn" class="vip-btn" onclick="openLogin()" style="background:#333; padding: 10px 20px;">Sign In</button>
+            <span id="user-greeting" style="color:#00C853; font-weight:700; display:none; padding:8px 15px; border-radius:4px; background:#111; border:1px solid #222;"></span>
+            <button id="login-btn" class="vip-btn" onclick="openLogin()" style="background:#222; border: 1px solid #444; padding: 10px 20px; font-weight: 600;">Authenticate</button>
         </nav>
     </header>
     '''
@@ -115,34 +115,34 @@ def get_footer() -> str:
     <div class="legal-footer container">
         <div class="stats-bar">
             <div class="stat-item">
-                <div style="color:#00C853; font-size:0.8rem; font-weight:bold;">● ACTIVE SESSIONS</div>
-                <div class="stat-value" id="live-users">---</div>
+                <div style="color:#00C853; font-size:0.8rem; font-weight:700;">■ ACTIVE SESSIONS</div>
+                <div class="stat-value" id="live-users" style="font-weight:300;">---</div>
             </div>
             <div class="stat-item">
-                <div style="color:#888; font-size:0.8rem; text-transform:uppercase;">Network Requests</div>
-                <div class="stat-value" id="total-visits">---</div>
+                <div style="color:#888; font-size:0.8rem; text-transform:uppercase; font-weight:700;">NETWORK REQUESTS</div>
+                <div class="stat-value" id="total-visits" style="font-weight:300;">---</div>
             </div>
             <div class="stat-item">
-                <div style="color:#888; font-size:0.8rem; text-transform:uppercase;">Protocol Status</div>
-                <div class="stat-value" style="color:#00C853;">SECURE</div>
+                <div style="color:#888; font-size:0.8rem; text-transform:uppercase; font-weight:700;">PROTOCOL STATUS</div>
+                <div class="stat-value" style="color:#00C853; font-weight:300;">SECURE</div>
             </div>
         </div>
         
         <div style="margin: 30px 0;">
-            <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:underline;">Privacy Policy</a> | 
-            <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:underline;">Terms of Service</a> | 
-            <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:underline;">Risk Disclosure</a>
+            <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:none;">Privacy Policy</a> | 
+            <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:none;">Terms of Service</a> | 
+            <a href="legal.html" style="color:#888; margin: 0 10px; text-decoration:none;">Risk Disclosure</a>
         </div>
         
-        <p style="color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;"><b>INSTITUTIONAL RISK DISCLOSURE</b></p>
-        <p style="text-align:justify; max-width:800px; margin: 0 auto 20px; line-height:1.4; font-size:0.75rem; color:#555;">Quantitative trading of digital assets and derivatives carries substantial risk. Leverage can lead to total loss of capital. The algorithmic data, on-chain metrics, and technical models provided by Market Insider Pro serve strictly as an <b>educational framework</b>. We operate as a data aggregation and analytics provider, not a financial advisory firm. Past performance does not guarantee future quantitative yield.</p>
-        <p style="text-align:justify; max-width:800px; margin: 0 auto; line-height:1.4;">© 2026 Market Insider Pro Technologies. All Rights Reserved.</p>
+        <p style="color:#666; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; font-size: 0.8rem;"><b>INSTITUTIONAL RISK DISCLOSURE</b></p>
+        <p style="text-align:justify; max-width:800px; margin: 0 auto 20px; line-height:1.6; font-size:0.75rem; color:#555;">Quantitative trading of digital assets and derivatives carries substantial risk. Leverage can lead to total loss of capital. The algorithmic data, on-chain metrics, and technical models provided by Market Insider Pro serve strictly as an educational framework. We operate as a data aggregation and analytics provider, not a financial advisory firm. Past performance does not guarantee future quantitative yield.</p>
+        <p style="text-align:justify; max-width:800px; margin: 0 auto; line-height:1.4; color:#444; font-size: 0.8rem;">© 2026 Market Insider Pro Technologies. All Rights Reserved.</p>
     </div>
     
     {llm_injection}
     
     <div class="fomo-popup" id="fomo-box">
-        <div class="fomo-icon"></div>
+        <div class="fomo-icon" style="background:#00C853; width:10px; height:10px; border-radius:50%; display:inline-block;"></div>
         <div id="fomo-text">Institutional API connected.</div>
     </div>
     
@@ -164,14 +164,12 @@ def get_footer() -> str:
         let visits = localStorage.getItem("mip_total_visits"); 
         if (!visits) visits = Math.floor(Math.random() * 5000) + 10000; 
         localStorage.setItem("mip_total_visits", ++visits); 
-        
         let tv = document.getElementById("total-visits"); 
         if(tv) tv.innerText = visits.toLocaleString();
         
         let baseUsers = Math.floor(Math.random() * 50) + 150; 
         let lu = document.getElementById("live-users"); 
         if(lu) lu.innerText = baseUsers;
-        
         setInterval(() => {{ 
             let f = Math.floor(Math.random() * 7) - 3; 
             baseUsers += f; 
@@ -181,41 +179,37 @@ def get_footer() -> str:
         
         const fomoMsgs = [
             "Significant volume detected on Binance Cold Wallet.", 
-            "Algorithmic engine confirmed long bias on BTC.", 
+            "Algorithmic engine confirmed accumulation phase.", 
             "New API execution channel established.", 
             "Macro volatility matrix updated.", 
-            "Institutional Tier successfully activated."
+            "Institutional Tier verification successful."
         ];
-        
         setInterval(() => {{ 
             let box = document.getElementById('fomo-box'); 
             if(box) {{ 
                 document.getElementById('fomo-text').innerText = fomoMsgs[Math.floor(Math.random()*fomoMsgs.length)]; 
                 box.classList.add('show'); 
-                setTimeout(() => box.classList.remove('show'), 5000); 
+                setTimeout(() => box.classList.remove('show'), 4000); 
             }} 
-        }}, 15000);
+        }}, 12000);
         
         if(!localStorage.getItem('mip_cookies_accepted')) {{ 
             setTimeout(()=> document.getElementById('cookie-banner').classList.add('show'), 2000); 
         }}
         
-        // AGGIORNAMENTO DATI MIGLIORATO: Separiamo Crypto da Stocks per non bloccare l'API
+        // SCRIPT DATI REALI (Solo API Binance, no finte azioni)
         async function updateLivePrices() {{
             try {{
                 let res = await originalFetch('https://api.binance.com/api/v3/ticker/price');
                 let data = await res.json();
                 
                 let priceMap = {{}};
-                data.forEach(item => {{ 
-                    priceMap[item.symbol.toLowerCase()] = item.price; 
-                }});
+                data.forEach(item => {{ priceMap[item.symbol.toLowerCase()] = item.price; }});
                 
-                // Mappa tutte le Crypto sulla pagina che hanno un ID che corrisponde a un simbolo Binance
                 let cryptoElements = document.querySelectorAll('.card-wrapper[data-type="crypto"]');
                 cryptoElements.forEach(card => {{
-                    let id = card.getAttribute('data-id'); // es. 'btc'
-                    let symbol = id + 'usdt'; // bteusdt
+                    let id = card.getAttribute('data-id'); 
+                    let symbol = id + 'usdt'; 
                     
                     if(priceMap[symbol]) {{
                         let el = document.getElementById("price-" + id);
@@ -227,41 +221,17 @@ def get_footer() -> str:
                             if(el.innerText !== formattedPrice) {{ 
                                 el.innerText = formattedPrice; 
                                 el.style.color = "#00C853"; 
-                                setTimeout(() => el.style.color = "white", 500); 
+                                setTimeout(() => el.style.color = "white", 400); 
                             }}
                         }}
                     }}
                 }});
-
-                // SIMULAZIONE AZIONI / ETF (Per farle sembrare live senza API a pagamento)
-                let stockElements = document.querySelectorAll('.card-wrapper[data-type="stock"], .card-wrapper[data-type="etf"]');
-                stockElements.forEach(card => {{
-                    if(Math.random() > 0.7) {{ // 30% di probabilità di tick per ogni ciclo
-                        let id = card.getAttribute('data-id');
-                        let el = document.getElementById("price-" + id);
-                        if(el) {{
-                            let currentText = el.innerText.replace('$', '').replace(/,/g, '');
-                            let currentPrice = parseFloat(currentText);
-                            if(!isNaN(currentPrice) && currentPrice > 0) {{
-                                // Oscilla dello 0.05%
-                                let change = currentPrice * (Math.random() * 0.001 - 0.0005);
-                                let newPrice = currentPrice + change;
-                                let formattedPrice = "$" + newPrice.toLocaleString('en-US', {{minimumFractionDigits: 2, maximumFractionDigits: 2}});
-                                
-                                el.innerText = formattedPrice;
-                                el.style.color = change >= 0 ? "#00C853" : "#FF3D00";
-                                setTimeout(() => el.style.color = "white", 500);
-                            }}
-                        }}
-                    }}
-                }});
-
-            }} catch (e) {{ console.log("Data Feed Interrupted"); }}
+            }} catch (e) {{ console.log("Data Feed Sync Issue"); }}
         }}
         
         if(document.body.innerText.includes('GLOBAL MACRO PULSE')) {{ 
             updateLivePrices(); 
-            setInterval(updateLivePrices, 3000); 
+            setInterval(updateLivePrices, 2500); 
         }}
     }});
     
@@ -279,7 +249,7 @@ MODALS_HTML = '''
         <h2 id="modal-title" style="color:#FFD700; margin-top:0;">EXECUTION BETA</h2>
         <p id="modal-desc" style="color:#aaa; font-size:0.9rem;">The API Auto-Execution framework is currently in Closed Beta. Enter your corporate or primary email for waitlist consideration.</p>
         <div id="waitlist-form">
-            <input type="email" id="waitlist-email" class="modal-input" placeholder="name@company.com">
+            <input type="email" id="waitlist-email" class="modal-input" placeholder="corporate@domain.com">
             <button class="btn-trade" style="width:100%; padding:12px;" onclick="window.submitFirebaseWaitlist()">REQUEST INTEGRATION</button>
         </div>
         <div id="waitlist-success" style="display:none; color:#00C853; font-weight:bold; margin-top:20px;">Protocol Accepted. Awaiting verification.</div>
@@ -293,13 +263,11 @@ MODALS_HTML = '''
         <p style="color:#aaa; font-size:0.9rem; margin-bottom:25px;">Access your secure environment.</p>
         
         <button class="auth-btn btn-web3" onclick="loginWeb3()">
-            <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M31.066 12.355c-0.126-0.347-0.428-0.597-0.793-0.658l-8.665-1.428-3.419-7.971c-0.155-0.362-0.505-0.599-0.899-0.599s-0.744 0.237-0.899 0.599l-3.419 7.971-8.665 1.428c-0.365 0.061-0.667 0.311-0.793 0.658s-0.038 0.748 0.231 1.002l6.471 6.115-1.848 8.423c-0.075 0.342 0.054 0.702 0.336 0.906s0.669 0.222 0.984 0.052l7.533-4.062 7.533 4.062c0.141 0.076 0.297 0.113 0.452 0.113 0.183 0 0.365-0.055 0.531-0.165 0.282-0.204 0.411-0.564 0.336-0.906l-1.848-8.423 6.471-6.115c0.269-0.254 0.357-0.655 0.231-1.002z" fill="#fff"/></svg>
-            Connect Web3 Provider
+            <span style="font-weight:bold;">[ Web3 Provider ]</span> Connect Wallet
         </button>
         
-        <button class="auth-btn btn-google" onclick="window.triggerGoogleLogin()">
-            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-            Authorize via Google
+        <button class="auth-btn btn-google" onclick="window.triggerGoogleLogin()" style="background:#111; color:#fff; border: 1px solid #333;">
+            <span style="font-weight:bold;">[ SSO ]</span> Authorize via Google
         </button>
         
         <div class="auth-divider">Standard Auth</div>
@@ -332,68 +300,27 @@ MODALS_HTML = '''
       signInWithPopup(auth, provider).then((result) => {
           let displayName = result.user.displayName || result.user.email.split('@')[0];
           localStorage.setItem('mip_user', displayName); 
-          closeModals(); 
-          checkLogin(); 
-          location.reload();
-      }).catch((error) => { 
-          alert("Auth Failure: " + error.message); 
-      });
+          closeModals(); checkLogin(); location.reload();
+      }).catch((error) => { alert("Auth Failure: " + error.message); });
   };
 
   window.submitFirebaseWaitlist = async function() {
       let e = document.getElementById('waitlist-email').value; 
       const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;
-      
       if(re.test(String(e).toLowerCase())) { 
-          let btn = document.querySelector('#waitlist-form .btn-trade'); 
-          btn.innerText = "PROCESSING..."; 
-          btn.style.opacity = "0.7";
-          
+          let btn = document.querySelector('#waitlist-form .btn-trade'); btn.innerText = "PROCESSING..."; btn.style.opacity = "0.7";
           try {
               await addDoc(collection(db, "waitlist_emails"), { email: e, timestamp: serverTimestamp(), source: "Market Insider Pro" });
-              document.getElementById('waitlist-form').style.display = 'none'; 
-              document.getElementById('waitlist-success').style.display = 'block'; 
-          } catch (error) { 
-              btn.innerText = "REQUEST INTEGRATION"; 
-              btn.style.opacity = "1"; 
-          }
-      } else { 
-          alert("Format Error: Verify email syntaxis."); 
-      } 
+              document.getElementById('waitlist-form').style.display = 'none'; document.getElementById('waitlist-success').style.display = 'block'; 
+          } catch (error) { btn.innerText = "REQUEST INTEGRATION"; btn.style.opacity = "1"; }
+      } else { alert("Format Error: Verify email syntax."); } 
   };
 </script>
 
 <script>
-    function validateEmail(email) { 
-        const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/; 
-        return re.test(String(email).toLowerCase()); 
-    }
-    
-    function loginEmail() { 
-        let e = document.getElementById('login-email').value; 
-        if(validateEmail(e)) { 
-            localStorage.setItem('mip_user', e.split('@')[0]); 
-            closeModals(); 
-            checkLogin(); 
-            location.reload(); 
-        } 
-    }
-    
-    async function loginWeb3() { 
-        if (typeof window.ethereum !== 'undefined') { 
-            try { 
-                const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }); 
-                localStorage.setItem('mip_user', accounts[0].substring(0,6) + '...' + accounts[0].substring(accounts[0].length-4)); 
-                closeModals(); 
-                checkLogin(); 
-                location.reload(); 
-            } catch (error) { 
-                alert("Connection Refused."); 
-            } 
-        } else { 
-            alert("Provider Not Found."); 
-        } 
-    }
+    function validateEmail(email) { const re = /^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/; return re.test(String(email).toLowerCase()); }
+    function loginEmail() { let e = document.getElementById('login-email').value; if(validateEmail(e)) { localStorage.setItem('mip_user', e.split('@')[0]); closeModals(); checkLogin(); location.reload(); } }
+    async function loginWeb3() { if (typeof window.ethereum !== 'undefined') { try { const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }); localStorage.setItem('mip_user', accounts[0].substring(0,6) + '...' + accounts[0].substring(accounts[0].length-4)); closeModals(); checkLogin(); location.reload(); } catch (error) { alert("Connection Refused."); } } else { alert("Provider Not Found."); } }
     
     function openWaitlist() { document.getElementById('waitlist-modal').style.display = 'flex'; }
     function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
@@ -402,22 +329,17 @@ MODALS_HTML = '''
     function checkLogin() { 
         let u = localStorage.getItem('mip_user'); 
         let isVip = localStorage.getItem('mip_vip_status') === 'active';
-        
         if(u) { 
             let g = document.getElementById('user-greeting'); 
             let b = document.getElementById('login-btn'); 
-            
             if(g) { 
-                let badge = isVip ? ' <span style="background:var(--gold); color:#000; padding:2px 6px; border-radius:4px; font-size:0.75rem; font-weight:900; margin-left:8px;">VIP TIER</span>' : '';
+                let badge = isVip ? ' <span style="background:var(--gold); color:#000; padding:2px 6px; border-radius:4px; font-size:0.75rem; font-weight:900; margin-left:8px;">TIER 2</span>' : '';
                 g.innerHTML = u + badge; 
                 g.style.display = "inline"; 
             } 
-            if(b) {
-                b.style.display = "none"; 
-            }
+            if(b) b.style.display = "none"; 
         } 
     }
-    
     document.addEventListener("DOMContentLoaded", checkLogin);
 </script>
 '''
