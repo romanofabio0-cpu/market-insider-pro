@@ -517,7 +517,6 @@ def build_api_hub():
     }
     </script>
     '''
-    
     html = f'''<!DOCTYPE html>
     <html lang="en">
     <head>
