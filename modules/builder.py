@@ -487,8 +487,8 @@ def build_signals_page(assets: List[Dict]):
     </body>
     </html>'''
     scrivi_file("signals.html", html)
-    def build_api_hub():
-    js_script = '''
+def build_api_hub():
+        js_script = '''
     <script>
     function connectAPI() { 
         document.getElementById('api-form-container').style.display = 'none'; 
@@ -758,7 +758,7 @@ def build_leaderboard_page():
     document.addEventListener("DOMContentLoaded", function() { 
         let user = localStorage.getItem('mip_user'); 
         if(user) { 
-            document.getElementById('lb-body').innerHTML += `<tr style="border-bottom:1px solid #222; background:#0a0a0a;"><td class="rank-3" style="padding:15px; color:#fff; font-weight:bold;">#8</td><td><strong style="color:#fff;">[YOU] ${user}</strong></td><td style="font-family:monospace; color:#aaa;">$14,250</td><td style="color:#00C853; font-family:monospace;">+18.4%</td><td><span style="color:#888; font-size:0.8rem;">Tier 2</span></td></tr>`; 
+            document.getElementById('lb-body').innerHTML += `<tr class="user-row" style="background:#111;"><td class="rank-3" style="padding:15px; color:#fff; font-weight:bold;">#8</td><td><strong style="color:#fff;">[YOU] ${user}</strong></td><td style="font-family:monospace; color:#aaa;">$14,250</td><td class="change green" style="font-family:monospace;">+18.4%</td><td><span style="color:#888; font-size:0.8rem;">Tier 2</span></td></tr>`; 
         } 
     });
     </script>
@@ -780,7 +780,7 @@ def build_leaderboard_page():
             <div class="panel" style="max-width:900px; margin:0 auto; padding:0; border-radius:4px; overflow:hidden; border:1px solid #1a1a1a;">
                 <table style="width:100%; border-collapse:collapse;">
                     <thead>
-                        <tr style="background:#050505; border-bottom:1px solid #222; font-size:0.75rem; color:#666; text-align:left;">
+                        <tr style="background:#050505; border-bottom:1px solid #333; font-size:0.8rem; color:#666; text-align:left;">
                             <th style="padding:15px;">RANK</th>
                             <th>IDENTIFIER</th>
                             <th>CAPITAL DEPLOYED</th>
@@ -789,26 +789,26 @@ def build_leaderboard_page():
                         </tr>
                     </thead>
                     <tbody id="lb-body">
-                        <tr style="border-bottom:1px solid #111;">
+                        <tr style="border-bottom:1px solid #222;">
                             <td class="rank-1" style="padding:15px; color:#fff; font-weight:bold;">#1</td>
                             <td><strong style="color:#ddd;">Entity_99</strong></td>
                             <td style="font-family:monospace; color:#aaa;">$1.2M</td>
-                            <td style="color:#00C853; font-family:monospace;">+142.5%</td>
-                            <td><span style="color:var(--gold); font-size:0.7rem; border:1px solid var(--gold); padding:2px 6px; border-radius:2px;">WHALE</span></td>
+                            <td class="change green" style="font-family:monospace;">+142.5%</td>
+                            <td><span style="color:var(--gold); font-size:0.8rem; border:1px solid var(--gold); padding:2px 6px; border-radius:2px;">WHALE</span></td>
                         </tr>
-                        <tr style="border-bottom:1px solid #111;">
+                        <tr style="border-bottom:1px solid #222;">
                             <td class="rank-2" style="padding:15px; color:#fff; font-weight:bold;">#2</td>
                             <td><strong style="color:#ddd;">Quant_LDN</strong></td>
                             <td style="font-family:monospace; color:#aaa;">$450K</td>
-                            <td style="color:#00C853; font-family:monospace;">+89.2%</td>
-                            <td><span style="color:#888; font-size:0.7rem;">Tier 2</span></td>
+                            <td class="change green" style="font-family:monospace;">+89.2%</td>
+                            <td><span style="color:#888; font-size:0.8rem;">Tier 2</span></td>
                         </tr>
-                        <tr style="border-bottom:1px solid #111;">
+                        <tr style="border-bottom:1px solid #222;">
                             <td class="rank-3" style="padding:15px; color:#fff; font-weight:bold;">#3</td>
                             <td><strong style="color:#ddd;">CapitalX</strong></td>
                             <td style="font-family:monospace; color:#aaa;">$89K</td>
-                            <td style="color:#00C853; font-family:monospace;">+64.8%</td>
-                            <td><span style="color:#888; font-size:0.7rem;">Tier 2</span></td>
+                            <td class="change green" style="font-family:monospace;">+64.8%</td>
+                            <td><span style="color:#888; font-size:0.8rem;">Tier 2</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -857,6 +857,7 @@ def build_academy():
                 c_html = f'''
                 <div id="vip-content" style="filter: blur(12px); pointer-events: none; user-select: none; transition: 0.5s;">{l['html']}</div>
                 <div id="vip-lock" style="position:absolute; top:40%; left:50%; transform:translate(-50%, -50%); text-align:center; background:#050505; padding:40px; border:1px solid #222; border-radius:4px; z-index:10; width:90%; max-width:400px; box-shadow:0 20px 40px rgba(0,0,0,0.9);">
+                    <div style="width:50px; height:50px; border:2px solid #FF3D00; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px auto; color:#FF3D00; font-weight:bold;">!</div>
                     <h2 style="color:#fff; margin-top:0; font-weight:900;">RESTRICTED DATA</h2>
                     <p style="color:#888; margin-bottom:30px; font-size:0.85rem;">Protocol requires Tier 2 clearance.</p>
                     <a href="pricing.html" class="btn-trade" style="display:block; padding:12px; border-radius:2px; font-weight:600; letter-spacing:1px;">AUTHENTICATE CLEARANCE</a>
@@ -1188,7 +1189,6 @@ def build_cheatsheets():
     </html>'''
     scrivi_file("cheatsheet_risk.html", risk_html)
 
-# === IL VERO VALORE AGGIUNTO: LA PIATTAFORMA DI PAPER TRADING VIP ===
 def build_vip_lounge():
     build_cheatsheets() 
     js = '''
@@ -1251,7 +1251,6 @@ def build_vip_lounge():
         
         document.getElementById('pt-amount').value = "";
         
-        // Effetto visivo bottone
         let btn = document.getElementById('pt-buy-btn');
         let oldText = btn.innerText;
         btn.innerText = "ORDER FILLED";
@@ -1284,6 +1283,10 @@ def build_vip_lounge():
         
         if(Object.keys(pos).length === 0) {
             tbody.innerHTML = "<tr><td colspan='6' style='text-align:center; padding:30px; color:#666;'>No active orders. Execute a paper trade to begin simulation.</td></tr>";
+            
+            let pnlEl = document.getElementById('pt-unrealized');
+            pnlEl.innerText = "$0.00";
+            pnlEl.style.color = "#888";
             return;
         }
 
@@ -1580,7 +1583,6 @@ def build_tools_page():
     </body>
     </html>'''
     scrivi_file("tools.html", html)
-
 
 def build_seo_files():
     BASE_URL = "https://marketinsiderpro.com"
