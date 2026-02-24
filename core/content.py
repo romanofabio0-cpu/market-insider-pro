@@ -38,12 +38,46 @@ def get_header(active_page: str) -> str:
     </script>
     '''
 
+    # CSS per il Menu Dropdown del VIP HUB
+    dropdown_css = '''
+    <style>
+    .dropdown { position: relative; display: inline-block; }
+    .dropbtn { background: linear-gradient(45deg, #FFD700, #F57F17); color: #000; padding: 10px 20px; font-size: 1rem; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+    .dropdown-content { display: none; position: absolute; right: 0; background-color: #111; min-width: 200px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.9); z-index: 100; border: 1px solid #333; border-radius: 4px; overflow: hidden; }
+    .dropdown-content a { color: #fff; padding: 15px 20px; text-decoration: none; display: block; border-bottom: 1px solid #222; font-size: 0.9rem; }
+    .dropdown-content a:hover { background-color: #222; color: var(--gold); }
+    .dropdown:hover .dropdown-content { display: block; }
+    .dropdown:hover .dropbtn { background: #fff; }
+    
+    .logo-container { display: flex; align-items: center; gap: 12px; }
+    </style>
+    '''
+
     return f'''
     {CSS_CORE} 
     {seo_tags} 
     {anti_theft_script}
+    {dropdown_css}
     <header>
-        <div class="logo">MARKET<span>INSIDER</span> PRO</div>
+        <div class="logo-container">
+            <svg width="35" height="35" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 0L100 25V75L50 100L0 75V25L50 0Z" fill="url(#gradient_gold)"/>
+                <path d="M50 15L85 32V68L50 85L15 68V32L50 15Z" fill="#111111"/>
+                <path d="M50 35L65 42V58L50 65L35 58V42L50 35Z" fill="url(#gradient_accent)"/>
+                <defs>
+                    <linearGradient id="gradient_gold" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#FFD700"/>
+                        <stop offset="1" stop-color="#F57F17"/>
+                    </linearGradient>
+                    <linearGradient id="gradient_accent" x1="35" y1="35" x2="65" y2="65" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#00C853"/>
+                        <stop offset="1" stop-color="#2962FF"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div class="logo">MARKET<span>INSIDER</span> PRO</div>
+        </div>
+
         <nav class="nav">
             <a href="index.html" class="{'active' if active_page=='home' else ''}">Terminal</a>
             <a href="signals.html" class="{'active' if active_page=='signals' else ''}">Signals Engine</a>
@@ -52,14 +86,20 @@ def get_header(active_page: str) -> str:
             <a href="wallet.html" class="{'active' if active_page=='wallet' else ''}">Portfolio</a>
             <a href="academy_lez1_1.html" class="{'active' if active_page=='academy' else ''}">Academy</a>
             <a href="stories.html" class="{'active' if active_page=='stories' else ''}">Testimonials</a>
-            <a href="vip_lounge.html" class="{'active' if active_page=='vip' else ''}" style="color:#FFD700; font-weight:bold;">VIP Access</a>
             <a href="brokers.html" class="{'active' if active_page=='brokers' else ''}">Exchanges</a>
-            <a href="tools.html" class="{'active' if active_page=='tools' else ''}">Institutional Stack</a>
-            <a href="referral.html" class="{'active' if active_page=='referral' else ''}" style="color:var(--gold);">Referral</a>
+            <a href="tools.html" class="{'active' if active_page=='tools' else ''}">Stack</a>
             
             <span id="user-greeting" style="color:#00C853; font-weight:bold; display:none; padding:8px 15px; border-radius:4px; background:#111; border:1px solid #333;"></span>
             <button id="login-btn" class="vip-btn" onclick="openLogin()" style="background:#333;">Sign In</button>
-            <a href="pricing.html" class="vip-btn" style="background: linear-gradient(45deg, #FFD700, #F57F17); color:#000;">Upgrade to VIP</a>
+            
+            <div class="dropdown">
+                <button class="dropbtn">VIP HUB ▼</button>
+                <div class="dropdown-content">
+                    <a href="pricing.html">💳 Upgrade to VIP Pass</a>
+                    <a href="vip_lounge.html">💎 Enter VIP Dashboard</a>
+                    <a href="referral.html">🤝 Invite & Earn</a>
+                </div>
+            </div>
         </nav>
     </header>
     '''
@@ -178,7 +218,10 @@ def get_footer() -> str:
                     "ada": priceMap["ADAUSDT"], 
                     "doge": priceMap["DOGEUSDT"], 
                     "pepe": priceMap["1000PEPEUSDT"] || priceMap["PEPEUSDT"], 
-                    "rndr": priceMap["RENDERUSDT"] || priceMap["RNDRUSDT"] 
+                    "rndr": priceMap["RENDERUSDT"] || priceMap["RNDRUSDT"],
+                    "avax": priceMap["AVAXUSDT"],
+                    "link": priceMap["LINKUSDT"],
+                    "dot": priceMap["DOTUSDT"]
                 }};
 
                 for (const [id, price] of Object.entries(targets)) {{

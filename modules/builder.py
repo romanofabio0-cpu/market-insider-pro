@@ -25,7 +25,6 @@ AFF_NORDVPN = "https://go.nordvpn.net/aff_c?offer_id=15&aff_id=141781&url_id=858
 AFF_MEXC_BOTS = "https://www.mexc.com/register?inviteCode=3rYPU"
 AFF_MEXC = "https://promote.mexc.com/r/ha7nQSXy"
 
-# Placeholder per i link futuri
 AFF_FTMO = "https://ftmo.com/en/?affiliates=TUO_CODICE"
 AFF_GLASSNODE = "https://glassnode.com/?via=TUO_CODICE"
 AFF_UDEMY_COURSE = "https://click.linksynergy.com/fs-bin/click?id=TUO_CODICE&offerid=UDEMY_TRADING_COURSE"
@@ -112,21 +111,64 @@ ACADEMY_CONTENT = {
                 '''
             }
         ]
+    },
+    "mod5": {
+        "title": "MODULE 5: ADVANCED DERIVATIVES", 
+        "lessons": [
+            {
+                "id": "lez5_1", 
+                "title": "5.1 Options & Hedging", 
+                "vip": True, 
+                "html": f'''
+                <h1 style="color:#fff; font-size:2.5rem; margin-bottom:10px;">Delta Neutral Strategies</h1>
+                <p style="color:#aaa; font-size:1.1rem; line-height:1.6;">Institutions do not expose themselves to directional risk blindly. Utilizing derivatives to hedge spot portfolios is the key to surviving bear markets.</p>
+                <div style='margin-top:40px; padding:30px; background:#1a1a1a; border-left:4px solid #2962FF; border-radius:8px;'>
+                    <h3 style="color:#2962FF; margin-top:0;">Derivatives Platform</h3>
+                    <p style="color:#ccc;">For complex hedging, deep liquidity and zero maker fees are essential to maintain margin.</p>
+                    <a href='{AFF_MEXC}' target='_blank' class='vip-btn' style='background:#2962FF; color:white; text-decoration:none; display:inline-block; margin-top:10px;'>ACCESS MEXC DERIVATIVES</a>
+                </div>
+                '''
+            }
+        ]
     }
 }
 
+# ESPANSIONE DEL DATABASE (150+ Simboli Potenziali per la Dashboard)
 ASSETS_DB = {
+    # Top Crypto
     "BTC": {"name": "Bitcoin", "symbol": "BINANCE:BTCUSDT", "type": "crypto", "has_chart": True},
     "ETH": {"name": "Ethereum", "symbol": "BINANCE:ETHUSDT", "type": "crypto", "has_chart": True},
     "SOL": {"name": "Solana", "symbol": "BINANCE:SOLUSDT", "type": "crypto", "has_chart": True},
     "XRP": {"name": "Ripple", "symbol": "BINANCE:XRPUSDT", "type": "crypto", "has_chart": True},
     "ADA": {"name": "Cardano", "symbol": "BINANCE:ADAUSDT", "type": "crypto", "has_chart": True},
+    "AVAX": {"name": "Avalanche", "symbol": "BINANCE:AVAXUSDT", "type": "crypto", "has_chart": True},
+    "DOT": {"name": "Polkadot", "symbol": "BINANCE:DOTUSDT", "type": "crypto", "has_chart": True},
+    "LINK": {"name": "Chainlink", "symbol": "BINANCE:LINKUSDT", "type": "crypto", "has_chart": True},
+    "MATIC": {"name": "Polygon", "symbol": "BINANCE:MATICUSDT", "type": "crypto", "has_chart": True},
     "DOGE": {"name": "Dogecoin", "symbol": "BINANCE:DOGEUSDT", "type": "crypto", "has_chart": True},
     "PEPE": {"name": "Pepe", "symbol": "BINANCE:1000PEPEUSDT", "type": "crypto", "has_chart": True},
     "RNDR": {"name": "Render", "symbol": "BINANCE:RENDERUSDT", "type": "crypto", "has_chart": True}, 
+    "LTC": {"name": "Litecoin", "symbol": "BINANCE:LTCUSDT", "type": "crypto", "has_chart": True},
+    "NEAR": {"name": "NEAR Protocol", "symbol": "BINANCE:NEARUSDT", "type": "crypto", "has_chart": True},
+    
+    # Top Stocks
     "NVDA": {"name": "Nvidia", "symbol": "NASDAQ:NVDA", "type": "stock", "has_chart": True},
     "AAPL": {"name": "Apple", "symbol": "NASDAQ:AAPL", "type": "stock", "has_chart": True},
     "TSLA": {"name": "Tesla", "symbol": "NASDAQ:TSLA", "type": "stock", "has_chart": True},
+    "MSFT": {"name": "Microsoft", "symbol": "NASDAQ:MSFT", "type": "stock", "has_chart": True},
+    "GOOGL": {"name": "Alphabet", "symbol": "NASDAQ:GOOGL", "type": "stock", "has_chart": True},
+    "AMZN": {"name": "Amazon", "symbol": "NASDAQ:AMZN", "type": "stock", "has_chart": True},
+    "META": {"name": "Meta Platforms", "symbol": "NASDAQ:META", "type": "stock", "has_chart": True},
+    "COIN": {"name": "Coinbase", "symbol": "NASDAQ:COIN", "type": "stock", "has_chart": True},
+    "MSTR": {"name": "MicroStrategy", "symbol": "NASDAQ:MSTR", "type": "stock", "has_chart": True},
+    
+    # ETFs & Indices
+    "SPY": {"name": "S&P 500 ETF", "symbol": "AMEX:SPY", "type": "etf", "has_chart": True},
+    "QQQ": {"name": "Invesco QQQ", "symbol": "NASDAQ:QQQ", "type": "etf", "has_chart": True},
+    "IBIT": {"name": "BlackRock BTC ETF", "symbol": "NASDAQ:IBIT", "type": "etf", "has_chart": True},
+    "FBTC": {"name": "Fidelity BTC ETF", "symbol": "BATS:FBTC", "type": "etf", "has_chart": True},
+    
+    # Proprietary Index
     "MIP_INDEX": {"name": "MIP Liquidity Index", "symbol": "NONE", "type": "index", "has_chart": False}
 }
 
@@ -153,8 +195,9 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         color = "green" if d_asset['change'] >= 0 else "red"
         elem_id = ticker.lower()
         
+        # AGGIUNTO DATA-TYPE PER IL FILTRO
         grid_html += f'''
-        <div class="card-wrapper" data-id="{elem_id}">
+        <div class="card-wrapper" data-id="{elem_id}" data-type="{db_info['type']}">
             <span class="star-icon" id="star-{elem_id}" onclick="toggleStar('{elem_id}')">★</span>
             <a href="chart_{elem_id}.html" class="card-link" style="display:block; height:100%;">
                 <div class="card">
@@ -226,6 +269,41 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
             <div class="fng-indicator" style="left: {fng["value"]}%;"></div>
         </div>
     </div>
+    '''
+    
+    # AGGIUNTA DELLA BARRA DI RICERCA E FILTRI
+    filter_html = '''
+    <div class="market-filters" style="margin-bottom: 20px; display: flex; gap: 15px; align-items:center;">
+        <input type="text" id="asset-search" placeholder="Search asset (e.g. BTC, SPY)..." onkeyup="filterAssets()" style="padding: 12px; background: #000; border: 1px solid #333; color: #fff; width: 100%; max-width: 300px; border-radius: 4px; outline:none;">
+        <select id="asset-category" onchange="filterAssets()" style="padding: 12px; background: #000; border: 1px solid #333; color: #fff; border-radius: 4px; outline:none; cursor:pointer;">
+            <option value="all">All Assets</option>
+            <option value="crypto">Cryptocurrencies</option>
+            <option value="stock">Equities (Stocks)</option>
+            <option value="etf">ETFs</option>
+            <option value="index">Indices</option>
+        </select>
+    </div>
+    <script>
+    function filterAssets() {
+        let search = document.getElementById('asset-search').value.toLowerCase();
+        let cat = document.getElementById('asset-category').value;
+        let cards = document.querySelectorAll('.card-wrapper');
+        
+        cards.forEach(c => {
+            let id = c.getAttribute('data-id');
+            let type = c.getAttribute('data-type');
+            
+            let matchSearch = id.includes(search) || c.innerText.toLowerCase().includes(search);
+            let matchCat = (cat === 'all' || type === cat);
+            
+            if (matchSearch && matchCat) {
+                c.style.display = 'block';
+            } else {
+                c.style.display = 'none';
+            }
+        });
+    }
+    </script>
     '''
     
     watchlist_script = '''
@@ -340,6 +418,9 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
                 <div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE CONNECTION</div>
             </div>
             <p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Mark assets to construct custom watchlist.</p>
+            
+            {filter_html}
+
             <div class="grid" id="markets-grid">
                 {grid_html}
             </div>
@@ -885,10 +966,10 @@ def build_chat():
         h.innerHTML+=`<div class="msg msg-user">${v}</div>`; 
         i.value=''; h.scrollTop=h.scrollHeight; 
         let t="t-"+Date.now(); 
-        h.innerHTML+=`<div class="msg msg-ai" id="${t}">🤖 Analyzing...</div>`; 
+        h.innerHTML+=`<div class="msg msg-ai" id="${t}">Analyzing...</div>`; 
         h.scrollTop=h.scrollHeight; 
         setTimeout(()=>{
-            document.getElementById(t).innerHTML=`🤖 Market sentiment is actively shifting. Always check the Signals Room before entering a trade.`; 
+            document.getElementById(t).innerHTML=`Market sentiment is actively shifting. Always check the Signals Engine before execution.`; 
             h.scrollTop=h.scrollHeight;
         }, 1000);
     } 
@@ -905,13 +986,13 @@ def build_chat():
     <body>
         {get_header('chat')}
         <div class="container">
-            <h2 class="section-title">AI MARKET ANALYST 🤖</h2>
+            <h2 class="section-title">AI MARKET ANALYST</h2>
             <div class="chat-interface">
                 <div class="chat-history" id="hist">
-                    <div class="msg msg-ai">🤖 Welcome.</div>
+                    <div class="msg msg-ai">System ready. State your query.</div>
                 </div>
                 <div class="chat-input-area">
-                    <input type="text" class="chat-input" id="in" placeholder="Type here...">
+                    <input type="text" class="chat-input" id="in" placeholder="Query structure...">
                     <button class="chat-btn" onclick="send()">ANALYZE</button>
                 </div>
             </div>
@@ -923,8 +1004,6 @@ def build_chat():
     </html>'''
     scrivi_file("chat.html", html)
 
-
-# === IL NUOVO WALLET (PORTFOLIO AGGREGATOR VIP) ESTESO ===
 def build_wallet():
     js = '''
     <script>
@@ -1084,7 +1163,7 @@ def build_cheatsheets():
         {get_header('vip')}
         <div class="container" style="max-width:800px; padding: 40px 20px;">
             <div style="background:#111; border:1px solid var(--accent); padding:40px; border-radius:8px; box-shadow: 0 10px 30px rgba(41, 98, 255, 0.1);">
-                <h1 style="color:var(--accent); margin-top:0; border-bottom:1px solid #333; padding-bottom:15px;">📂 CONFIDENTIAL: Order Block Strategy</h1>
+                <h1 style="color:var(--accent); margin-top:0; border-bottom:1px solid #333; padding-bottom:15px;">CONFIDENTIAL: Order Block Strategy</h1>
                 <p style="color:#888; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px;">Internal Training Document - Do not distribute</p>
                 <h3 style="color:#fff; margin-top:30px;">1. Identifying the Footprint</h3>
                 <p style="color:#ccc; line-height:1.6;">An Order Block (OB) represents a massive accumulation of assets by institutions. It is visually identified on the chart as the <b>last bearish candle before a strong, impulsive bullish move</b> that breaks market structure.</p>
@@ -1097,9 +1176,9 @@ def build_cheatsheets():
                     <li><b>Step 4:</b> Place the Stop Loss slightly below the bottom of the OB.</li>
                 </ul>
                 <div style="margin-top:50px; padding:30px; background:rgba(255,215,0,0.05); border:1px dashed var(--gold); border-radius:8px; text-align:center;">
-                    <h3 style="color:var(--gold); margin-top:0;">⚡ MAXIMIZE YOUR EDGE</h3>
+                    <h3 style="color:var(--gold); margin-top:0;">MAXIMIZE YOUR EDGE</h3>
                     <p style="color:#aaa; font-size:0.95rem; margin-bottom:20px;">To execute Order Block strategies successfully, you need an exchange with deep liquidity, institutional-grade charts, and absolutely zero slippage.</p>
-                    <a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="btn-trade" style="padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none;">OPEN PRO EXCHANGE ACCOUNT ↗</a>
+                    <a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="btn-trade" style="padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none;">OPEN PRO EXCHANGE ACCOUNT</a>
                 </div>
                 <button onclick="window.close()" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; display:block; margin:30px auto 0;">Close Document</button>
             </div>
@@ -1121,7 +1200,7 @@ def build_cheatsheets():
         {get_header('vip')}
         <div class="container" style="max-width:800px; padding: 40px 20px;">
             <div style="background:#111; border:1px solid #FF3D00; padding:40px; border-radius:8px; box-shadow: 0 10px 30px rgba(255, 61, 0, 0.1);">
-                <h1 style="color:#FF3D00; margin-top:0; border-bottom:1px solid #333; padding-bottom:15px;">🛡️ RISK MANAGEMENT PROTOCOL</h1>
+                <h1 style="color:#FF3D00; margin-top:0; border-bottom:1px solid #333; padding-bottom:15px;">RISK MANAGEMENT PROTOCOL</h1>
                 <p style="color:#888; font-size:0.9rem; text-transform:uppercase; letter-spacing:1px;">Capital Preservation Directive</p>
                 <h3 style="color:#fff; margin-top:30px;">The 1% Golden Rule</h3>
                 <p style="color:#ccc; line-height:1.6;">Professional traders do not gamble. They protect capital. You must never risk more than <b>1% of your total account balance</b> on a single trade. If your account is $10,000, your absolute maximum allowed loss if the trade hits your Stop Loss is $100.</p>
@@ -1132,9 +1211,9 @@ def build_cheatsheets():
                 </code>
                 <p style="color:#ccc; line-height:1.6;">Example: $10,000 balance, 1% risk ($100), and your Stop Loss is 5% away. <br>Your Position Size is: $100 / 0.05 = <b>$2,000</b>. You buy $2,000 worth of the asset.</p>
                 <div style="margin-top:50px; padding:30px; background:rgba(0,200,83,0.05); border:1px dashed #00C853; border-radius:8px; text-align:center;">
-                    <h3 style="color:#00C853; margin-top:0;">🔒 SECURE YOUR PROFITS</h3>
+                    <h3 style="color:#00C853; margin-top:0;">SECURE YOUR PROFITS</h3>
                     <p style="color:#aaa; font-size:0.95rem; margin-bottom:20px;">Hedge funds never keep their long-term capital or massive profits sitting on a live exchange. Once you hit your targets, move your wealth completely offline to cold storage.</p>
-                    <a href="{AMAZON_LINK_LEDGER}" target="_blank" class="vip-btn" style="background:#00C853; color:#000; padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none;">GET HARDWARE WALLET ON AMAZON 🛒</a>
+                    <a href="{AMAZON_LINK_LEDGER}" target="_blank" class="vip-btn" style="background:#00C853; color:#000; padding:15px 30px; font-size:1.1rem; display:inline-block; text-decoration:none;">GET HARDWARE WALLET</a>
                 </div>
                 <button onclick="window.close()" style="background:none; border:none; color:#888; text-decoration:underline; cursor:pointer; display:block; margin:30px auto 0;">Close Document</button>
             </div>
@@ -1168,6 +1247,7 @@ def build_vip_lounge():
                             <tr><th style="color:#888; text-align:left;">Entity</th><th style="color:#888; text-align:left;">Holdings (BTC)</th><th style="color:#888; text-align:left;">Net Value</th></tr>
                             <tr><td><strong style="color:var(--gold);">MicroStrategy</strong></td><td>205,000</td><td style="color:#00C853;">$13.5B</td></tr>
                             <tr><td><strong>BlackRock</strong></td><td>195,985</td><td style="color:#00C853;">$12.9B</td></tr>
+                            <tr><td><strong>Fidelity</strong></td><td>124,000</td><td style="color:#00C853;">$8.1B</td></tr>
                         </table>
                     </div>
                     <div class="panel">
