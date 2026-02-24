@@ -25,7 +25,10 @@ AFF_NORDVPN = "https://go.nordvpn.net/aff_c?offer_id=15&aff_id=141781&url_id=858
 AFF_MEXC_BOTS = "https://www.mexc.com/register?inviteCode=3rYPU"
 AFF_MEXC = "https://promote.mexc.com/r/ha7nQSXy"
 
-AFF_FTMO = "https://ftmo.com/en/?affiliates=TUO_CODICE"
+# AGGIORNATI E NUOVI
+AFF_FTMO = "https://trader.ftmo.com/?affiliates=RopBUMkXRdxTzXtcUKQU"
+AFF_TREZOR = "https://trezor.io/?offer_id=TUO_CODICE"
+AFF_NEXO = "https://nexo.com/ref/TUO_CODICE"
 AFF_GLASSNODE = "https://glassnode.com/?via=TUO_CODICE"
 AFF_UDEMY_COURSE = "https://click.linksynergy.com/fs-bin/click?id=TUO_CODICE&offerid=UDEMY_TRADING_COURSE"
 # =========================================================
@@ -133,23 +136,30 @@ ACADEMY_CONTENT = {
     }
 }
 
-# ESPANSIONE DEL DATABASE (150+ Simboli Potenziali per la Dashboard)
+# ESPANSIONE MASSICCIA DEL DATABASE ASSET
 ASSETS_DB = {
     # Top Crypto
     "BTC": {"name": "Bitcoin", "symbol": "BINANCE:BTCUSDT", "type": "crypto", "has_chart": True},
     "ETH": {"name": "Ethereum", "symbol": "BINANCE:ETHUSDT", "type": "crypto", "has_chart": True},
     "SOL": {"name": "Solana", "symbol": "BINANCE:SOLUSDT", "type": "crypto", "has_chart": True},
+    "BNB": {"name": "Binance Coin", "symbol": "BINANCE:BNBUSDT", "type": "crypto", "has_chart": True},
     "XRP": {"name": "Ripple", "symbol": "BINANCE:XRPUSDT", "type": "crypto", "has_chart": True},
     "ADA": {"name": "Cardano", "symbol": "BINANCE:ADAUSDT", "type": "crypto", "has_chart": True},
     "AVAX": {"name": "Avalanche", "symbol": "BINANCE:AVAXUSDT", "type": "crypto", "has_chart": True},
     "DOT": {"name": "Polkadot", "symbol": "BINANCE:DOTUSDT", "type": "crypto", "has_chart": True},
     "LINK": {"name": "Chainlink", "symbol": "BINANCE:LINKUSDT", "type": "crypto", "has_chart": True},
     "MATIC": {"name": "Polygon", "symbol": "BINANCE:MATICUSDT", "type": "crypto", "has_chart": True},
+    "TRX": {"name": "Tron", "symbol": "BINANCE:TRXUSDT", "type": "crypto", "has_chart": True},
     "DOGE": {"name": "Dogecoin", "symbol": "BINANCE:DOGEUSDT", "type": "crypto", "has_chart": True},
+    "SHIB": {"name": "Shiba Inu", "symbol": "BINANCE:SHIBUSDT", "type": "crypto", "has_chart": True},
     "PEPE": {"name": "Pepe", "symbol": "BINANCE:1000PEPEUSDT", "type": "crypto", "has_chart": True},
     "RNDR": {"name": "Render", "symbol": "BINANCE:RENDERUSDT", "type": "crypto", "has_chart": True}, 
     "LTC": {"name": "Litecoin", "symbol": "BINANCE:LTCUSDT", "type": "crypto", "has_chart": True},
     "NEAR": {"name": "NEAR Protocol", "symbol": "BINANCE:NEARUSDT", "type": "crypto", "has_chart": True},
+    "UNI": {"name": "Uniswap", "symbol": "BINANCE:UNIUSDT", "type": "crypto", "has_chart": True},
+    "INJ": {"name": "Injective", "symbol": "BINANCE:INJUSDT", "type": "crypto", "has_chart": True},
+    "OP": {"name": "Optimism", "symbol": "BINANCE:OPUSDT", "type": "crypto", "has_chart": True},
+    "SUI": {"name": "Sui Network", "symbol": "BINANCE:SUIUSDT", "type": "crypto", "has_chart": True},
     
     # Top Stocks
     "NVDA": {"name": "Nvidia", "symbol": "NASDAQ:NVDA", "type": "stock", "has_chart": True},
@@ -195,7 +205,6 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         color = "green" if d_asset['change'] >= 0 else "red"
         elem_id = ticker.lower()
         
-        # AGGIUNTO DATA-TYPE PER IL FILTRO
         grid_html += f'''
         <div class="card-wrapper" data-id="{elem_id}" data-type="{db_info['type']}">
             <span class="star-icon" id="star-{elem_id}" onclick="toggleStar('{elem_id}')">★</span>
@@ -271,7 +280,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     </div>
     '''
     
-    # AGGIUNTA DELLA BARRA DI RICERCA E FILTRI
+    # LA BARRA DI RICERCA / FILTRO NELLA DASHBOARD
     filter_html = '''
     <div class="market-filters" style="margin-bottom: 20px; display: flex; gap: 15px; align-items:center;">
         <input type="text" id="asset-search" placeholder="Search asset (e.g. BTC, SPY)..." onkeyup="filterAssets()" style="padding: 12px; background: #000; border: 1px solid #333; color: #fff; width: 100%; max-width: 300px; border-radius: 4px; outline:none;">
@@ -417,7 +426,6 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
                 <h2 class="section-title" style="margin:0;">GLOBAL MACRO PULSE</h2>
                 <div style="font-size:0.8rem; color:#00C853;"><span style="height:8px;width:8px;background:#00C853;border-radius:50%;display:inline-block;animation:pulse 1s infinite;"></span> SECURE CONNECTION</div>
             </div>
-            <p style="color:#888; margin-top:-10px; margin-bottom:20px; font-size:0.9rem;">Mark assets to construct custom watchlist.</p>
             
             {filter_html}
 
@@ -444,7 +452,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     scrivi_file("index.html", html)
 
 def build_signals_page(assets: List[Dict]):
-    hot_assets = [a for a in assets if abs(a['change']) >= 1.0]
+    hot_assets = [a for a in assets if abs(a['change']) >= 1.0][:10] # Mostra i top 10
     
     rows = ""
     for a in hot_assets:
@@ -1424,17 +1432,17 @@ def build_tools_page():
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:#8A2BE2; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">THEORY & MODELS</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Technical Masterclass</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Supplement platform signals with rigorous technical modeling provided by partner institutions.</p>
-                    <a href="{AFF_UDEMY_COURSE}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#8A2BE2; color:#8A2BE2;">ACCESS FRAMEWORK ↗</a>
+                    <div style="position:absolute; top:-15px; left:20px; background:#007BFF; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">YIELD GENERATION</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Nexo Earn Protocol</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Generate daily compounding interest on idle capital while waiting for execution signals.</p>
+                    <a href="{AFF_NEXO}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#007BFF; color:#007BFF;">EARN YIELD ↗</a>
                 </div>
 
                 <div class="panel" style="border:1px solid #333; position:relative;">
-                    <div style="position:absolute; top:-15px; left:20px; background:#FF3D00; color:#fff; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">NETWORK SECURITY</div>
-                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">NordVPN Protocols</h3>
-                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">Mandatory encryption standard for interacting with execution APIs over public architecture.</p>
-                    <a href="{AFF_NORDVPN}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; border-color:#FF3D00; color:#FF3D00;">SECURE CHANNEL ↗</a>
+                    <div style="position:absolute; top:-15px; left:20px; background:#fff; color:#000; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.8rem;">SECURE CUSTODY</div>
+                    <h3 style="color:#fff; font-size:1.4rem; margin-top:10px;">Trezor Hardware</h3>
+                    <p style="color:#aaa; font-size:0.95rem; line-height:1.6;">The industry-standard open-source cold storage for securing private keys offline.</p>
+                    <a href="{AFF_TREZOR}" target="_blank" class="btn-trade" style="width:100%; display:block; text-align:center; padding:15px; margin-top:20px; box-sizing:border-box; background:#fff; color:#000;">SECURE KEYS ↗</a>
                 </div>
             </div>
 
@@ -1453,7 +1461,7 @@ def build_seo_files():
     pages = [
         "index.html", "signals.html", "api_hub.html", "brokers.html", 
         "referral.html", "pricing.html", "leaderboard.html", "legal.html",
-        "academy_lez1_1.html", "academy_lez2_1.html", "academy_lez3_1.html", "academy_lez4_1.html",
+        "academy_lez1_1.html", "academy_lez2_1.html", "academy_lez3_1.html", "academy_lez4_1.html", "academy_lez5_1.html",
         "chat.html", "wallet.html", "vip_lounge.html", "stories.html", "tools.html"
     ]
     
