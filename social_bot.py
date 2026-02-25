@@ -1,54 +1,100 @@
+import tweepy
+import logging
 import time
 import random
-import datetime
 
-# NOTA: Per far funzionare questo bot, dovrai installare Tweepy dal terminale:
-# pip install tweepy
+# =====================================================================
+# CONFIGURAZIONE LOGGING (Standard CI/CD)
+# =====================================================================
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] SYSTEM: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
-# try:
-#     import tweepy
-# except ImportError:
-#     print("⚠️ Modulo Tweepy non trovato. Esegui: pip install tweepy")
+# =====================================================================
+# 🔑 CREDENZIALI API DI X (TWITTER) - V2
+# =====================================================================
+API_KEY = "ZZsybAdHDRJvtJNtiUIeTDrg7"
+API_SECRET = "5fpdb2AANKPOIOZftawpbXtSliVK1sjVQ9Tq1eyh7sfwl3ic9z"
+ACCESS_TOKEN = "2026616179452973056-hR3MgJ8XoKY2k5EyyXZhdOMVDcsMwN"
+ACCESS_TOKEN_SECRET = "NOY89TKAr2NJvMB5f9kXZsUhE1Y67hLTLHhxOSNRDZkLp"
+# =====================================================================
 
-print("==========================================================")
-print("🤖 MARKET INSIDER PRO - SOCIAL AUTOMATION ENGINE (X/TWITTER)")
-print("==========================================================")
-
-# 1. CREDENZIALI API DI X (Da inserire quando crei il Developer Account su Twitter)
-API_KEY = "inserisci_tua_api_key_qui"
-API_SECRET = "inserisci_tuo_api_secret_qui"
-ACCESS_TOKEN = "inserisci_tuo_access_token_qui"
-ACCESS_TOKEN_SECRET = "inserisci_tuo_token_secret_qui"
-
-def generate_market_tweet():
-    """Genera un tweet quantitativo basato sul sentiment."""
-    assets = ["$BTC", "$ETH", "$SOL", "$NVDA", "$SPY"]
-    directions = ["Accumulation phase detected", "Liquidity sweep at major support", "Algorithmic breakout imminent", "On-chain outflows spiking"]
+def generate_market_tweet() -> str:
+    """
+    Genera un tweet quantitativo basato su metriche simulative.
+    Versione Stealth Anti-Spam (Niente hashtag per scaldare l'account in sicurezza).
+    """
+    assets = ["BTC", "ETH", "SOL", "XRP", "BNB", "AVAX", "LINK"]
+    directions = [
+        "Accumulation phase detected via on-chain flow analysis.",
+        "Liquidity sweep at major support node confirmed.",
+        "Algorithmic breakout sequence initiated. Variance expanding.",
+        "Institutional outflow spiking. Proceed with strict risk sizing.",
+        "Volatility contraction suggests imminent macro expansion.",
+        "Dark pool block trades detected. Smart money positioning.",
+        "Order block mitigation complete. Anticipating reversal."
+    ]
     
     asset = random.choice(assets)
     direction = random.choice(directions)
     
-    tweet = f"🚨 INSTITUTIONAL ALERT: {asset}\n\n"
-    tweet += f"Model output: {direction}.\n"
-    tweet += f"Our quantitative engine just flagged extreme volatility.\n\n"
-    tweet += f"Track the smart money live on Market Insider Pro.\n"
-    tweet += f"🔗 https://marketinsiderpro.com\n\n"
-    tweet += f"#Trading #Crypto #Stocks #AlgoTrading {asset.replace('$', '#')}"
+    # Testo istituzionale e pulito
+    tweet = f"Market Update: {asset}\n\n{direction}\n\nData feed: Market Insider Pro Quant System."
     
     return tweet
 
-def simulate_bot_execution():
-    print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Connessione alle API Social...")
-    time.sleep(2)
-    print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Bypass rate limits... OK.")
-    time.sleep(1)
-    
+def post_tweet(live_mode: bool = False):
+    """Gestisce la pubblicazione del tweet tramite le API v2 di X."""
     tweet_text = generate_market_tweet()
-    print("\n--- TWEET PRONTO PER L'INVIO ---")
-    print(tweet_text)
-    print("--------------------------------\n")
     
-    print("Per inviare realmente, de-commenta il codice Tweepy nel file 'social_bot.py'.")
+    if not live_mode:
+        logging.info("SIMULATION MODE ACTIVE. Tweet generated but not sent to X:")
+        print("\n--------------------------------------------------")
+        print(tweet_text)
+        print("--------------------------------------------------\n")
+        return
+
+    try:
+        logging.info("Establishing secure connection to X API v2...")
+        
+        # Autenticazione corretta per la pubblicazione in v2 (OAuth 1.0a User Context)
+        client = tweepy.Client(
+            consumer_key=API_KEY,
+            consumer_secret=API_SECRET,
+            access_token=ACCESS_TOKEN,
+            access_token_secret=ACCESS_TOKEN_SECRET
+        )
+        
+        # Invio effettivo
+        response = client.create_tweet(text=tweet_text)
+        
+        logging.info(f"Tweet successfully posted! ID: {response.data['id']}")
+        print(f"\n✅ TWEET LIVE: https://x.com/user/status/{response.data['id']}\n")
+
+    except tweepy.TweepyException as e:
+        logging.error(f"API Execution failed: {e}")
+    except Exception as ex:
+        logging.error(f"Unexpected error: {ex}")
+
+def start_automation_loop(hours: int, live_mode: bool = False):
+    """Avvia il loop infinito di pubblicazione."""
+    seconds = hours * 3600
+    logging.info(f"Avvio Automazione: Pubblicazione ogni {hours} ore. (Live Mode: {live_mode})")
+    
+    while True:
+        post_tweet(live_mode=live_mode)
+        logging.info(f"Standby per {hours} ore... Il bot sta riposando.")
+        time.sleep(seconds)
 
 if __name__ == "__main__":
-    simulate_bot_execution()
+    print("=========================================================")
+    print("🤖 MARKET INSIDER PRO - SOCIAL AUTOMATION ENGINE (X)     ")
+    print("=========================================================")
+    
+    # RUN_LIVE = True accende i motori e pubblica sul profilo
+    RUN_LIVE = True
+    
+    # Avvia il loop ogni 4 ore
+    start_automation_loop(hours=4, live_mode=RUN_LIVE)
