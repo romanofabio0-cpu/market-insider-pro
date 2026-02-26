@@ -31,6 +31,64 @@ AFF_GLASSNODE = "https://glassnode.com/?via=TUO_CODICE"
 AFF_UDEMY_COURSE = "https://click.linksynergy.com/fs-bin/click?id=TUO_CODICE&offerid=UDEMY_TRADING_COURSE"
 # =========================================================
 
+# --- STILE DASHBOARD ISTITUZIONALE ---
+MIP_DASHBOARD_CSS = """
+:root {
+    --bg-dark: #0f172a; --bg-card: #1e293b; --text-main: #f8fafc; 
+    --text-muted: #94a3b8; --gold: #d4af37; --sidebar-width: 250px;
+}
+body {
+    margin: 0; font-family: 'Inter', system-ui, sans-serif; 
+    background-color: #0b1120; color: var(--text-main);
+    display: flex; height: 100vh; overflow: hidden;
+}
+.sidebar {
+    width: var(--sidebar-width); background-color: var(--bg-dark); 
+    border-right: 1px solid #334155; display: flex; flex-direction: column; z-index: 10;
+}
+.sidebar-logo {
+    padding: 20px; display: flex; align-items: center; gap: 15px; 
+    font-weight: 800; font-size: 1.2rem; border-bottom: 1px solid #334155; color: var(--gold);
+}
+.sidebar-logo img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--gold); }
+.nav-item {
+    padding: 15px 20px; color: var(--text-muted); text-decoration: none; 
+    font-weight: 500; border-left: 3px solid transparent; transition: all 0.2s ease;
+}
+.nav-item:hover { 
+    background-color: #1e293b; color: white; border-left: 3px solid var(--gold); 
+}
+.main-wrapper { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.top-header {
+    height: 70px; background-color: var(--bg-dark); border-bottom: 1px solid #334155;
+    display: flex; align-items: center; justify-content: flex-end; padding: 0 30px;
+}
+.vip-btn-header {
+    background: linear-gradient(135deg, var(--gold), #b88a00); color: #000; 
+    padding: 10px 20px; border-radius: 6px; font-weight: bold; 
+    text-decoration: none; box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+.hero-banner {
+    margin: 20px 30px; height: 220px; border-radius: 12px; overflow: hidden;
+    background: linear-gradient(rgba(15,23,42,0.6), rgba(15,23,42,0.6)), url('banner_mip.jpg');
+    background-size: cover; background-position: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.hero-banner h1 { margin: 0; font-size: 2.8rem; color: white; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.hero-banner p { color: var(--gold); font-size: 1.2rem; font-weight: 500; margin-top: 10px; }
+.dashboard-content { padding: 0 30px 30px 30px; }
+
+@media (max-width: 768px) {
+    body { flex-direction: column; overflow: auto; }
+    .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding: 10px; }
+    .sidebar-logo { padding: 10px; border-bottom: none; font-size: 1rem; }
+    .nav-item { padding: 10px; font-size: 0.9rem; }
+    .hero-banner { height: 160px; margin: 15px; }
+    .hero-banner h1 { font-size: 1.8rem; }
+    .dashboard-content { padding: 15px; }
+}
+"""
+
 ACADEMY_CONTENT = {
     "mod1": {
         "title": "MODULE I: QUANTITATIVE PSYCHOLOGY", 
@@ -408,40 +466,66 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         <title>Market Insider Pro | Terminal</title>
         {CSS_CORE}
         {ticker_css}
+        <style>{MIP_DASHBOARD_CSS}</style>
     </head>
     <body>
-        {get_header('home')}
-        {ticker_html}
-        <div class="container">
-            {clocks_html}
-            
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 class="section-title" style="margin:0; font-size:1.5rem; letter-spacing:-0.5px;">GLOBAL MACRO DATA</h2>
-                <div style="font-size:0.7rem; color:#00C853; font-family:monospace; border:1px solid #00C853; padding:4px 8px; border-radius:2px;">
-                    API CONNECTED
-                </div>
+        <div class="sidebar">
+            <div class="sidebar-logo">
+                <img src="logo_mip.jpg" alt="MIP Logo">
+                Market Insider Pro
             </div>
-            
-            {filter_html}
-            
-            <div class="grid" id="markets-grid">
-                {grid_html}
+            <a href="index.html" class="nav-item">Dashboard</a>
+            <a href="academy_lez1_1.html" class="nav-item">The Quant Journey</a>
+            <a href="tools.html" class="nav-item">Stack</a>
+            <a href="{BINANCE_AFFILIATE_LINK}" target="_blank" class="nav-item">Exchange (Binance)</a>
+            <a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="nav-item">Exchange (Bybit)</a>
+            <a href="{AFF_TRADINGVIEW}" target="_blank" class="nav-item">TradingView Charts</a>
+        </div>
+
+        <div class="main-wrapper">
+            <div class="top-header">
+                <a href="pricing.html" class="vip-btn-header">Sblocca VIP PASS ($49/mo)</a>
             </div>
-            
-            <div class="split-layout">
-                <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a;">
-                    {fng_html}
+
+            <div class="hero-banner">
+                <h1>MARKET INSIDER PRO</h1>
+                <p>Your Daily Quant Edge. Data-Driven. Market-Proven.</p>
+            </div>
+
+            <div class="dashboard-content">
+                {ticker_html}
+                <div class="container" style="padding-top:20px;">
+                    {clocks_html}
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                        <h2 class="section-title" style="margin:0; font-size:1.5rem; letter-spacing:-0.5px;">GLOBAL MACRO DATA</h2>
+                        <div style="font-size:0.7rem; color:#00C853; font-family:monospace; border:1px solid #00C853; padding:4px 8px; border-radius:2px;">
+                            API CONNECTED
+                        </div>
+                    </div>
+                    
+                    {filter_html}
+                    
+                    <div class="grid" id="markets-grid">
+                        {grid_html}
+                    </div>
+                    
+                    <div class="split-layout">
+                        <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a;">
+                            {fng_html}
+                        </div>
+                        <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a;">
+                            <h2 class="section-title" style="font-size:1.2rem; border-bottom:1px solid #222; padding-bottom:10px;">MARKET INTELLIGENCE</h2>
+                            <table style="width:100%; border-collapse:collapse;">
+                                <tbody>{news_rows}</tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a;">
-                    <h2 class="section-title" style="font-size:1.2rem; border-bottom:1px solid #222; padding-bottom:10px;">MARKET INTELLIGENCE</h2>
-                    <table style="width:100%; border-collapse:collapse;">
-                        <tbody>{news_rows}</tbody>
-                    </table>
-                </div>
+                {MODALS_HTML} 
+                {get_footer()}
             </div>
         </div>
-        {MODALS_HTML} 
-        {get_footer()} 
     </body>
     </html>'''
     scrivi_file("index.html", html)

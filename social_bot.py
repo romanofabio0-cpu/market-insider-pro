@@ -15,10 +15,10 @@ logging.basicConfig(
 # =====================================================================
 # 🔑 CREDENZIALI API DI X (TWITTER) - V2
 # =====================================================================
-API_KEY = "ZZsybAdHDRJvtJNtiUIeTDrg7"
-API_SECRET = "5fpdb2AANKPOIOZftawpbXtSliVK1sjVQ9Tq1eyh7sfwl3ic9z"
-ACCESS_TOKEN = "2026616179452973056-hR3MgJ8XoKY2k5EyyXZhdOMVDcsMwN"
-ACCESS_TOKEN_SECRET = "NOY89TKAr2NJvMB5f9kXZsUhE1Y67hLTLHhxOSNRDZkLp"
+API_KEY = "vUXuQbOUmj94iO5JkaDNfheU5"
+API_SECRET = "XXfYuHYg6fGEyaY0lAQ1kGIfQ6edk7bKbWza4eX1XAOuU5x6mP"
+ACCESS_TOKEN = "2026616179452973056-zBDdAEuVI7n8QXluyDA5R8Rj2MtnvG"
+ACCESS_TOKEN_SECRET = "8mJhB0QPi9TrlE92VA5OofryyarMxYRVt5CW6ikohO52L"
 # =====================================================================
 
 def generate_market_tweet() -> str:

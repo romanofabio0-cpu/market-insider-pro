@@ -139,3 +139,119 @@ th { font-size: 0.7rem; text-transform: uppercase; color: #666; }
 .stat-item { text-align: center; }
 .stat-value { font-size: 1.5rem; font-weight: bold; color: #fff; }
 </style>'''
+# --- STILE DASHBOARD ISTITUZIONALE MIP ---
+MIP_DASHBOARD_CSS = """
+:root {
+    --bg-dark: #0f172a; --bg-card: #1e293b; --text-main: #f8fafc; 
+    --text-muted: #94a3b8; --gold: #d4af37; --sidebar-width: 250px;
+}
+body {
+    margin: 0; font-family: 'Inter', system-ui, sans-serif; 
+    background-color: #0b1120; color: var(--text-main);
+    display: flex; height: 100vh; overflow: hidden;
+}
+/* SIDEBAR */
+.sidebar {
+    width: var(--sidebar-width); background-color: var(--bg-dark); 
+    border-right: 1px solid #334155; display: flex; flex-direction: column; z-index: 10;
+}
+.sidebar-logo {
+    padding: 20px; display: flex; align-items: center; gap: 15px; 
+    font-weight: 800; font-size: 1.2rem; border-bottom: 1px solid #334155; color: var(--gold);
+}
+.sidebar-logo img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--gold); }
+.nav-item {
+    padding: 15px 20px; color: var(--text-muted); text-decoration: none; 
+    font-weight: 500; border-left: 3px solid transparent; transition: all 0.2s ease;
+}
+.nav-item:hover { 
+    background-color: #1e293b; color: white; border-left: 3px solid var(--gold); 
+}
+/* MAIN CONTENT */
+.main-wrapper { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.top-header {
+    height: 70px; background-color: var(--bg-dark); border-bottom: 1px solid #334155;
+    display: flex; align-items: center; justify-content: flex-end; padding: 0 30px;
+}
+.vip-btn {
+    background: linear-gradient(135deg, var(--gold), #b88a00); color: #000; 
+    padding: 10px 20px; border-radius: 6px; font-weight: bold; 
+    text-decoration: none; box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+.hero-banner {
+    margin: 20px 30px; height: 220px; border-radius: 12px; overflow: hidden;
+    background: linear-gradient(rgba(15,23,42,0.6), rgba(15,23,42,0.6)), url('banner_mip.jpg');
+    background-size: cover; background-position: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.hero-banner h1 { margin: 0; font-size: 2.8rem; color: white; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.hero-banner p { color: var(--gold); font-size: 1.2rem; font-weight: 500; margin-top: 10px; }
+.dashboard-content { padding: 0 30px 30px 30px; }
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+    body { flex-direction: column; overflow: auto; }
+    .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding: 10px; }
+    .sidebar-logo { padding: 10px; border-bottom: none; font-size: 1rem; }
+    .nav-item { padding: 10px; font-size: 0.9rem; }
+    .hero-banner { height: 160px; margin: 15px; }
+    .hero-banner h1 { font-size: 1.8rem; }
+    .dashboard-content { padding: 15px; }
+}
+"""
+MIP_DASHBOARD_CSS = """
+:root {
+    --bg-dark: #0f172a; --bg-card: #1e293b; --text-main: #f8fafc; 
+    --text-muted: #94a3b8; --gold: #d4af37; --sidebar-width: 250px;
+}
+body {
+    margin: 0; font-family: 'Inter', system-ui, sans-serif; 
+    background-color: #0b1120; color: var(--text-main);
+    display: flex; height: 100vh; overflow: hidden;
+}
+.sidebar {
+    width: var(--sidebar-width); background-color: var(--bg-dark); 
+    border-right: 1px solid #334155; display: flex; flex-direction: column; z-index: 10;
+}
+.sidebar-logo {
+    padding: 20px; display: flex; align-items: center; gap: 15px; 
+    font-weight: 800; font-size: 1.2rem; border-bottom: 1px solid #334155; color: var(--gold);
+}
+.sidebar-logo img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--gold); }
+.nav-item {
+    padding: 15px 20px; color: var(--text-muted); text-decoration: none; 
+    font-weight: 500; border-left: 3px solid transparent; transition: all 0.2s ease;
+}
+.nav-item:hover { 
+    background-color: #1e293b; color: white; border-left: 3px solid var(--gold); 
+}
+.main-wrapper { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.top-header {
+    height: 70px; background-color: var(--bg-dark); border-bottom: 1px solid #334155;
+    display: flex; align-items: center; justify-content: flex-end; padding: 0 30px;
+}
+.vip-btn {
+    background: linear-gradient(135deg, var(--gold), #b88a00); color: #000; 
+    padding: 10px 20px; border-radius: 6px; font-weight: bold; 
+    text-decoration: none; box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+.hero-banner {
+    margin: 20px 30px; height: 220px; border-radius: 12px; overflow: hidden;
+    background: linear-gradient(rgba(15,23,42,0.6), rgba(15,23,42,0.6)), url('banner_mip.jpg');
+    background-size: cover; background-position: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+.hero-banner h1 { margin: 0; font-size: 2.8rem; color: white; letter-spacing: 1px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.hero-banner p { color: var(--gold); font-size: 1.2rem; font-weight: 500; margin-top: 10px; }
+.dashboard-content { padding: 0 30px 30px 30px; }
+
+@media (max-width: 768px) {
+    body { flex-direction: column; overflow: auto; }
+    .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding: 10px; }
+    .sidebar-logo { padding: 10px; border-bottom: none; font-size: 1rem; }
+    .nav-item { padding: 10px; font-size: 0.9rem; }
+    .hero-banner { height: 160px; margin: 15px; }
+    .hero-banner h1 { font-size: 1.8rem; }
+    .dashboard-content { padding: 15px; }
+}
+"""
