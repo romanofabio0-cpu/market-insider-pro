@@ -31,75 +31,45 @@ AFF_GLASSNODE = "https://glassnode.com/?via=TUO_CODICE"
 AFF_UDEMY_COURSE = "https://click.linksynergy.com/fs-bin/click?id=TUO_CODICE&offerid=UDEMY_TRADING_COURSE"
 # =========================================================
 
-# --- STILE DASHBOARD GLOBALE E RESPONSIVE ---
+# --- STILE DASHBOARD GLOBALE (Con animazioni di lampeggio API) ---
 MIP_DASHBOARD_CSS = """
 :root {
-    --bg-sidebar: #050505;
-    --bg-header: #050505;
-    --bg-main: #000000;
-    --border-color: #1a1a1a;
-    --gold: #d4af37;
-    --text-main: #f8fafc;
-    --text-muted: #888;
+    --bg-sidebar: #050505; --bg-header: #050505; --bg-main: #000000;
+    --border-color: #1a1a1a; --gold: #d4af37;
+    --text-main: #f8fafc; --text-muted: #888;
 }
 body {
     margin: 0; font-family: 'Inter', system-ui, sans-serif; 
     background-color: var(--bg-main); color: var(--text-main);
-    display: flex; height: 100vh; overflow: hidden; top: 0px !important; /* Fix Google Translate */
+    display: flex; height: 100vh; overflow: hidden; top: 0px !important;
 }
 /* NASCONDI LA BARRA DI GOOGLE TRANSLATE */
 body > .skiptranslate, .goog-te-banner-frame.skiptranslate { display: none !important; }
 
-.sidebar {
-    width: 250px; background-color: var(--bg-sidebar); 
-    border-right: 1px solid var(--border-color); display: flex; flex-direction: column; z-index: 10;
-    overflow-y: auto; flex-shrink: 0;
-}
-.sidebar-logo {
-    padding: 20px; display: flex; align-items: center; gap: 12px; 
-    border-bottom: 1px solid var(--border-color);
-}
-.sidebar-logo img { 
-    width: 38px; height: 38px; border-radius: 50%; object-fit: contain; flex-shrink: 0;
-    background: #111; border: 1px solid var(--gold);
-}
-.sidebar-logo span {
-    font-size: 1.05rem; font-weight: 800; letter-spacing: -0.5px; color: #fff;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.nav-group-title {
-    padding: 20px 20px 5px 20px; font-size: 0.7rem; color: #555; 
-    font-weight: bold; letter-spacing: 1px; text-transform: uppercase;
-}
-.nav-item {
-    padding: 12px 20px; color: var(--text-muted); text-decoration: none; 
-    font-weight: 500; font-size: 0.9rem; border-left: 3px solid transparent; transition: all 0.2s ease;
-}
-.nav-item:hover, .nav-item.active { 
-    background-color: #111; color: #fff; border-left: 3px solid var(--gold); 
-}
-.main-wrapper { 
-    flex: 1; overflow-y: auto; display: flex; flex-direction: column; background-color: var(--bg-main);
-}
-.top-header {
-    height: 65px; background-color: var(--bg-header); border-bottom: 1px solid var(--border-color);
-    display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
-    position: sticky; top: 0; z-index: 50; flex-shrink: 0;
-}
-.lang-switcher {
-    background: #111; color: #fff; border: 1px solid #333; padding: 8px 12px; 
-    border-radius: 4px; font-weight: 600; font-size: 0.85rem; cursor: pointer; outline: none;
-}
+/* ANIMAZIONI LAMPEGGIO DATI LIVE */
+@keyframes flashGreen { 0% { color: #00C853; text-shadow: 0 0 15px rgba(0,200,83,0.8); } 100% { color: #fff; text-shadow: none; } }
+@keyframes flashRed { 0% { color: #FF3D00; text-shadow: 0 0 15px rgba(255,61,0,0.8); } 100% { color: #fff; text-shadow: none; } }
+.price-flash-up { animation: flashGreen 0.6s ease-out; }
+.price-flash-down { animation: flashRed 0.6s ease-out; }
+
+.sidebar { width: 250px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; z-index: 10; overflow-y: auto; flex-shrink: 0; }
+.sidebar-logo { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); }
+.sidebar-logo img { width: 38px; height: 38px; border-radius: 50%; object-fit: contain; flex-shrink: 0; background: #111; border: 1px solid var(--gold); }
+.sidebar-logo span { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.5px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-group-title { padding: 20px 20px 5px 20px; font-size: 0.7rem; color: #555; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; }
+.nav-item { padding: 12px 20px; color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.9rem; border-left: 3px solid transparent; transition: all 0.2s ease; }
+.nav-item:hover, .nav-item.active { background-color: #111; color: #fff; border-left: 3px solid var(--gold); }
+.main-wrapper { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background-color: var(--bg-main); }
+.top-header { height: 65px; background-color: var(--bg-header); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; position: sticky; top: 0; z-index: 50; flex-shrink: 0; }
+.lang-switcher { background: #111; color: #fff; border: 1px solid #333; padding: 8px 12px; border-radius: 4px; font-weight: 600; font-size: 0.85rem; cursor: pointer; outline: none; }
 .lang-switcher:hover { border-color: var(--gold); }
 .dashboard-content { padding: 30px; width: 100%; box-sizing: border-box; }
 
-/* REGOLE STRUTTURALI (Griglie, Layout, Tabelle) */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
 .split-layout { display: flex; gap: 20px; align-items: stretch; margin-bottom: 30px; }
 .split-layout > .panel { flex: 1; min-width: 0; }
 .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 4px; }
 
-/* RESPONSIVE MOBILE PERFETTO */
 @media (max-width: 768px) {
     body { flex-direction: column; overflow: auto; }
     .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: nowrap; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border-color); -webkit-overflow-scrolling: touch; }
@@ -109,20 +79,13 @@ body > .skiptranslate, .goog-te-banner-frame.skiptranslate { display: none !impo
     .nav-group-title { display: none; }
     .nav-item { padding: 15px 20px; border-left: none; border-bottom: 2px solid transparent; white-space: nowrap; }
     .nav-item:hover, .nav-item.active { border-left: none; border-bottom: 2px solid var(--gold); background: transparent; }
-    
     .top-header { padding: 0 15px; height: 60px; }
     .dashboard-content { padding: 15px; overflow-x: hidden; }
-    
     .split-layout { flex-direction: column; }
-    .academy-grid { grid-template-columns: 1fr !important; }
-    .wallet-form { flex-direction: column !important; }
-    .wallet-form input, .wallet-form button { width: 100% !important; margin-left: 0; margin-top: 10px; }
-    .market-clocks { justify-content: center; }
-    .fng-value { font-size: 2rem !important; }
 }
 """
 
-# MOTORE DI TRADUZIONE MULTILINGUA
+# MOTORE DI TRADUZIONE MULTILINGUA GESTITO DA COOKIE
 JS_TRANSLATION_ENGINE = """
 <div id="google_translate_element" style="display:none;"></div>
 <script type="text/javascript">
@@ -131,8 +94,13 @@ function googleTranslateElementInit() {
 }
 function changeLanguage(lang) {
     let domain = window.location.hostname;
-    document.cookie = `googtrans=/en/${lang}; path=/`;
-    document.cookie = `googtrans=/en/${lang}; domain=.${domain}; path=/`;
+    if (lang === 'en') {
+        document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${domain};`;
+    } else {
+        document.cookie = `googtrans=/en/${lang}; path=/;`;
+        document.cookie = `googtrans=/en/${lang}; path=/; domain=.${domain};`;
+    }
     window.location.reload();
 }
 document.addEventListener("DOMContentLoaded", () => {
@@ -147,10 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
 """
 
 def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard") -> str:
-    """Motore di layout unificato. Avvolge ogni pagina garantendo perfezione mobile."""
-    
+    """Motore di layout unificato."""
     sidebar_html = f"""
-    <div class="sidebar">
+    <div class="sidebar translate-section">
         <div class="sidebar-logo">
             <img src="logo_mip.jpg" alt="MIP Logo" onerror="this.src='https://ui-avatars.com/api/?name=MIP&background=d4af37&color=000&rounded=true&bold=true'">
             <span>Market Insider Pro</span>
@@ -163,30 +130,35 @@ def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard
         <a href="signals.html" class="nav-item {'active' if active_page == 'signals' else ''}">Signals Engine</a>
         <a href="wallet.html" class="nav-item {'active' if active_page == 'wallet' else ''}">Portfolio Tracker</a>
         <a href="chat.html" class="nav-item {'active' if active_page == 'chat' else ''}">AI Analyst</a>
+        <a href="stories.html" class="nav-item {'active' if active_page == 'stories' else ''}">Case Studies</a>
+        <a href="leaderboard.html" class="nav-item {'active' if active_page == 'leaderboard' else ''}">Leaderboard</a>
         
         <div class="nav-group-title">External Venues</div>
         <a href="{BINANCE_AFFILIATE_LINK}" target="_blank" class="nav-item">Exchange (Binance)</a>
         <a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="nav-item">Exchange (Bybit)</a>
         <a href="{AFF_TRADINGVIEW}" target="_blank" class="nav-item">TradingView Charts</a>
         
-        <div class="nav-group-title">Account & Clearance</div>
+        <div class="nav-group-title">Network & Account</div>
+        <a href="brokers.html" class="nav-item {'active' if active_page == 'brokers' else ''}">Partner Exchanges</a>
+        <a href="referral.html" class="nav-item {'active' if active_page == 'referral' else ''}">Referral Network</a>
+        <a href="api_hub.html" class="nav-item {'active' if active_page == 'api' else ''}">API Execution Hub</a>
         <a href="pricing.html" class="nav-item {'active' if active_page == 'pricing' else ''}" style="color: var(--gold); font-weight: 800;">&#9830; VIP PASS</a>
         <a href="vip_lounge.html" class="nav-item {'active' if active_page == 'vip' else ''}">VIP Lounge</a>
     </div>
     """
     
     header_html = """
-    <div class="top-header">
+    <div class="top-header notranslate">
         <div class="header-mobile-space">
             <span style="font-weight:bold; color:var(--text-main); font-size:1.1rem; display:none;" class="mobile-title">Market Insider Pro</span>
         </div>
         <select class="lang-switcher" onchange="changeLanguage(this.value)">
-            <option value="en">English (US)</option>
+            <option value="en">English</option>
             <option value="it">Italiano</option>
             <option value="es">Español</option>
             <option value="fr">Français</option>
             <option value="de">Deutsch</option>
-            <option value="pt">Deutsch</option>
+            <option value="pt">Português</option>
         </select>
     </div>
     """
@@ -204,7 +176,7 @@ def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard
         {sidebar_html}
         <div class="main-wrapper">
             {header_html}
-            <div class="dashboard-content">
+            <div class="dashboard-content translate-section">
                 {content}
             </div>
         </div>
@@ -216,103 +188,23 @@ def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard
 ACADEMY_CONTENT = {
     "mod1": {
         "title": "MODULE I: QUANTITATIVE PSYCHOLOGY", 
-        "lessons": [
-            {
-                "id": "lez1_1", 
-                "title": "1.1 Institutional Mindset", 
-                "vip": False, 
-                "html": f'''
-                <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">The 1% Statistical Edge</h1>
-                <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Retail market participants systematically lose capital due to emotional execution. At Market Insider Pro, we eliminate discretionary bias. We execute purely on quantitative probabilities.</p>
-                <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #FFD700; border-radius:4px;">
-                    <h3 style="color:#FFD700; margin-top:0;">Mandatory Literature</h3>
-                    <p style="color:#ccc; line-height:1.6;">To align with institutional standards, "Trading in the Zone" by Mark Douglas is required reading for risk management conditioning.</p>
-                    <a href="{AMAZON_LINK_BOOK}" target="_blank" class="vip-btn" style="background: #FFD700; color:black; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; letter-spacing:1px; padding: 10px 20px; border-radius:4px;">ACQUIRE RESOURCE</a>
-                </div>
-                '''
-            }
-        ]
+        "lessons": [{"id": "lez1_1", "title": "1.1 Institutional Mindset", "vip": False, "html": f'<h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">The 1% Statistical Edge</h1><p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Retail market participants systematically lose capital due to emotional execution. At Market Insider Pro, we eliminate discretionary bias. We execute purely on quantitative probabilities.</p><div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #FFD700; border-radius:4px;"><h3 style="color:#FFD700; margin-top:0;">Mandatory Literature</h3><p style="color:#ccc; line-height:1.6;">To align with institutional standards, "Trading in the Zone" by Mark Douglas is required reading for risk management conditioning.</p><a href="{AMAZON_LINK_BOOK}" target="_blank" class="vip-btn" style="background: #FFD700; color:black; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; letter-spacing:1px; padding: 10px 20px; border-radius:4px;">ACQUIRE RESOURCE</a></div>'}]
     },
     "mod2": {
         "title": "MODULE II: TECHNICAL FRAMEWORKS", 
-        "lessons": [
-            {
-                "id": "lez2_1", 
-                "title": "2.1 Liquidity Architecture", 
-                "vip": False, 
-                "html": f'''
-                <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">Price Action & Volume Distribution</h1>
-                <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Discard lagging indicators. Institutional algorithms track only raw volume nodes and liquidity sweeps.</p>
-                <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #555; border-radius:4px;">
-                    <h3 style="color:#fff; margin-top:0;">Hardware Specifications</h3>
-                    <p style="color:#ccc; line-height:1.6;">Multi-timeframe analysis requires significant screen real estate. An ultrawide display is standard protocol.</p>
-                    <a href="{AMAZON_LINK_MONITOR}" target="_blank" class="btn-trade" style="background:transparent; border:1px solid #fff; color:#fff; display:inline-block; margin-top:15px; padding: 10px 20px; text-decoration:none;">HARDWARE UPGRADE</a>
-                </div>
-                <div style="margin-top:20px; padding:30px; background:#111; border-left:4px solid #FCD535; border-radius:4px;">
-                    <h3 style="color:#FCD535; margin-top:0;">Execution Venue</h3>
-                    <p style="color:#ccc; line-height:1.6;">Zero-slippage execution is mandatory. Connect to top-tier liquidity pools.</p>
-                    <a href="{BINANCE_AFFILIATE_LINK}" target="_blank" class="vip-btn" style="background:#FCD535; color:black; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; padding: 10px 20px; border-radius:4px;">ACCESS BINANCE POOL</a>
-                </div>
-                '''
-            }
-        ]
+        "lessons": [{"id": "lez2_1", "title": "2.1 Liquidity Architecture", "vip": False, "html": f'<h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">Price Action & Volume Distribution</h1><p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Discard lagging indicators. Institutional algorithms track only raw volume nodes and liquidity sweeps.</p><div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #555; border-radius:4px;"><h3 style="color:#fff; margin-top:0;">Hardware Specifications</h3><p style="color:#ccc; line-height:1.6;">Multi-timeframe analysis requires significant screen real estate. An ultrawide display is standard protocol.</p><a href="{AMAZON_LINK_MONITOR}" target="_blank" class="btn-trade" style="background:transparent; border:1px solid #fff; color:#fff; display:inline-block; margin-top:15px; padding: 10px 20px; text-decoration:none;">HARDWARE UPGRADE</a></div><div style="margin-top:20px; padding:30px; background:#111; border-left:4px solid #FCD535; border-radius:4px;"><h3 style="color:#FCD535; margin-top:0;">Execution Venue</h3><p style="color:#ccc; line-height:1.6;">Zero-slippage execution is mandatory. Connect to top-tier liquidity pools.</p><a href="{BINANCE_AFFILIATE_LINK}" target="_blank" class="vip-btn" style="background:#FCD535; color:black; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; padding: 10px 20px; border-radius:4px;">ACCESS BINANCE POOL</a></div>'}]
     },
     "mod3": {
         "title": "MODULE III: ON-CHAIN ANALYSIS", 
-        "lessons": [
-            {
-                "id": "lez3_1", 
-                "title": "3.1 Order Block Dynamics", 
-                "vip": True, 
-                "html": f'''
-                <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">Identifying Accumulation Nodes</h1>
-                <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Order Blocks (OBs) represent massive capital deployment by central entities. We trace these footprints to model predictive entries.</p>
-                <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #00C853; border-radius:4px;">
-                    <h3 style="color:#00C853; margin-top:0;">Asset Custody Protocol</h3>
-                    <p style="color:#ccc; line-height:1.6;">Long-term capital must remain disconnected from network attack vectors. Cold storage is strictly enforced.</p>
-                    <a href="{AMAZON_LINK_LEDGER}" target="_blank" class="vip-btn" style="background:#00C853; color:black; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; padding: 10px 20px; border-radius:4px;">SECURE HARDWARE</a>
-                </div>
-                '''
-            }
-        ]
+        "lessons": [{"id": "lez3_1", "title": "3.1 Order Block Dynamics", "vip": True, "html": f'<h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">Identifying Accumulation Nodes</h1><p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Order Blocks (OBs) represent massive capital deployment by central entities. We trace these footprints to model predictive entries.</p><div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #00C853; border-radius:4px;"><h3 style="color:#00C853; margin-top:0;">Asset Custody Protocol</h3><p style="color:#ccc; line-height:1.6;">Long-term capital must remain disconnected from network attack vectors. Cold storage is strictly enforced.</p><a href="{AMAZON_LINK_LEDGER}" target="_blank" class="vip-btn" style="background:#00C853; color:black; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; padding: 10px 20px; border-radius:4px;">SECURE HARDWARE</a></div>'}]
     },
     "mod4": {
         "title": "MODULE IV: ALGORITHMIC EXECUTION", 
-        "lessons": [
-            {
-                "id": "lez4_1", 
-                "title": "4.1 API Environment Setup", 
-                "vip": True, 
-                "html": f'''
-                <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">System Integration</h1>
-                <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Connect exchange APIs to deploy systematic logic without manual intervention.</p>
-                <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #FF9900; border-radius:4px;">
-                    <h3 style="color:#FF9900; margin-top:0;">Latency Optimization</h3>
-                    <p style="color:#ccc; line-height:1.6;">High-frequency logic demands ultra-low latency. Dedicated futures accounts are recommended.</p>
-                    <a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="vip-btn" style="background:#17181E; border:1px solid #FF9900; color:#FF9900; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; padding: 10px 20px;">INITIALIZE PRO ACCOUNT</a>
-                </div>
-                '''
-            }
-        ]
+        "lessons": [{"id": "lez4_1", "title": "4.1 API Environment Setup", "vip": True, "html": f'<h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">System Integration</h1><p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Connect exchange APIs to deploy systematic logic without manual intervention.</p><div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #FF9900; border-radius:4px;"><h3 style="color:#FF9900; margin-top:0;">Latency Optimization</h3><p style="color:#ccc; line-height:1.6;">High-frequency logic demands ultra-low latency. Dedicated futures accounts are recommended.</p><a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="vip-btn" style="background:#17181E; border:1px solid #FF9900; color:#FF9900; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; padding: 10px 20px;">INITIALIZE PRO ACCOUNT</a></div>'}]
     },
     "mod5": {
         "title": "MODULE V: ADVANCED DERIVATIVES", 
-        "lessons": [
-            {
-                "id": "lez5_1", 
-                "title": "5.1 Options & Hedging", 
-                "vip": True, 
-                "html": f'''
-                <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">Delta Neutral Strategies</h1>
-                <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Institutions do not expose themselves to directional risk blindly. Utilizing derivatives to hedge spot portfolios is the key to surviving bear markets.</p>
-                <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #2962FF; border-radius:4px;">
-                    <h3 style="color:#2962FF; margin-top:0;">Derivatives Platform</h3>
-                    <p style="color:#ccc; line-height:1.6;">For complex hedging, deep liquidity and zero maker fees are essential to maintain margin.</p>
-                    <a href="{AFF_MEXC}" target="_blank" class="vip-btn" style="background:#2962FF; color:white; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; padding: 10px 20px; border-radius:4px;">ACCESS MEXC DERIVATIVES</a>
-                </div>
-                '''
-            }
-        ]
+        "lessons": [{"id": "lez5_1", "title": "5.1 Options & Hedging", "vip": True, "html": f'<h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">Delta Neutral Strategies</h1><p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Institutions do not expose themselves to directional risk blindly. Utilizing derivatives to hedge spot portfolios is the key to surviving bear markets.</p><div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #2962FF; border-radius:4px;"><h3 style="color:#2962FF; margin-top:0;">Derivatives Platform</h3><p style="color:#ccc; line-height:1.6;">For complex hedging, deep liquidity and zero maker fees are essential to maintain margin.</p><a href="{AFF_MEXC}" target="_blank" class="vip-btn" style="background:#2962FF; color:white; text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold; padding: 10px 20px; border-radius:4px;">ACCESS MEXC DERIVATIVES</a></div>'}]
     }
 }
 
@@ -371,18 +263,18 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
             <a href="chart_{elem_id}.html" class="card-link" style="display:block; height:100%; text-decoration:none;">
                 <div class="card" style="border-radius:4px; border:1px solid #1a1a1a; background:#0a0a0a; padding:15px; transition:border-color 0.2s;">
                     <div class="card-head" style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="symbol" style="font-weight:700; color:#fff; font-size:1.1rem;">{ticker}</span>
+                        <span class="symbol notranslate" style="font-weight:700; color:#fff; font-size:1.1rem;">{ticker}</span>
                         <span class="name" style="color:#666; font-size:0.75rem; text-transform:uppercase;">{db_info['name']}</span>
                     </div>
-                    <div class="price" id="price-{elem_id}" style="font-family:monospace; font-size:1.6rem; margin-top:8px; color:#fff;">
-                        $0.00
+                    <div class="price notranslate" id="price-{elem_id}" style="font-family:monospace; font-size:1.6rem; margin-top:8px; color:#fff; transition:color 0.3s ease;">
+                        SYNCING...
                     </div>
-                    <div class="change" id="change-{elem_id}" style="font-family:monospace; font-size:0.9rem; margin-top:4px;">
-                        0.00%
+                    <div class="change notranslate" id="change-{elem_id}" style="font-family:monospace; font-size:0.9rem; margin-top:4px; color:#888;">
+                        --
                     </div>
                     <div class="signal-box" style="border-top:1px solid #1a1a1a; padding-top:10px; margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
                         <span style="font-size:0.65rem; color:#555; text-transform:uppercase;">Trend Matrix</span>
-                        <strong style="color:{d_asset['sig_col']}; font-size:0.75rem; background:#111; padding:2px 6px; border-radius:2px;">
+                        <strong class="notranslate" style="color:{d_asset['sig_col']}; font-size:0.75rem; background:#111; padding:2px 6px; border-radius:2px;">
                             {d_asset['signal']}
                         </strong>
                     </div>
@@ -396,7 +288,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
             BACK TO TERMINAL
         </a>
         <h1 style="margin:0 0 20px 0; font-size: 2rem; font-weight:700;">
-            {db_info['name']} <span style="color:#666;">DATA</span>
+            <span class="notranslate">{db_info['name']}</span> <span style="color:#666; font-size:1rem; vertical-align:middle;">DATA</span>
         </h1>
         <div class="tradingview-widget-container" style="height:100%;width:100%; margin-top:20px; border:1px solid #222; border-radius:4px; overflow:hidden;">
             <div id="tv_{elem_id}" style="height:650px;width:100%"></div>
@@ -422,7 +314,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         chart_page_html = get_dashboard_layout(f"{ticker} Data", chart_content, active_page="dashboard")
         scrivi_file(f"chart_{elem_id}.html", chart_page_html)
 
-    # --- SCRIPT DATI IN TEMPO REALE BINANCE API ---
+    # --- SCRIPT DATI IN TEMPO REALE CON ANIMAZIONE BLINK ---
     live_price_script = '''
     <script>
     async function fetchLivePrices() {
@@ -443,19 +335,27 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
                     let cEl = document.getElementById('change-' + id);
                     
                     if(pEl && cEl) {
-                        if(p < 0.01) pEl.innerText = "$" + p.toFixed(6);
-                        else if(p < 1) pEl.innerText = "$" + p.toFixed(4);
-                        else pEl.innerText = "$" + p.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+                        let oldP = pEl.getAttribute('data-price');
+                        let formattedPrice = p < 0.01 ? "$" + p.toFixed(6) : (p < 1 ? "$" + p.toFixed(4) : "$" + p.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}));
+                        
+                        if (oldP && oldP !== p.toString()) {
+                            pEl.classList.remove('price-flash-up', 'price-flash-down');
+                            void pEl.offsetWidth; 
+                            pEl.classList.add(p > parseFloat(oldP) ? 'price-flash-up' : 'price-flash-down');
+                        }
+                        
+                        pEl.innerText = formattedPrice;
+                        pEl.setAttribute('data-price', p);
                         
                         cEl.innerText = (c >= 0 ? "+" : "") + c.toFixed(2) + "%";
                         cEl.style.color = c >= 0 ? "#00C853" : "#FF3D00";
                     }
                 }
             });
-        } catch(e) { console.log("Standby API Feed"); }
+        } catch(e) { console.log("API Feed offline"); }
     }
-    setInterval(fetchLivePrices, 3000); // Aggiorna ogni 3 secondi
-    setTimeout(fetchLivePrices, 200); // Prima chiamata rapida
+    setInterval(fetchLivePrices, 3000); 
+    setTimeout(fetchLivePrices, 100); 
     </script>
     '''
 
@@ -465,7 +365,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         <h3 style="margin:0; color:#888; text-transform:uppercase; font-size:0.8rem; font-weight:700;">
             MACRO SENTIMENT INDEX
         </h3>
-        <div class="fng-value" style="color:{fng_color}; font-family:monospace; font-size:2.5rem; font-weight:900; margin:10px 0;">
+        <div class="fng-value notranslate" style="color:{fng_color}; font-family:monospace; font-size:2.5rem; font-weight:900; margin:10px 0;">
             {fng["value"]}
         </div>
         <div style="font-weight:bold; letter-spacing:1px; color:#ccc; text-transform:uppercase;">
@@ -493,9 +393,8 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     </script>
     '''
     
-    # MOTORE NOTIZIE DINAMICO IN TEMPO REALE
     if news and len(news) > 0:
-        ticker_items = "".join([f'<div class="ticker-item"><span style="color:var(--gold);">[{n.get("source", "MARKET").upper()}]</span> {n["title"]}</div>' for n in news[:10]])
+        ticker_items = "".join([f'<div class="ticker-item"><span style="color:var(--gold);" class="notranslate">[{n.get("source", "MARKET").upper()}]</span> <span class="translate-section">{n["title"]}</span></div>' for n in news[:10]])
     else:
         ticker_items = '<div class="ticker-item"><span style="color:#00C853;">[SYSTEM]</span> Real-time execution framework connected. Awaiting volume data.</div>'
 
@@ -503,7 +402,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         <tr style="border-bottom: 1px solid #111;">
             <td style="padding:15px 10px;">
                 <a href="{n["link"]}" target="_blank" style="font-weight:600; color:#ddd; display:block; margin-bottom:5px; text-decoration:none;">{n["title"]}</a>
-                <span style="font-size:0.7rem; color:#666; text-transform:uppercase;">SOURCE: {n.get("source", "MARKET")}</span>
+                <span class="notranslate" style="font-size:0.7rem; color:#666; text-transform:uppercase;">SOURCE: {n.get("source", "MARKET")}</span>
             </td>
             <td style="text-align:right;">
                 <a href="{n["link"]}" target="_blank" class="btn-trade" style="background:transparent; color:#888; border:1px solid #333; padding:5px 10px; font-size:0.7rem; border-radius:2px; text-decoration:none; white-space:nowrap;">ACCESS</a>
@@ -533,11 +432,11 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     '''
     
     clocks_html = '''
-    <div class="market-clocks">
+    <div class="market-clocks notranslate">
         <div class="clock">NY (NYSE) <span id="clock-ny">--:--</span></div>
         <div class="clock">LON (LSE) <span id="clock-lon">--:--</span></div>
         <div class="clock">TOK (TSE) <span id="clock-tok">--:--</span></div>
-        <div class="clock">NETWORK STATUS <span style="color:#00C853;">ONLINE</span></div>
+        <div class="clock">NETWORK <span style="color:#00C853;">ONLINE</span></div>
     </div>
     <script>
     function updateClocks() { 
@@ -601,13 +500,11 @@ def build_signals_page(assets: List[Dict]):
         
         if c > 0:
             sig = "LONG BIAS"
-            css = "signal-buy"
             sl = p * (1 - (vol_mult * 1.5))
             tp1 = p * (1 + (vol_mult * 2.0))
             col_sig = "#00C853"
         else:
             sig = "SHORT BIAS"
-            css = "signal-sell"
             sl = p * (1 + (vol_mult * 1.5))
             tp1 = p * (1 - (vol_mult * 2.0))
             col_sig = "#FF3D00"
@@ -615,21 +512,21 @@ def build_signals_page(assets: List[Dict]):
         rows += f'''
         <tr style="border-bottom: 1px solid #111;">
             <td style="padding:15px;">
-                <strong style="font-size:1.1rem; color:#fff;">{a["symbol"]}</strong><br>
+                <strong style="font-size:1.1rem; color:#fff;" class="notranslate">{a["symbol"]}</strong><br>
                 <span style="font-size:0.7rem;color:#666;">{a["name"]}</span>
             </td>
             <td style="padding:15px; font-weight:bold; font-size:0.9rem; color:{col_sig};">
                 {sig}
             </td>
-            <td style="padding:15px; font-family:monospace;">
+            <td style="padding:15px; font-family:monospace;" class="notranslate">
                 <div style="font-size:0.65rem; color:#666;">ENTRY</div>
                 <strong style="color:#ccc;">{format_price(p)}</strong>
             </td>
-            <td style="padding:15px; font-family:monospace;">
+            <td style="padding:15px; font-family:monospace;" class="notranslate">
                 <div style="font-size:0.65rem; color:#666;">TARGET</div>
                 <strong style="color:var(--gold);">{format_price(tp1)}</strong>
             </td>
-            <td style="padding:15px; font-family:monospace;">
+            <td style="padding:15px; font-family:monospace;" class="notranslate">
                 <div style="font-size:0.65rem; color:#666;">INVALIDATION</div>
                 <strong style="color:#FF3D00;">{format_price(sl)}</strong>
             </td>
@@ -650,15 +547,15 @@ def build_signals_page(assets: List[Dict]):
             <div class="wallet-form" style="padding:0; background:none; border:none; display:flex; gap:15px; align-items:flex-end; flex-wrap:wrap;">
                 <div style="flex:1; min-width:150px;">
                     <label style="font-size:0.7rem; color:#666; text-transform:uppercase;">Capital ($)</label>
-                    <input type="number" id="rm-balance" value="10000" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
+                    <input type="number" id="rm-balance" value="10000" class="notranslate" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
                 </div>
                 <div style="flex:1; min-width:150px;">
                     <label style="font-size:0.7rem; color:#666; text-transform:uppercase;">Risk Exposure (%)</label>
-                    <input type="number" id="rm-risk" value="1" step="0.1" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
+                    <input type="number" id="rm-risk" value="1" step="0.1" class="notranslate" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
                 </div>
                 <div style="flex:1; min-width:150px;">
                     <label style="font-size:0.7rem; color:#666; text-transform:uppercase;">Invalidation Dist. (%)</label>
-                    <input type="number" id="rm-sl" value="2.5" step="0.1" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
+                    <input type="number" id="rm-sl" value="2.5" step="0.1" class="notranslate" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
                 </div>
                 <div>
                     <button onclick="calcRisk()" style="padding:10px 24px; height:40px; border-radius:2px; background:#fff; color:#000; font-weight:bold; border:none; cursor:pointer;">CALCULATE</button>
@@ -667,7 +564,7 @@ def build_signals_page(assets: List[Dict]):
             
             <div id="rm-result" style="display:none; margin-top:20px; padding:15px; background:#000; border-radius:4px; border:1px solid #111;">
                 <span style="color:#666; text-transform:uppercase; font-size:0.75rem;">Optimal Allocation Size:</span> 
-                <strong id="rm-size" style="color:var(--gold); font-size:1.3rem; margin-left:10px; font-family:monospace;">$0</strong>
+                <strong id="rm-size" style="color:var(--gold); font-size:1.3rem; margin-left:10px; font-family:monospace;" class="notranslate">$0</strong>
             </div>
         </div>
         
@@ -725,7 +622,7 @@ def build_api_hub():
             <div id="api-form-container" class="wallet-form" style="background:none; border:none; padding:0; flex-direction:column; gap:20px; display:flex;">
                 <div>
                     <label style="color:#666; font-size:0.75rem; text-transform:uppercase; font-weight:bold; letter-spacing:1px;">Protocol</label>
-                    <select style="width:100%; box-sizing:border-box; margin-top:5px; padding:15px; background:#000; border:1px solid #222; color:#ccc; outline:none; border-radius:2px; font-family:monospace;">
+                    <select class="notranslate" style="width:100%; box-sizing:border-box; margin-top:5px; padding:15px; background:#000; border:1px solid #222; color:#ccc; outline:none; border-radius:2px; font-family:monospace;">
                         <option>Binance FIX/REST API</option>
                         <option>Bybit Linear API</option>
                         <option>MEXC v3 API</option>
@@ -733,16 +630,16 @@ def build_api_hub():
                 </div>
                 <div>
                     <label style="color:#666; font-size:0.75rem; text-transform:uppercase; font-weight:bold; letter-spacing:1px;">Public Key</label>
-                    <input type="text" style="width:100%; box-sizing:border-box; margin-top:5px; padding:15px; font-family:monospace; background:#000; border:1px solid #222; color:#ccc; outline:none; border-radius:2px;" placeholder="Enter Public Key">
+                    <input type="text" class="notranslate" style="width:100%; box-sizing:border-box; margin-top:5px; padding:15px; font-family:monospace; background:#000; border:1px solid #222; color:#ccc; outline:none; border-radius:2px;" placeholder="Enter Public Key">
                 </div>
                 <div>
                     <label style="color:#666; font-size:0.75rem; text-transform:uppercase; font-weight:bold; letter-spacing:1px;">Private Key</label>
-                    <input type="password" style="width:100%; box-sizing:border-box; margin-top:5px; padding:15px; font-family:monospace; background:#000; border:1px solid #222; color:#ccc; outline:none; border-radius:2px;" placeholder="Enter Private Key">
+                    <input type="password" class="notranslate" style="width:100%; box-sizing:border-box; margin-top:5px; padding:15px; font-family:monospace; background:#000; border:1px solid #222; color:#ccc; outline:none; border-radius:2px;" placeholder="Enter Private Key">
                 </div>
                 <button style="padding:15px; font-size:1rem; margin-top:10px; letter-spacing:1px; border-radius:2px; cursor:pointer; background:#fff; color:#000; font-weight:bold; border:none;" onclick="connectAPI()">INITIALIZE CONNECTION</button>
             </div>
             
-            <div class="hacker-terminal" id="term" style="display:none; cursor:text; height:250px; background:#000; border:1px solid #111; border-radius:2px; padding:20px; font-family:monospace; color:#888; font-size:0.9rem; overflow-y:auto;" onclick="document.getElementById('term-input').focus()">
+            <div class="hacker-terminal notranslate" id="term" style="display:none; cursor:text; height:250px; background:#000; border:1px solid #111; border-radius:2px; padding:20px; font-family:monospace; color:#888; font-size:0.9rem; overflow-y:auto;" onclick="document.getElementById('term-input').focus()">
                 <div id="term-content">> SYSTEM READY.<br>> Awaiting execution... (Type 'connect')<br></div>
                 <div style="display:flex;">> <input type="text" id="term-input" onkeypress="checkTerminalCommand(event)" style="background:transparent; border:none; color:#ccc; font-family:monospace; outline:none; width:100%; margin-left:5px; font-size:0.9rem;" autocomplete="off" spellcheck="false"></div>
             </div>
@@ -776,7 +673,7 @@ def build_api_hub():
     }
     </script>
     '''
-    html = get_dashboard_layout("API Hub", content, active_page="dashboard")
+    html = get_dashboard_layout("API Hub", content, active_page="api")
     scrivi_file("api_hub.html", html)
 
 def build_brokers_page():
@@ -789,7 +686,7 @@ def build_brokers_page():
         <div class="broker-card" style="border-radius:4px; border:1px solid #1a1a1a; background:#0a0a0a; padding:20px; transition:border-color 0.2s; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
             <div style="display:flex; align-items:center;">
                 <div class="broker-info">
-                    <h3 style="margin:0; color:#fff; font-size:1.2rem; font-weight:700;">{b["name"]}</h3>
+                    <h3 style="margin:0; color:#fff; font-size:1.2rem; font-weight:700;" class="notranslate">{b["name"]}</h3>
                     <div class="broker-tags" style="margin-top:8px;">
                         <span style="background:#111; color:#888; border:1px solid #222; font-size:0.7rem; padding:4px 8px; border-radius:2px; display:inline-block; margin-right:5px; margin-bottom:5px;">{b["type"]}</span>
                         <span style="background:#111; color:#888; border:1px solid #222; font-size:0.7rem; padding:4px 8px; border-radius:2px; display:inline-block;">{b["pros"]}</span>
@@ -811,7 +708,7 @@ def build_brokers_page():
         </div>
     </div>
     '''
-    html = get_dashboard_layout("Exchanges", content, active_page="dashboard")
+    html = get_dashboard_layout("Exchanges", content, active_page="brokers")
     scrivi_file("brokers.html", html)
 
 def build_referral_page():
@@ -821,7 +718,7 @@ def build_referral_page():
             <h1 style="font-size:2rem; margin-top:0; color:#fff; font-weight:900; letter-spacing:-0.5px;">NETWORK EXPANSION</h1>
             <p style="color:#888; font-size:0.95rem; line-height:1.6;">Distribute your unique cryptographic identifier. Upon 3 successful network additions, Tier 2 clearance is granted automatically.</p>
             <div class="ref-link-container wallet-form" style="background:#000; border:1px solid #222; border-radius:4px; margin-top:30px; display:flex; align-items:center; justify-content:space-between; padding: 15px;">
-                <div class="ref-link" id="ref-url" style="color:#ccc; font-family:monospace; font-size:0.85rem; overflow:hidden; text-overflow:ellipsis;">Loading link...</div>
+                <div class="ref-link notranslate" id="ref-url" style="color:#ccc; font-family:monospace; font-size:0.85rem; overflow:hidden; text-overflow:ellipsis;">Loading link...</div>
                 <button id="copy-btn" onclick="copyLink()" style="border-radius:2px; font-weight:600; letter-spacing:1px; background:#222; color:#fff; border:none; padding:15px 25px; cursor:pointer;">COPY LINK</button>
             </div>
         </div>
@@ -846,7 +743,7 @@ def build_referral_page():
     }
     </script>
     '''
-    html = get_dashboard_layout("Referral", content, active_page="dashboard")
+    html = get_dashboard_layout("Referral", content, active_page="referral")
     scrivi_file("referral.html", html)
 
 def build_pricing_page():
@@ -860,7 +757,7 @@ def build_pricing_page():
         <div class="pricing-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
             <div class="pricing-card" style="border-radius:4px; border:1px solid #1a1a1a; background:#0a0a0a; padding:40px;">
                 <h3 style="color:#888; font-size:1rem; margin:0; letter-spacing:1px;">TIER 1 (STANDARD)</h3>
-                <div class="price-tag" style="color:#ccc; font-size:2.5rem; font-weight:900; margin:15px 0;">$0<span style="color:#666; font-size:1rem; font-weight:normal;">/mo</span></div>
+                <div class="price-tag notranslate" style="color:#ccc; font-size:2.5rem; font-weight:900; margin:15px 0;">$0<span style="color:#666; font-size:1rem; font-weight:normal;">/mo</span></div>
                 <div style="margin-bottom:30px; font-size:0.85rem; color:#888; border-top:1px solid #111; padding-top:20px;">
                     <div class="plan-feature" style="margin-bottom:15px;">&#10003; Delayed Terminal Data</div>
                     <div class="plan-feature">&#10003; Basic Modeling</div>
@@ -871,7 +768,7 @@ def build_pricing_page():
             <div class="pricing-card pro" style="border-radius:4px; border:1px solid var(--gold); background:#050505; padding:40px; position:relative;">
                 <div style="position:absolute; top:0; left:50%; transform:translate(-50%, -50%); background:var(--gold); color:#000; font-size:0.7rem; font-weight:bold; padding:4px 10px; border-radius:2px; letter-spacing:1px;">RECOMMENDED</div>
                 <h3 style="color:var(--gold); font-size:1rem; margin:0; letter-spacing:1px;">TIER 2 (QUANT)</h3>
-                <div class="price-tag" style="color:#fff; font-size:2.5rem; font-weight:900; margin:15px 0;">$49<span style="color:#888; font-size:1rem; font-weight:normal;">/mo</span></div>
+                <div class="price-tag notranslate" style="color:#fff; font-size:2.5rem; font-weight:900; margin:15px 0;">$49<span style="color:#888; font-size:1rem; font-weight:normal;">/mo</span></div>
                 <div style="margin-bottom:30px; font-size:0.85rem; color:#ccc; border-top:1px solid #111; padding-top:20px;">
                     <div class="plan-feature" style="margin-bottom:15px;">&#10003; Real-Time Data Feeds</div>
                     <div class="plan-feature" style="margin-bottom:15px;">&#10003; Paper Trading Simulator</div>
@@ -882,7 +779,7 @@ def build_pricing_page():
             
             <div class="pricing-card" style="border-radius:4px; border:1px solid #1a1a1a; background:#0a0a0a; padding:40px;">
                 <h3 style="color:#2962FF; font-size:1rem; margin:0; letter-spacing:1px;">ENTERPRISE</h3>
-                <div class="price-tag" style="color:#fff; font-size:2.5rem; font-weight:900; margin:15px 0;">$399<span style="color:#888; font-size:1rem; font-weight:normal;">/once</span></div>
+                <div class="price-tag notranslate" style="color:#fff; font-size:2.5rem; font-weight:900; margin:15px 0;">$399<span style="color:#888; font-size:1rem; font-weight:normal;">/once</span></div>
                 <div style="margin-bottom:30px; font-size:0.85rem; color:#ccc; border-top:1px solid #111; padding-top:20px;">
                     <div class="plan-feature" style="margin-bottom:15px;">&#10003; All Tier 2 Features</div>
                     <div class="plan-feature">&#10003; Perpetual Updates</div>
@@ -912,19 +809,10 @@ def build_pricing_page():
     function openCheckoutChoice(link) { 
         currentStripeLink = link; 
         let user = localStorage.getItem('mip_user'); 
-        if(user) { 
-            window.location.href = currentStripeLink; 
-        } else { 
-            document.getElementById('checkout-choice-modal').style.display = 'flex'; 
-        } 
+        if(user) { window.location.href = currentStripeLink; } else { document.getElementById('checkout-choice-modal').style.display = 'flex'; } 
     } 
     function proceedToStripe(method) { 
-        if(method === 'guest') { 
-            window.location.href = currentStripeLink; 
-        } else if(method === 'login') { 
-            document.getElementById('checkout-choice-modal').style.display = 'none'; 
-            alert("Login System Pending API Link");
-        } 
+        if(method === 'guest') { window.location.href = currentStripeLink; } else if(method === 'login') { document.getElementById('checkout-choice-modal').style.display = 'none'; alert("Login System Pending API Link"); } 
     }
     </script>
     '''
@@ -938,7 +826,7 @@ def build_leaderboard_page():
             <h1 style="font-size:2.5rem; margin-bottom:10px; font-weight:900; letter-spacing:-0.5px;">GLOBAL METRICS</h1>
             <p style="color:#888; font-size:0.95rem; max-width:600px; margin:0 auto;">Statistical ranking of top network profiles by realized equity curve.</p>
         </div>
-        <div class="panel table-responsive" style="padding:0; border-radius:4px; border:1px solid #1a1a1a;">
+        <div class="panel table-responsive" style="padding:0; border-radius:4px; overflow:hidden; border:1px solid #1a1a1a;">
             <table style="width:100%; border-collapse:collapse;">
                 <thead>
                     <tr style="background:#050505; border-bottom:1px solid #333; font-size:0.8rem; color:#666; text-align:left;">
@@ -952,23 +840,23 @@ def build_leaderboard_page():
                 <tbody id="lb-body">
                     <tr style="border-bottom:1px solid #222;">
                         <td class="rank-1" style="padding:15px; color:#fff; font-weight:bold;">#1</td>
-                        <td><strong style="color:#ddd;">Entity_99</strong></td>
-                        <td style="font-family:monospace; color:#aaa;">$1.2M</td>
-                        <td style="color:#00C853; font-family:monospace;">+142.5%</td>
+                        <td><strong style="color:#ddd;" class="notranslate">Entity_99</strong></td>
+                        <td style="font-family:monospace; color:#aaa;" class="notranslate">$1.2M</td>
+                        <td style="color:#00C853; font-family:monospace;" class="notranslate">+142.5%</td>
                         <td><span style="color:var(--gold); font-size:0.8rem; border:1px solid var(--gold); padding:2px 6px; border-radius:2px;">WHALE</span></td>
                     </tr>
                     <tr style="border-bottom:1px solid #222;">
                         <td class="rank-2" style="padding:15px; color:#fff; font-weight:bold;">#2</td>
-                        <td><strong style="color:#ddd;">Quant_LDN</strong></td>
-                        <td style="font-family:monospace; color:#aaa;">$450K</td>
-                        <td style="color:#00C853; font-family:monospace;">+89.2%</td>
+                        <td><strong style="color:#ddd;" class="notranslate">Quant_LDN</strong></td>
+                        <td style="font-family:monospace; color:#aaa;" class="notranslate">$450K</td>
+                        <td style="color:#00C853; font-family:monospace;" class="notranslate">+89.2%</td>
                         <td><span style="color:#888; font-size:0.8rem;">Tier 2</span></td>
                     </tr>
                     <tr style="border-bottom:1px solid #222;">
                         <td class="rank-3" style="padding:15px; color:#fff; font-weight:bold;">#3</td>
-                        <td><strong style="color:#ddd;">CapitalX</strong></td>
-                        <td style="font-family:monospace; color:#aaa;">$89K</td>
-                        <td style="color:#00C853; font-family:monospace;">+64.8%</td>
+                        <td><strong style="color:#ddd;" class="notranslate">CapitalX</strong></td>
+                        <td style="font-family:monospace; color:#aaa;" class="notranslate">$89K</td>
+                        <td style="color:#00C853; font-family:monospace;" class="notranslate">+64.8%</td>
                         <td><span style="color:#888; font-size:0.8rem;">Tier 2</span></td>
                     </tr>
                 </tbody>
@@ -979,12 +867,12 @@ def build_leaderboard_page():
     document.addEventListener("DOMContentLoaded", function() { 
         let user = localStorage.getItem('mip_user'); 
         if(user) { 
-            document.getElementById('lb-body').innerHTML += `<tr style="border-bottom:1px solid #222; background:#0a0a0a;"><td class="rank-3" style="padding:15px; color:#fff; font-weight:bold;">#8</td><td><strong style="color:#fff;">[YOU] ${user}</strong></td><td style="font-family:monospace; color:#aaa;">$14,250</td><td style="color:#00C853; font-family:monospace;">+18.4%</td><td><span style="color:#888; font-size:0.8rem;">Tier 2</span></td></tr>`; 
+            document.getElementById('lb-body').innerHTML += `<tr style="border-bottom:1px solid #222; background:#0a0a0a;"><td class="rank-3" style="padding:15px; color:#fff; font-weight:bold;">#8</td><td><strong style="color:#fff;" class="notranslate">[YOU] ${user}</strong></td><td style="font-family:monospace; color:#aaa;" class="notranslate">$14,250</td><td style="color:#00C853; font-family:monospace;" class="notranslate">+18.4%</td><td><span style="color:#888; font-size:0.8rem;">Tier 2</span></td></tr>`; 
         } 
     });
     </script>
     '''
-    html = get_dashboard_layout("Leaderboard", content, active_page="dashboard")
+    html = get_dashboard_layout("Leaderboard", content, active_page="leaderboard")
     scrivi_file("leaderboard.html", html)
 
 def build_legal_page():
@@ -1051,26 +939,19 @@ def build_chat():
                 </div>
             </div>
             <div class="chat-input-area wallet-form" style="border-top: 1px solid #1a1a1a; padding:15px; display:flex; gap:10px; background:#050505;">
-                <input type="text" class="chat-input" id="in" placeholder="Input query parameters..." style="flex:1; background:#000; border:1px solid #222; padding:15px; color:#fff; border-radius:2px; font-family: monospace; outline:none; font-size:0.9rem;">
+                <input type="text" class="chat-input notranslate" id="in" placeholder="Input query parameters..." style="flex:1; background:#000; border:1px solid #222; padding:15px; color:#fff; border-radius:2px; font-family: monospace; outline:none; font-size:0.9rem;">
                 <button class="chat-btn" onclick="send()" style="background:#fff; color:#000; border:none; padding:15px 30px; border-radius: 2px; font-weight: 700; font-size:0.85rem; cursor:pointer; letter-spacing:1px;">EXECUTE</button>
             </div>
         </div>
     </div>
     <script>
     function send(){
-        let i=document.getElementById('in'); 
-        let v=i.value; 
-        if(!v)return; 
-        let h=document.getElementById('hist'); 
-        h.innerHTML+=`<div class="msg msg-user" style="text-align:right; margin-bottom:10px;"><span style="background:#222; padding:10px 15px; border-radius:4px; display:inline-block; color:#fff; font-size:0.9rem;">${v}</span></div>`; 
-        i.value=''; h.scrollTop=h.scrollHeight; 
-        let t="t-"+Date.now(); 
+        let i=document.getElementById('in'); let v=i.value; if(!v)return; let h=document.getElementById('hist'); 
+        h.innerHTML+=`<div class="msg msg-user notranslate" style="text-align:right; margin-bottom:10px;"><span style="background:#222; padding:10px 15px; border-radius:4px; display:inline-block; color:#fff; font-size:0.9rem;">${v}</span></div>`; 
+        i.value=''; h.scrollTop=h.scrollHeight; let t="t-"+Date.now(); 
         h.innerHTML+=`<div class="msg msg-ai" id="${t}" style="text-align:left; margin-bottom:10px;"><span style="background:#111; color:#888; border:1px solid #222; padding:10px 15px; border-radius:4px; display:inline-block; font-family:monospace; font-size:0.85rem;">Processing...</span></div>`; 
         h.scrollTop=h.scrollHeight; 
-        setTimeout(()=>{
-            document.getElementById(t).innerHTML=`<span style="background:#0a0a0a; color:#ccc; border:1px solid #333; padding:10px 15px; border-radius:4px; display:inline-block; font-family:monospace; font-size:0.85rem; line-height:1.5;">System Notice: Market sentiment variance detected. Consult the Quantitative Signals Engine.</span>`; 
-            h.scrollTop=h.scrollHeight;
-        }, 1200);
+        setTimeout(()=>{ document.getElementById(t).innerHTML=`<span style="background:#0a0a0a; color:#ccc; border:1px solid #333; padding:10px 15px; border-radius:4px; display:inline-block; font-family:monospace; font-size:0.85rem; line-height:1.5;">System Notice: Market sentiment variance detected. Consult the Quantitative Signals Engine.</span>`; h.scrollTop=h.scrollHeight; }, 1200);
     } 
     document.getElementById('in').addEventListener("keypress", e=>{if(e.key==="Enter")send();});
     </script>
@@ -1088,13 +969,13 @@ def build_wallet():
         
         <div style="text-align:center; padding: 50px; background:#0a0a0a; border-radius:4px; border:1px solid #1a1a1a; margin-bottom:30px;">
             <div style="color:#666; font-size:0.8rem; text-transform:uppercase; font-weight:bold; letter-spacing:1px;">Total Net Worth</div>
-            <div id="total-net-worth" style="font-size:3rem; font-weight:900; color:#fff; font-family:monospace; margin:10px 0;">$0.00</div>
+            <div id="total-net-worth" class="notranslate" style="font-size:3rem; font-weight:900; color:#fff; font-family:monospace; margin:10px 0;">$0.00</div>
             <div style="font-size:0.75rem; color:#00C853; border:1px solid #00C853; display:inline-block; padding:2px 6px; border-radius:2px;">LIVE API SYNC</div>
         </div>
         
         <div class="wallet-form" style="background:#0a0a0a; border:1px solid #222; padding:20px; border-radius:4px; display:flex; gap:10px;">
-            <input type="text" id="asset-select" placeholder="Asset Ticker (e.g. BTC)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; text-transform:uppercase; font-family:monospace; border-radius:2px;">
-            <input type="number" id="asset-amount" placeholder="Amount (e.g. 0.5)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; font-family:monospace; border-radius:2px;">
+            <input type="text" class="notranslate" id="asset-select" placeholder="Asset Ticker (e.g. BTC)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; text-transform:uppercase; font-family:monospace; border-radius:2px;">
+            <input type="number" class="notranslate" id="asset-amount" placeholder="Amount (e.g. 0.5)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; font-family:monospace; border-radius:2px;">
             <button onclick="addAsset()" style="padding:12px 30px; border-radius:2px; font-weight:bold; letter-spacing:1px; background:#fff; color:#000; border:none; cursor:pointer;">ADD HOLDING</button>
         </div>
         
@@ -1114,75 +995,12 @@ def build_wallet():
     </div>
     <script>
     const W_KEY = "mip_manual_wallet"; 
-    
-    function loadWallet() { 
-        let saved = localStorage.getItem(W_KEY); 
-        let assets = saved ? JSON.parse(saved) : {}; 
-        renderWalletTable(assets); 
-        fetchLiveWorth(assets); 
-    } 
-    
-    function addAsset() { 
-        let id = document.getElementById("asset-select").value.toUpperCase(); 
-        let amount = parseFloat(document.getElementById("asset-amount").value); 
-        if(!id || isNaN(amount) || amount <= 0) return alert("Invalid amount."); 
-        let saved = localStorage.getItem(W_KEY); 
-        let assets = saved ? JSON.parse(saved) : {}; 
-        assets[id] = (assets[id] || 0) + amount; 
-        localStorage.setItem(W_KEY, JSON.stringify(assets)); 
-        document.getElementById("asset-amount").value = ""; 
-        document.getElementById("asset-select").value = "";
-        loadWallet(); 
-    } 
-    
-    function removeAsset(id) { 
-        let saved = localStorage.getItem(W_KEY); 
-        if(!saved) return; 
-        let assets = JSON.parse(saved); 
-        delete assets[id]; 
-        localStorage.setItem(W_KEY, JSON.stringify(assets)); 
-        loadWallet(); 
-    } 
-    
-    function renderWalletTable(assets) { 
-        let tbody = document.getElementById("wallet-body"); 
-        tbody.innerHTML = ""; 
-        if(Object.keys(assets).length === 0) { 
-            tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#666; padding:20px;'>Portfolio empty. Add holdings above.</td></tr>"; 
-            return; 
-        } 
-        for (const [id, amount] of Object.entries(assets)) { 
-            tbody.innerHTML += `<tr style="border-bottom:1px solid #1a1a1a;"><td style="padding:15px; font-weight:bold; color:#fff;">${id}</td><td style="padding:15px; font-family:monospace; color:#aaa;">${amount}</td><td style="padding:15px; color:#fff; font-family:monospace; font-weight:bold;" id="val-${id}">Loading...</td><td style="text-align:right; padding:15px;"><button onclick="removeAsset('${id}')" style="background:transparent; color:#888; border:1px solid #333; padding:4px 8px; border-radius:2px; cursor:pointer; font-size:0.7rem;">REMOVE</button></td></tr>`; 
-        } 
-    } 
-    
-    async function fetchLiveWorth(assets) { 
-        if(Object.keys(assets).length === 0) { 
-            document.getElementById("total-net-worth").innerText = "$0.00"; return; 
-        } 
-        try { 
-            let res = await fetch('https://api.binance.com/api/v3/ticker/price'); 
-            let data = await res.json(); 
-            let priceMap = {}; 
-            data.forEach(item => { priceMap[item.symbol] = parseFloat(item.price); }); 
-            
-            let total = 0; 
-            for (const [id, amount] of Object.entries(assets)) { 
-                let symbol = id + "USDT"; 
-                let currentPrice = priceMap[symbol]; 
-                if(currentPrice) { 
-                    let value = currentPrice * amount; 
-                    total += value; 
-                    let el = document.getElementById(`val-${id}`); 
-                    if (el) el.innerText = "$" + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
-                } 
-            } 
-            document.getElementById("total-net-worth").innerText = "$" + total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); 
-        } catch(e) {} 
-    } 
-    
-    document.addEventListener("DOMContentLoaded", loadWallet); 
-    setInterval(loadWallet, 5000); 
+    function loadWallet() { let saved = localStorage.getItem(W_KEY); let assets = saved ? JSON.parse(saved) : {}; renderWalletTable(assets); fetchLiveWorth(assets); } 
+    function addAsset() { let id = document.getElementById("asset-select").value.toUpperCase(); let amount = parseFloat(document.getElementById("asset-amount").value); if(!id || isNaN(amount) || amount <= 0) return alert("Invalid amount."); let saved = localStorage.getItem(W_KEY); let assets = saved ? JSON.parse(saved) : {}; assets[id] = (assets[id] || 0) + amount; localStorage.setItem(W_KEY, JSON.stringify(assets)); document.getElementById("asset-amount").value = ""; document.getElementById("asset-select").value = ""; loadWallet(); } 
+    function removeAsset(id) { let saved = localStorage.getItem(W_KEY); if(!saved) return; let assets = JSON.parse(saved); delete assets[id]; localStorage.setItem(W_KEY, JSON.stringify(assets)); loadWallet(); } 
+    function renderWalletTable(assets) { let tbody = document.getElementById("wallet-body"); tbody.innerHTML = ""; if(Object.keys(assets).length === 0) { tbody.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#666; padding:20px;'>Portfolio empty. Add holdings above.</td></tr>"; return; } for (const [id, amount] of Object.entries(assets)) { tbody.innerHTML += `<tr style="border-bottom:1px solid #1a1a1a;"><td style="padding:15px; font-weight:bold; color:#fff;" class="notranslate">${id}</td><td style="padding:15px; font-family:monospace; color:#aaa;" class="notranslate">${amount}</td><td style="padding:15px; color:#fff; font-family:monospace; font-weight:bold;" class="notranslate" id="val-${id}">Loading...</td><td style="text-align:right; padding:15px;"><button onclick="removeAsset('${id}')" style="background:transparent; color:#888; border:1px solid #333; padding:4px 8px; border-radius:2px; cursor:pointer; font-size:0.7rem;">REMOVE</button></td></tr>`; } } 
+    async function fetchLiveWorth(assets) { if(Object.keys(assets).length === 0) { document.getElementById("total-net-worth").innerText = "$0.00"; return; } try { let res = await fetch('https://api.binance.com/api/v3/ticker/price'); let data = await res.json(); let priceMap = {}; data.forEach(item => { priceMap[item.symbol] = parseFloat(item.price); }); let total = 0; for (const [id, amount] of Object.entries(assets)) { let symbol = id + "USDT"; let currentPrice = priceMap[symbol]; if(currentPrice) { let value = currentPrice * amount; total += value; let el = document.getElementById(`val-${id}`); if (el) el.innerText = "$" + value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); } } document.getElementById("total-net-worth").innerText = "$" + total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}); } catch(e) {} } 
+    document.addEventListener("DOMContentLoaded", loadWallet); setInterval(loadWallet, 5000); 
     </script>
     '''
     html = get_dashboard_layout("Portfolio Tracker", content, active_page="wallet")
@@ -1253,11 +1071,11 @@ def build_cheatsheets():
             <h3 style="color:#fff; margin-top:30px; font-weight:700;">The Position Sizing Formula</h3>
             <p style="color:#aaa; line-height:1.7; font-size:0.95rem;">To calculate exactly how many dollars to invest in a trade to respect the 1% rule, use the following institutional formula:</p>
             
-            <code style="background:#000; border:1px solid #333; padding:20px; display:block; color:#fff; border-radius:4px; margin:20px 0; font-size:1rem; text-align:center; font-family:monospace;">
+            <code style="background:#000; border:1px solid #333; padding:20px; display:block; color:#fff; border-radius:4px; margin:20px 0; font-size:1rem; text-align:center; font-family:monospace;" class="notranslate">
                 Position Size = (Account Balance * Risk %) / Stop Loss Distance %
             </code>
             
-            <p style="color:#aaa; line-height:1.7; font-size:0.95rem;">Example: $10,000 balance, 1% risk ($100), and your Stop Loss is 5% away. <br>Your Position Size is: $100 / 0.05 = <b style="color:#fff;">$2,000</b>. You buy $2,000 worth of the asset.</p>
+            <p style="color:#aaa; line-height:1.7; font-size:0.95rem;">Example: $10,000 balance, 1% risk ($100), and your Stop Loss is 5% away. <br>Your Position Size is: $100 / 0.05 = <b style="color:#fff;" class="notranslate">$2,000</b>. You buy $2,000 worth of the asset.</p>
             
             <div style="margin-top:50px; padding:30px; background:#050505; border:1px solid #333; border-radius:4px; text-align:center;">
                 <h3 style="color:#00C853; margin-top:0; font-weight:700;">SECURE YOUR PROFITS</h3>
@@ -1296,11 +1114,11 @@ def build_vip_lounge():
                 <div style="display:flex; gap:30px;">
                     <div style="text-align:right;">
                         <div style="font-size:0.7rem; color:#666; text-transform:uppercase; font-weight:bold; letter-spacing:1px; margin-bottom:5px;">Available Liquidity</div>
-                        <div id="pt-balance" style="font-size:2rem; font-weight:900; color:#fff; font-family:monospace;">$100,000.00</div>
+                        <div id="pt-balance" class="notranslate" style="font-size:2rem; font-weight:900; color:#fff; font-family:monospace;">$100,000.00</div>
                     </div>
                     <div style="text-align:right;">
                         <div style="font-size:0.7rem; color:#666; text-transform:uppercase; font-weight:bold; letter-spacing:1px; margin-bottom:5px;">Unrealized PNL</div>
-                        <div id="pt-unrealized" style="font-size:2rem; font-weight:900; color:#888; font-family:monospace;">$0.00</div>
+                        <div id="pt-unrealized" class="notranslate" style="font-size:2rem; font-weight:900; color:#888; font-family:monospace;">$0.00</div>
                     </div>
                 </div>
             </div>
@@ -1319,8 +1137,8 @@ def build_vip_lounge():
                 <div class="panel" style="background:#0a0a0a; border:1px solid #222; border-radius:4px; padding:25px;">
                     <h3 style="color:#fff; font-size:1.1rem; margin-top:0; border-bottom:1px solid #222; padding-bottom:10px;">ORDER EXECUTION</h3>
                     <div class="wallet-form" style="display:flex; gap:10px; align-items:center; margin-top:20px;">
-                        <input type="text" id="pt-ticker" placeholder="TICKER (e.g. BTC)" style="width:130px; padding:12px; background:#000; border:1px solid #333; color:#fff; text-transform:uppercase; outline:none; font-family:monospace; border-radius:2px;">
-                        <input type="number" id="pt-amount" placeholder="Size in USD ($)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; font-family:monospace; border-radius:2px;">
+                        <input type="text" class="notranslate" id="pt-ticker" placeholder="TICKER (e.g. BTC)" style="width:130px; padding:12px; background:#000; border:1px solid #333; color:#fff; text-transform:uppercase; outline:none; font-family:monospace; border-radius:2px;">
+                        <input type="number" class="notranslate" id="pt-amount" placeholder="Size in USD ($)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; font-family:monospace; border-radius:2px;">
                         <button id="pt-buy-btn" onclick="executePaperTrade()" style="padding:12px 25px; border-radius:2px; font-weight:bold; background:#fff; color:#000; border:none; cursor:pointer;">MARKET BUY</button>
                     </div>
                     <p style="color:#555; font-size:0.7rem; margin-top:15px;">Orders are routed to Binance spot pricing API. Zero slippage applied for theoretical testing.</p>
@@ -1463,7 +1281,7 @@ def build_vip_lounge():
             let pnlColor = pnlPerc >= 0 ? "#00C853" : "#FF3D00";
 
             tbody.innerHTML += `
-            <tr style="border-bottom:1px solid #1a1a1a;">
+            <tr style="border-bottom:1px solid #1a1a1a;" class="notranslate">
                 <td style="padding:15px; font-weight:bold; color:#fff;">${ticker.replace('USDT','')}</td>
                 <td style="padding:15px; font-family:monospace; color:#aaa;">${data.qty.toFixed(4)}</td>
                 <td style="padding:15px; font-family:monospace; color:#aaa;">$${data.avgPrice.toFixed(2)}</td>
@@ -1491,7 +1309,63 @@ def build_vip_lounge():
     scrivi_file("vip_lounge.html", html)
 
 def build_stories_page():
-    pass
+    content = '''
+    <div style="max-width:1400px; margin: 0 auto;">
+        <div style="text-align:center; margin-bottom:50px;">
+            <h1 style="font-size:3rem; margin-bottom:10px; font-weight:900; letter-spacing:-1px;">CLIENT <span style="color:#fff;">CASE STUDIES</span></h1>
+            <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Verified analytical accounts of retail participants transitioning to quantitative frameworks using our proprietary data.</p>
+        </div>
+        
+        <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
+            <div class="panel" style="background:#0a0a0a; border:1px solid #222; border-radius:4px; border-top: 3px solid #00C853; position:relative; padding:25px;">
+                <div style="position:absolute; top:-15px; right:20px; background:#00C853; color:#000; padding:4px 8px; border-radius:2px; font-weight:bold; font-size:0.7rem; letter-spacing:1px;">FUNDED PORTFOLIO</div>
+                <h3 style="color:#fff; font-size:1.2rem; margin-top:10px;">"From discretionary bias to systematic execution."</h3>
+                <p style="color:#888; font-size:0.9rem; line-height:1.6;">"Before integrating MIP, I traded on emotional sentiment. The Order Block metrics inside the VIP infrastructure eliminated prediction. I now execute solely on institutional liquidity footprints."</p>
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #111; display:flex; align-items:center; gap:15px;">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid #333;">
+                    <div>
+                        <strong style="color:#ccc; display:block; font-size:0.9rem;" class="notranslate">Marcus T.</strong>
+                        <span style="color:#666; font-size:0.75rem;">Quant Tier since Q3 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel" style="background:#0a0a0a; border:1px solid #222; border-radius:4px; border-top: 3px solid var(--gold); position:relative; padding:25px;">
+                <div style="position:absolute; top:-15px; right:20px; background:var(--gold); color:#000; padding:4px 8px; border-radius:2px; font-weight:bold; font-size:0.7rem; letter-spacing:1px;">DATA ARBITRAGE</div>
+                <h3 style="color:#fff; font-size:1.2rem; margin-top:10px;">"Uncovering the macro context."</h3>
+                <p style="color:#888; font-size:0.9rem; line-height:1.6;">"The simulated Macro Correlation Matrix provided answers that standard retail charts obfuscate. Tracking cross-asset liquidity flows gave me an asymmetric edge over retail counterparts."</p>
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #111; display:flex; align-items:center; gap:15px;">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid #333;">
+                    <div>
+                        <strong style="color:#ccc; display:block; font-size:0.9rem;" class="notranslate">Elena S.</strong>
+                        <span style="color:#666; font-size:0.75rem;">Quant Tier since Q4 2025</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel" style="background:#0a0a0a; border:1px solid #222; border-radius:4px; border-top: 3px solid #2962FF; position:relative; padding:25px;">
+                <div style="position:absolute; top:-15px; right:20px; background:#2962FF; color:#fff; padding:4px 8px; border-radius:2px; font-weight:bold; font-size:0.7rem; letter-spacing:1px;">API AUTOMATION</div>
+                <h3 style="color:#fff; font-size:1.2rem; margin-top:10px;">"Removing the human error variable."</h3>
+                <p style="color:#888; font-size:0.9rem; line-height:1.6;">"Connecting my Bybit architecture to the Execution Hub was the final step. The Risk Module handles position sizing, and the algorithm manages deployment. Complete isolation of capital management."</p>
+                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #111; display:flex; align-items:center; gap:15px;">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=100&q=80" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid #333;">
+                    <div>
+                        <strong style="color:#ccc; display:block; font-size:0.9rem;" class="notranslate">David K.</strong>
+                        <span style="color:#666; font-size:0.75rem;">Quant Tier since Q1 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align:center; margin-top:60px; padding:40px; background:#0a0a0a; border:1px solid #222; border-radius:4px;">
+            <h2 style="color:#fff; margin-top:0; font-weight:900;">Ready to execute systematically?</h2>
+            <p style="color:#888; margin-bottom:30px; font-size:0.95rem;">Stop gambling and start trading with an institutional edge.</p>
+            <a href="pricing.html" style="padding:15px 40px; font-size:1rem; text-decoration:none; border-radius:2px; font-weight:bold; letter-spacing:1px; background:var(--gold); color:#000;">PROVISION TIER 2</a>
+        </div>
+    </div>
+    '''
+    html = get_dashboard_layout("Case Studies", content, active_page="stories")
+    scrivi_file("stories.html", html)
 
 def build_tools_page():
     content = f'''
@@ -1508,7 +1382,7 @@ def build_tools_page():
         </div>
 
         <div class="stack-category">LAYER 1: EXECUTION & LIQUIDITY</div>
-        <div class="grid">
+        <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
             <div class="stack-card">
                 <span class="stack-badge" style="background:#111; color:#00C853; border:1px solid #00C853;">CAPITAL FUNDING</span>
                 <h3 style="color:#fff; font-size:1.2rem; margin-top:0;">FTMO Infrastructure</h3>
@@ -1530,7 +1404,7 @@ def build_tools_page():
         </div>
 
         <div class="stack-category">LAYER 2: DATA & ANALYTICS</div>
-        <div class="grid">
+        <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
             <div class="stack-card">
                 <span class="stack-badge" style="background:#111; color:#fff; border:1px solid #fff;">VISUALIZATION</span>
                 <h3 style="color:#fff; font-size:1.2rem; margin-top:0;">TradingView Pro</h3>
@@ -1552,7 +1426,7 @@ def build_tools_page():
         </div>
 
         <div class="stack-category">LAYER 3: COMPLIANCE & SECURITY</div>
-        <div class="grid">
+        <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
             <div class="stack-card">
                 <span class="stack-badge" style="background:#111; color:#FF3D00; border:1px solid #FF3D00;">ENCRYPTION</span>
                 <h3 style="color:#fff; font-size:1.2rem; margin-top:0;">NordVPN Protocols</h3>
@@ -1585,7 +1459,7 @@ def build_seo_files():
         "index.html", "signals.html", "api_hub.html", "brokers.html", 
         "referral.html", "pricing.html", "leaderboard.html", "legal.html",
         "academy_lez1_1.html", "academy_lez2_1.html", "academy_lez3_1.html", "academy_lez4_1.html", "academy_lez5_1.html",
-        "chat.html", "wallet.html", "vip_lounge.html", "tools.html"
+        "chat.html", "wallet.html", "vip_lounge.html", "stories.html", "tools.html"
     ]
     
     sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
