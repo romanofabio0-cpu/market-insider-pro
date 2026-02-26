@@ -45,8 +45,11 @@ MIP_DASHBOARD_CSS = """
 body {
     margin: 0; font-family: 'Inter', system-ui, sans-serif; 
     background-color: var(--bg-main); color: var(--text-main);
-    display: flex; height: 100vh; overflow: hidden;
+    display: flex; height: 100vh; overflow: hidden; top: 0px !important; /* Fix Google Translate */
 }
+/* NASCONDI LA BARRA DI GOOGLE TRANSLATE */
+body > .skiptranslate, .goog-te-banner-frame.skiptranslate { display: none !important; }
+
 .sidebar {
     width: 250px; background-color: var(--bg-sidebar); 
     border-right: 1px solid var(--border-color); display: flex; flex-direction: column; z-index: 10;
@@ -86,7 +89,6 @@ body {
 .lang-switcher {
     background: #111; color: #fff; border: 1px solid #333; padding: 8px 12px; 
     border-radius: 4px; font-weight: 600; font-size: 0.85rem; cursor: pointer; outline: none;
-    appearance: none; -webkit-appearance: none;
 }
 .lang-switcher:hover { border-color: var(--gold); }
 .dashboard-content { padding: 30px; width: 100%; box-sizing: border-box; }
@@ -118,6 +120,30 @@ body {
     .market-clocks { justify-content: center; }
     .fng-value { font-size: 2rem !important; }
 }
+"""
+
+# MOTORE DI TRADUZIONE MULTILINGUA
+JS_TRANSLATION_ENGINE = """
+<div id="google_translate_element" style="display:none;"></div>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en', autoDisplay: false}, 'google_translate_element');
+}
+function changeLanguage(lang) {
+    let domain = window.location.hostname;
+    document.cookie = `googtrans=/en/${lang}; path=/`;
+    document.cookie = `googtrans=/en/${lang}; domain=.${domain}; path=/`;
+    window.location.reload();
+}
+document.addEventListener("DOMContentLoaded", () => {
+    let match = document.cookie.match(/googtrans=\\/en\\/([a-z]{2})/);
+    if(match && match[1]) {
+        let sel = document.querySelector('.lang-switcher');
+        if(sel) sel.value = match[1];
+    }
+});
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 """
 
 def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard") -> str:
@@ -154,11 +180,13 @@ def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard
         <div class="header-mobile-space">
             <span style="font-weight:bold; color:var(--text-main); font-size:1.1rem; display:none;" class="mobile-title">Market Insider Pro</span>
         </div>
-        <select class="lang-switcher" onchange="console.log('Language changed to: ' + this.value)">
-            <option value="en">English</option>
+        <select class="lang-switcher" onchange="changeLanguage(this.value)">
+            <option value="en">English (US)</option>
             <option value="it">Italiano</option>
             <option value="es">Español</option>
             <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="pt">Deutsch</option>
         </select>
     </div>
     """
@@ -181,6 +209,7 @@ def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard
             </div>
         </div>
         {MODALS_HTML}
+        {JS_TRANSLATION_ENGINE}
     </body>
     </html>"""
 
@@ -195,7 +224,6 @@ ACADEMY_CONTENT = {
                 "html": f'''
                 <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">The 1% Statistical Edge</h1>
                 <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Retail market participants systematically lose capital due to emotional execution. At Market Insider Pro, we eliminate discretionary bias. We execute purely on quantitative probabilities.</p>
-                
                 <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #FFD700; border-radius:4px;">
                     <h3 style="color:#FFD700; margin-top:0;">Mandatory Literature</h3>
                     <p style="color:#ccc; line-height:1.6;">To align with institutional standards, "Trading in the Zone" by Mark Douglas is required reading for risk management conditioning.</p>
@@ -215,13 +243,11 @@ ACADEMY_CONTENT = {
                 "html": f'''
                 <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">Price Action & Volume Distribution</h1>
                 <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Discard lagging indicators. Institutional algorithms track only raw volume nodes and liquidity sweeps.</p>
-                
                 <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #555; border-radius:4px;">
                     <h3 style="color:#fff; margin-top:0;">Hardware Specifications</h3>
                     <p style="color:#ccc; line-height:1.6;">Multi-timeframe analysis requires significant screen real estate. An ultrawide display is standard protocol.</p>
                     <a href="{AMAZON_LINK_MONITOR}" target="_blank" class="btn-trade" style="background:transparent; border:1px solid #fff; color:#fff; display:inline-block; margin-top:15px; padding: 10px 20px; text-decoration:none;">HARDWARE UPGRADE</a>
                 </div>
-                
                 <div style="margin-top:20px; padding:30px; background:#111; border-left:4px solid #FCD535; border-radius:4px;">
                     <h3 style="color:#FCD535; margin-top:0;">Execution Venue</h3>
                     <p style="color:#ccc; line-height:1.6;">Zero-slippage execution is mandatory. Connect to top-tier liquidity pools.</p>
@@ -241,7 +267,6 @@ ACADEMY_CONTENT = {
                 "html": f'''
                 <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">Identifying Accumulation Nodes</h1>
                 <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Order Blocks (OBs) represent massive capital deployment by central entities. We trace these footprints to model predictive entries.</p>
-                
                 <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #00C853; border-radius:4px;">
                     <h3 style="color:#00C853; margin-top:0;">Asset Custody Protocol</h3>
                     <p style="color:#ccc; line-height:1.6;">Long-term capital must remain disconnected from network attack vectors. Cold storage is strictly enforced.</p>
@@ -261,7 +286,6 @@ ACADEMY_CONTENT = {
                 "html": f'''
                 <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">System Integration</h1>
                 <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Connect exchange APIs to deploy systematic logic without manual intervention.</p>
-                
                 <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #FF9900; border-radius:4px;">
                     <h3 style="color:#FF9900; margin-top:0;">Latency Optimization</h3>
                     <p style="color:#ccc; line-height:1.6;">High-frequency logic demands ultra-low latency. Dedicated futures accounts are recommended.</p>
@@ -281,7 +305,6 @@ ACADEMY_CONTENT = {
                 "html": f'''
                 <h1 style="color:#fff; font-size:2.5rem; font-weight:900; margin-bottom:15px;">Delta Neutral Strategies</h1>
                 <p style="color:#aaa; font-size:1.1rem; line-height:1.7;">Institutions do not expose themselves to directional risk blindly. Utilizing derivatives to hedge spot portfolios is the key to surviving bear markets.</p>
-                
                 <div style="margin-top:40px; padding:30px; background:#111; border-left:4px solid #2962FF; border-radius:4px;">
                     <h3 style="color:#2962FF; margin-top:0;">Derivatives Platform</h3>
                     <p style="color:#ccc; line-height:1.6;">For complex hedging, deep liquidity and zero maker fees are essential to maintain margin.</p>
@@ -294,31 +317,31 @@ ACADEMY_CONTENT = {
 }
 
 ASSETS_DB = {
-    "BTC": {"name": "Bitcoin", "symbol": "BINANCE:BTCUSDT", "type": "crypto", "has_chart": True},
-    "ETH": {"name": "Ethereum", "symbol": "BINANCE:ETHUSDT", "type": "crypto", "has_chart": True},
-    "SOL": {"name": "Solana", "symbol": "BINANCE:SOLUSDT", "type": "crypto", "has_chart": True},
-    "BNB": {"name": "Binance Coin", "symbol": "BINANCE:BNBUSDT", "type": "crypto", "has_chart": True},
-    "XRP": {"name": "Ripple", "symbol": "BINANCE:XRPUSDT", "type": "crypto", "has_chart": True},
-    "ADA": {"name": "Cardano", "symbol": "BINANCE:ADAUSDT", "type": "crypto", "has_chart": True},
-    "AVAX": {"name": "Avalanche", "symbol": "BINANCE:AVAXUSDT", "type": "crypto", "has_chart": True},
-    "DOT": {"name": "Polkadot", "symbol": "BINANCE:DOTUSDT", "type": "crypto", "has_chart": True},
-    "LINK": {"name": "Chainlink", "symbol": "BINANCE:LINKUSDT", "type": "crypto", "has_chart": True},
-    "MATIC": {"name": "Polygon", "symbol": "BINANCE:MATICUSDT", "type": "crypto", "has_chart": True},
-    "TRX": {"name": "Tron", "symbol": "BINANCE:TRXUSDT", "type": "crypto", "has_chart": True},
-    "DOGE": {"name": "Dogecoin", "symbol": "BINANCE:DOGEUSDT", "type": "crypto", "has_chart": True},
-    "SHIB": {"name": "Shiba Inu", "symbol": "BINANCE:SHIBUSDT", "type": "crypto", "has_chart": True},
-    "PEPE": {"name": "Pepe", "symbol": "BINANCE:1000PEPEUSDT", "type": "crypto", "has_chart": True},
-    "RNDR": {"name": "Render", "symbol": "BINANCE:RENDERUSDT", "type": "crypto", "has_chart": True}, 
-    "LTC": {"name": "Litecoin", "symbol": "BINANCE:LTCUSDT", "type": "crypto", "has_chart": True},
-    "NEAR": {"name": "NEAR Protocol", "symbol": "BINANCE:NEARUSDT", "type": "crypto", "has_chart": True},
-    "UNI": {"name": "Uniswap", "symbol": "BINANCE:UNIUSDT", "type": "crypto", "has_chart": True},
-    "INJ": {"name": "Injective", "symbol": "BINANCE:INJUSDT", "type": "crypto", "has_chart": True},
-    "OP": {"name": "Optimism", "symbol": "BINANCE:OPUSDT", "type": "crypto", "has_chart": True},
-    "SUI": {"name": "Sui Network", "symbol": "BINANCE:SUIUSDT", "type": "crypto", "has_chart": True},
-    "APT": {"name": "Aptos", "symbol": "BINANCE:APTUSDT", "type": "crypto", "has_chart": True},
-    "ARB": {"name": "Arbitrum", "symbol": "BINANCE:ARBUSDT", "type": "crypto", "has_chart": True},
-    "FET": {"name": "Fetch.ai", "symbol": "BINANCE:FETUSDT", "type": "crypto", "has_chart": True},
-    "FIL": {"name": "Filecoin", "symbol": "BINANCE:FILUSDT", "type": "crypto", "has_chart": True}
+    "BTC": {"name": "Bitcoin", "symbol": "BINANCE:BTCUSDT", "type": "crypto"},
+    "ETH": {"name": "Ethereum", "symbol": "BINANCE:ETHUSDT", "type": "crypto"},
+    "SOL": {"name": "Solana", "symbol": "BINANCE:SOLUSDT", "type": "crypto"},
+    "BNB": {"name": "Binance Coin", "symbol": "BINANCE:BNBUSDT", "type": "crypto"},
+    "XRP": {"name": "Ripple", "symbol": "BINANCE:XRPUSDT", "type": "crypto"},
+    "ADA": {"name": "Cardano", "symbol": "BINANCE:ADAUSDT", "type": "crypto"},
+    "AVAX": {"name": "Avalanche", "symbol": "BINANCE:AVAXUSDT", "type": "crypto"},
+    "DOT": {"name": "Polkadot", "symbol": "BINANCE:DOTUSDT", "type": "crypto"},
+    "LINK": {"name": "Chainlink", "symbol": "BINANCE:LINKUSDT", "type": "crypto"},
+    "MATIC": {"name": "Polygon", "symbol": "BINANCE:MATICUSDT", "type": "crypto"},
+    "TRX": {"name": "Tron", "symbol": "BINANCE:TRXUSDT", "type": "crypto"},
+    "DOGE": {"name": "Dogecoin", "symbol": "BINANCE:DOGEUSDT", "type": "crypto"},
+    "SHIB": {"name": "Shiba Inu", "symbol": "BINANCE:SHIBUSDT", "type": "crypto"},
+    "PEPE": {"name": "Pepe", "symbol": "BINANCE:1000PEPEUSDT", "type": "crypto"},
+    "RNDR": {"name": "Render", "symbol": "BINANCE:RENDERUSDT", "type": "crypto"}, 
+    "LTC": {"name": "Litecoin", "symbol": "BINANCE:LTCUSDT", "type": "crypto"},
+    "NEAR": {"name": "NEAR Protocol", "symbol": "BINANCE:NEARUSDT", "type": "crypto"},
+    "UNI": {"name": "Uniswap", "symbol": "BINANCE:UNIUSDT", "type": "crypto"},
+    "INJ": {"name": "Injective", "symbol": "BINANCE:INJUSDT", "type": "crypto"},
+    "OP": {"name": "Optimism", "symbol": "BINANCE:OPUSDT", "type": "crypto"},
+    "SUI": {"name": "Sui Network", "symbol": "BINANCE:SUIUSDT", "type": "crypto"},
+    "APT": {"name": "Aptos", "symbol": "BINANCE:APTUSDT", "type": "crypto"},
+    "ARB": {"name": "Arbitrum", "symbol": "BINANCE:ARBUSDT", "type": "crypto"},
+    "FET": {"name": "Fetch.ai", "symbol": "BINANCE:FETUSDT", "type": "crypto"},
+    "FIL": {"name": "Filecoin", "symbol": "BINANCE:FILUSDT", "type": "crypto"}
 }
 
 def scrivi_file(nome_file: str, contenuto: str) -> None:
@@ -341,7 +364,6 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     
     for ticker, db_info in ASSETS_DB.items():
         d_asset = dyn_data.get(ticker, {"price": 0, "change": 0, "signal": "NEUTRAL", "sig_col": "#aaa"})
-        color = "green" if d_asset['change'] >= 0 else "red"
         elem_id = ticker.lower()
         
         grid_html += f'''
@@ -353,10 +375,10 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
                         <span class="name" style="color:#666; font-size:0.75rem; text-transform:uppercase;">{db_info['name']}</span>
                     </div>
                     <div class="price" id="price-{elem_id}" style="font-family:monospace; font-size:1.6rem; margin-top:8px; color:#fff;">
-                        {format_price(d_asset["price"])}
+                        $0.00
                     </div>
-                    <div class="change {color}" id="change-{elem_id}" style="font-family:monospace; font-size:0.9rem; margin-top:4px;">
-                        {("+" if d_asset["change"] >= 0 else "")}{d_asset["change"]}%
+                    <div class="change" id="change-{elem_id}" style="font-family:monospace; font-size:0.9rem; margin-top:4px;">
+                        0.00%
                     </div>
                     <div class="signal-box" style="border-top:1px solid #1a1a1a; padding-top:10px; margin-top:15px; display:flex; justify-content:space-between; align-items:center;">
                         <span style="font-size:0.65rem; color:#555; text-transform:uppercase;">Trend Matrix</span>
@@ -400,16 +422,53 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         chart_page_html = get_dashboard_layout(f"{ticker} Data", chart_content, active_page="dashboard")
         scrivi_file(f"chart_{elem_id}.html", chart_page_html)
 
+    # --- SCRIPT DATI IN TEMPO REALE BINANCE API ---
+    live_price_script = '''
+    <script>
+    async function fetchLivePrices() {
+        try {
+            let res = await fetch('https://api.binance.com/api/v3/ticker/24hr');
+            let data = await res.json();
+            let priceMap = {};
+            data.forEach(i => { priceMap[i.symbol] = i; });
+            
+            document.querySelectorAll('.card-wrapper').forEach(card => {
+                let id = card.getAttribute('data-id');
+                if(!id) return;
+                let symbol = id.toUpperCase() + 'USDT';
+                if(priceMap[symbol]) {
+                    let p = parseFloat(priceMap[symbol].lastPrice);
+                    let c = parseFloat(priceMap[symbol].priceChangePercent);
+                    let pEl = document.getElementById('price-' + id);
+                    let cEl = document.getElementById('change-' + id);
+                    
+                    if(pEl && cEl) {
+                        if(p < 0.01) pEl.innerText = "$" + p.toFixed(6);
+                        else if(p < 1) pEl.innerText = "$" + p.toFixed(4);
+                        else pEl.innerText = "$" + p.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+                        
+                        cEl.innerText = (c >= 0 ? "+" : "") + c.toFixed(2) + "%";
+                        cEl.style.color = c >= 0 ? "#00C853" : "#FF3D00";
+                    }
+                }
+            });
+        } catch(e) { console.log("Standby API Feed"); }
+    }
+    setInterval(fetchLivePrices, 3000); // Aggiorna ogni 3 secondi
+    setTimeout(fetchLivePrices, 200); // Prima chiamata rapida
+    </script>
+    '''
+
     fng_color = "#FF3D00" if fng['value'] < 40 else ("#00C853" if fng['value'] > 60 else "#FFD700")
     fng_html = f'''
-    <div class="fng-meter" style="border-radius:4px; border:1px solid #222; padding:20px; background:#0a0a0a;">
+    <div class="fng-meter">
         <h3 style="margin:0; color:#888; text-transform:uppercase; font-size:0.8rem; font-weight:700;">
             MACRO SENTIMENT INDEX
         </h3>
         <div class="fng-value" style="color:{fng_color}; font-family:monospace; font-size:2.5rem; font-weight:900; margin:10px 0;">
             {fng["value"]}
         </div>
-        <div style="font-weight:bold; letter-spacing:1px; color:#ccc;">
+        <div style="font-weight:bold; letter-spacing:1px; color:#ccc; text-transform:uppercase;">
             {fng["text"]}
         </div>
         <div class="fng-bar" style="border-radius:2px; background:#111; height:8px; margin-top:15px; position:relative;">
@@ -428,31 +487,29 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         let cards = document.querySelectorAll(".card-wrapper");
         cards.forEach(c => {
             let id = c.getAttribute("data-id");
-            if (id.includes(search) || c.innerText.toLowerCase().includes(search)) { 
-                c.style.display = "block"; 
-            } else { 
-                c.style.display = "none"; 
-            }
+            if (id.includes(search) || c.innerText.toLowerCase().includes(search)) { c.style.display = "block"; } else { c.style.display = "none"; }
         });
     }
     </script>
     '''
     
+    # MOTORE NOTIZIE DINAMICO IN TEMPO REALE
+    if news and len(news) > 0:
+        ticker_items = "".join([f'<div class="ticker-item"><span style="color:var(--gold);">[{n.get("source", "MARKET").upper()}]</span> {n["title"]}</div>' for n in news[:10]])
+    else:
+        ticker_items = '<div class="ticker-item"><span style="color:#00C853;">[SYSTEM]</span> Real-time execution framework connected. Awaiting volume data.</div>'
+
     news_rows = "".join([f'''
         <tr style="border-bottom: 1px solid #111;">
             <td style="padding:15px 10px;">
-                <a href="{n["link"]}" target="_blank" style="font-weight:600; color:#ddd; display:block; margin-bottom:5px; text-decoration:none;">
-                    {n["title"]}
-                </a>
-                <span style="font-size:0.7rem; color:#666; text-transform:uppercase;">SOURCE: {n["source"]}</span>
+                <a href="{n["link"]}" target="_blank" style="font-weight:600; color:#ddd; display:block; margin-bottom:5px; text-decoration:none;">{n["title"]}</a>
+                <span style="font-size:0.7rem; color:#666; text-transform:uppercase;">SOURCE: {n.get("source", "MARKET")}</span>
             </td>
             <td style="text-align:right;">
-                <a href="{n["link"]}" target="_blank" class="btn-trade" style="background:transparent; color:#888; border:1px solid #333; padding:5px 10px; font-size:0.7rem; border-radius:2px; text-decoration:none;">
-                    ACCESS
-                </a>
+                <a href="{n["link"]}" target="_blank" class="btn-trade" style="background:transparent; color:#888; border:1px solid #333; padding:5px 10px; font-size:0.7rem; border-radius:2px; text-decoration:none; white-space:nowrap;">ACCESS</a>
             </td>
         </tr>
-    ''' for n in news])
+    ''' for n in news[:6]])
     
     ticker_css = '''
     <style>
@@ -467,15 +524,10 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     </style>
     '''
     
-    ticker_html = '''
+    ticker_html = f'''
     <div class="ticker-wrap">
         <div class="ticker">
-            <div class="ticker-item"><span style="color:#00C853;">[LIQUIDITY]</span> 1,240 BTC outflow from Binance confirmed</div>
-            <div class="ticker-item"><span style="color:#FF3D00;">[DERIVATIVES]</span> $4.2M wiped on ETH perpetuals</div>
-            <div class="ticker-item"><span style="color:var(--gold);">[MACRO]</span> US CPI aligns with consensus</div>
-            <div class="ticker-item"><span style="color:#2962FF;">[ON-CHAIN]</span> Major accumulation spotted on SOL</div>
-            <div class="ticker-item"><span style="color:#00C853;">[LIQUIDITY]</span> 1,240 BTC outflow from Binance confirmed</div>
-            <div class="ticker-item"><span style="color:#FF3D00;">[DERIVATIVES]</span> $4.2M wiped on ETH perpetuals</div>
+            {ticker_items} {ticker_items}
         </div>
     </div>
     '''
@@ -517,13 +569,14 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         <div class="grid" id="markets-grid">
             {grid_html}
         </div>
+        {live_price_script}
         
         <div class="split-layout">
             <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a;">
                 {fng_html}
             </div>
             <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a;">
-                <h2 class="section-title" style="font-size:1.2rem; border-bottom:1px solid #222; padding-bottom:10px;">MARKET INTELLIGENCE</h2>
+                <h2 class="section-title" style="font-size:1.2rem; border-bottom:1px solid #222; padding-bottom:10px; margin-top:0;">MARKET INTELLIGENCE</h2>
                 <div class="table-responsive">
                     <table style="width:100%; border-collapse:collapse;">
                         <tbody>{news_rows}</tbody>
@@ -551,11 +604,13 @@ def build_signals_page(assets: List[Dict]):
             css = "signal-buy"
             sl = p * (1 - (vol_mult * 1.5))
             tp1 = p * (1 + (vol_mult * 2.0))
+            col_sig = "#00C853"
         else:
             sig = "SHORT BIAS"
             css = "signal-sell"
             sl = p * (1 + (vol_mult * 1.5))
             tp1 = p * (1 - (vol_mult * 2.0))
+            col_sig = "#FF3D00"
             
         rows += f'''
         <tr style="border-bottom: 1px solid #111;">
@@ -563,7 +618,7 @@ def build_signals_page(assets: List[Dict]):
                 <strong style="font-size:1.1rem; color:#fff;">{a["symbol"]}</strong><br>
                 <span style="font-size:0.7rem;color:#666;">{a["name"]}</span>
             </td>
-            <td style="padding:15px; font-weight:bold; font-size:0.9rem;" class="{css}">
+            <td style="padding:15px; font-weight:bold; font-size:0.9rem; color:{col_sig};">
                 {sig}
             </td>
             <td style="padding:15px; font-family:monospace;">
@@ -579,7 +634,7 @@ def build_signals_page(assets: List[Dict]):
                 <strong style="color:#FF3D00;">{format_price(sl)}</strong>
             </td>
             <td style="padding:15px; text-align:right;">
-                <a href="chart_{a["id"]}.html" class="btn-trade" style="padding: 6px 12px; font-size:0.75rem; background:transparent; border:1px solid #333; color:#aaa; border-radius:2px; text-decoration:none;">
+                <a href="chart_{a["symbol"].lower()}.html" style="padding: 6px 12px; font-size:0.75rem; background:transparent; border:1px solid #333; color:#aaa; border-radius:2px; text-decoration:none;">
                     DATA
                 </a>
             </td>
@@ -592,7 +647,7 @@ def build_signals_page(assets: List[Dict]):
             <h3 style="margin-top:0; color:#fff; font-size:1.2rem;">QUANTITATIVE RISK MODEL</h3>
             <p style="color:#888; font-size:0.85rem;">Calculate exact position exposure based on strict institutional tolerance algorithms.</p>
             
-            <div class="wallet-form" style="padding:0; background:none; border:none; display:flex; gap:15px; align-items:flex-end;">
+            <div class="wallet-form" style="padding:0; background:none; border:none; display:flex; gap:15px; align-items:flex-end; flex-wrap:wrap;">
                 <div style="flex:1; min-width:150px;">
                     <label style="font-size:0.7rem; color:#666; text-transform:uppercase;">Capital ($)</label>
                     <input type="number" id="rm-balance" value="10000" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
@@ -606,7 +661,7 @@ def build_signals_page(assets: List[Dict]):
                     <input type="number" id="rm-sl" value="2.5" step="0.1" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
                 </div>
                 <div>
-                    <button class="btn-trade" onclick="calcRisk()" style="padding:10px 24px; height:40px; border-radius:2px;">CALCULATE</button>
+                    <button onclick="calcRisk()" style="padding:10px 24px; height:40px; border-radius:2px; background:#fff; color:#000; font-weight:bold; border:none; cursor:pointer;">CALCULATE</button>
                 </div>
             </div>
             
@@ -633,7 +688,7 @@ def build_signals_page(assets: List[Dict]):
         
         <div style="border: 1px solid #222; padding: 15px; border-radius: 4px; margin-bottom: 40px; text-align: center; background:#0a0a0a;">
             <strong style="color: #FF3D00; font-size:0.8rem; letter-spacing:1px;">SYSTEM ADVISORY:</strong> 
-            <span style="color: #888; font-size: 0.8rem;">Algorithmic targets are generated based on mathematical variance (ATR). Do not execute discretionary trades blindly.</span>
+            <span style="color: #888; font-size: 0.8rem;">Algorithmic targets are generated based on mathematical variance (ATR) at system compilation. Do not execute discretionary trades blindly.</span>
         </div>
         
         <h2 class="section-title" style="font-size:1.5rem; letter-spacing:-0.5px;">QUANTITATIVE SIGNALS ENGINE</h2>
@@ -655,7 +710,6 @@ def build_signals_page(assets: List[Dict]):
         </div>
     </div>
     '''
-    
     html = get_dashboard_layout("Signals Engine", content, active_page="signals")
     scrivi_file("signals.html", html)
 
@@ -671,7 +725,7 @@ def build_api_hub():
             <div id="api-form-container" class="wallet-form" style="background:none; border:none; padding:0; flex-direction:column; gap:20px; display:flex;">
                 <div>
                     <label style="color:#666; font-size:0.75rem; text-transform:uppercase; font-weight:bold; letter-spacing:1px;">Protocol</label>
-                    <select style="width:100%; margin-top:5px; padding:15px; background:#000; border:1px solid #222; color:#ccc; outline:none; border-radius:2px; font-family:monospace;">
+                    <select style="width:100%; box-sizing:border-box; margin-top:5px; padding:15px; background:#000; border:1px solid #222; color:#ccc; outline:none; border-radius:2px; font-family:monospace;">
                         <option>Binance FIX/REST API</option>
                         <option>Bybit Linear API</option>
                         <option>MEXC v3 API</option>
@@ -685,10 +739,10 @@ def build_api_hub():
                     <label style="color:#666; font-size:0.75rem; text-transform:uppercase; font-weight:bold; letter-spacing:1px;">Private Key</label>
                     <input type="password" style="width:100%; box-sizing:border-box; margin-top:5px; padding:15px; font-family:monospace; background:#000; border:1px solid #222; color:#ccc; outline:none; border-radius:2px;" placeholder="Enter Private Key">
                 </div>
-                <button class="btn-trade" style="padding:15px; font-size:1rem; margin-top:10px; letter-spacing:1px; border-radius:2px; cursor:pointer;" onclick="connectAPI()">INITIALIZE CONNECTION</button>
+                <button style="padding:15px; font-size:1rem; margin-top:10px; letter-spacing:1px; border-radius:2px; cursor:pointer; background:#fff; color:#000; font-weight:bold; border:none;" onclick="connectAPI()">INITIALIZE CONNECTION</button>
             </div>
             
-            <div class="hacker-terminal" id="term" style="display:none; cursor:text; height:250px; background:#000; border:1px solid #111; border-radius:2px; padding:20px; font-family:monospace; color:#888; font-size:0.9rem;" onclick="document.getElementById('term-input').focus()">
+            <div class="hacker-terminal" id="term" style="display:none; cursor:text; height:250px; background:#000; border:1px solid #111; border-radius:2px; padding:20px; font-family:monospace; color:#888; font-size:0.9rem; overflow-y:auto;" onclick="document.getElementById('term-input').focus()">
                 <div id="term-content">> SYSTEM READY.<br>> Awaiting execution... (Type 'connect')<br></div>
                 <div style="display:flex;">> <input type="text" id="term-input" onkeypress="checkTerminalCommand(event)" style="background:transparent; border:none; color:#ccc; font-family:monospace; outline:none; width:100%; margin-left:5px; font-size:0.9rem;" autocomplete="off" spellcheck="false"></div>
             </div>
@@ -732,7 +786,7 @@ def build_brokers_page():
         {"name": "MEXC", "type": "High Leverage", "pros": "0% Maker Fees", "link": AFF_MEXC, "cta": "PROVISION"}
     ]
     html_cards = "".join([f'''
-        <div class="broker-card" style="border-radius:4px; border:1px solid #1a1a1a; background:#0a0a0a; padding:20px; transition:border-color 0.2s; display:flex; justify-content:space-between; align-items:center;">
+        <div class="broker-card" style="border-radius:4px; border:1px solid #1a1a1a; background:#0a0a0a; padding:20px; transition:border-color 0.2s; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
             <div style="display:flex; align-items:center;">
                 <div class="broker-info">
                     <h3 style="margin:0; color:#fff; font-size:1.2rem; font-weight:700;">{b["name"]}</h3>
@@ -869,8 +923,7 @@ def build_pricing_page():
             window.location.href = currentStripeLink; 
         } else if(method === 'login') { 
             document.getElementById('checkout-choice-modal').style.display = 'none'; 
-            // openLogin(); // Se hai una modal login
-            alert("Login non ancora implementato");
+            alert("Login System Pending API Link");
         } 
     }
     </script>
@@ -1252,7 +1305,7 @@ def build_vip_lounge():
                 </div>
             </div>
             
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px; margin-bottom:40px;">
+            <div class="grid" style="margin-bottom:40px;">
                 <div class="panel" style="background:#0a0a0a; border:1px solid #1a1a1a; border-radius:4px; padding:25px;">
                     <h3 style="color:#fff; font-size:1.1rem; margin-top:0; border-bottom:1px solid #222; padding-bottom:10px;">PROPRIETARY ALPHA MODELS</h3>
                     <p style="color:#888; font-size:0.85rem; line-height:1.6; margin-bottom:20px;">Review the framework before executing simulated trades.</p>
@@ -1265,7 +1318,7 @@ def build_vip_lounge():
 
                 <div class="panel" style="background:#0a0a0a; border:1px solid #222; border-radius:4px; padding:25px;">
                     <h3 style="color:#fff; font-size:1.1rem; margin-top:0; border-bottom:1px solid #222; padding-bottom:10px;">ORDER EXECUTION</h3>
-                    <div class="pt-form" style="display:flex; gap:10px; align-items:center; margin-top:20px;">
+                    <div class="wallet-form" style="display:flex; gap:10px; align-items:center; margin-top:20px;">
                         <input type="text" id="pt-ticker" placeholder="TICKER (e.g. BTC)" style="width:130px; padding:12px; background:#000; border:1px solid #333; color:#fff; text-transform:uppercase; outline:none; font-family:monospace; border-radius:2px;">
                         <input type="number" id="pt-amount" placeholder="Size in USD ($)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; font-family:monospace; border-radius:2px;">
                         <button id="pt-buy-btn" onclick="executePaperTrade()" style="padding:12px 25px; border-radius:2px; font-weight:bold; background:#fff; color:#000; border:none; cursor:pointer;">MARKET BUY</button>
@@ -1438,63 +1491,7 @@ def build_vip_lounge():
     scrivi_file("vip_lounge.html", html)
 
 def build_stories_page():
-    content = '''
-    <div style="max-width:1400px; margin: 0 auto;">
-        <div style="text-align:center; margin-bottom:50px;">
-            <h1 style="font-size:3rem; margin-bottom:10px; font-weight:900; letter-spacing:-1px;">CLIENT <span style="color:#fff;">CASE STUDIES</span></h1>
-            <p style="color:#888; font-size:1.1rem; max-width:600px; margin:0 auto;">Verified analytical accounts of retail participants transitioning to quantitative frameworks using our proprietary data.</p>
-        </div>
-        
-        <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
-            <div class="panel" style="background:#0a0a0a; border:1px solid #222; border-radius:4px; border-top: 3px solid #00C853; position:relative; padding:25px;">
-                <div style="position:absolute; top:-15px; right:20px; background:#00C853; color:#000; padding:4px 8px; border-radius:2px; font-weight:bold; font-size:0.7rem; letter-spacing:1px;">FUNDED PORTFOLIO</div>
-                <h3 style="color:#fff; font-size:1.2rem; margin-top:10px;">"From discretionary bias to systematic execution."</h3>
-                <p style="color:#888; font-size:0.9rem; line-height:1.6;">"Before integrating MIP, I traded on emotional sentiment. The Order Block metrics inside the VIP infrastructure eliminated prediction. I now execute solely on institutional liquidity footprints."</p>
-                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #111; display:flex; align-items:center; gap:15px;">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=100&q=80" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid #333;">
-                    <div>
-                        <strong style="color:#ccc; display:block; font-size:0.9rem;">Marcus T.</strong>
-                        <span style="color:#666; font-size:0.75rem;">Quant Tier since Q3 2025</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="panel" style="background:#0a0a0a; border:1px solid #222; border-radius:4px; border-top: 3px solid var(--gold); position:relative; padding:25px;">
-                <div style="position:absolute; top:-15px; right:20px; background:var(--gold); color:#000; padding:4px 8px; border-radius:2px; font-weight:bold; font-size:0.7rem; letter-spacing:1px;">DATA ARBITRAGE</div>
-                <h3 style="color:#fff; font-size:1.2rem; margin-top:10px;">"Uncovering the macro context."</h3>
-                <p style="color:#888; font-size:0.9rem; line-height:1.6;">"The simulated Macro Correlation Matrix provided answers that standard retail charts obfuscate. Tracking cross-asset liquidity flows gave me an asymmetric edge over retail counterparts."</p>
-                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #111; display:flex; align-items:center; gap:15px;">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid #333;">
-                    <div>
-                        <strong style="color:#ccc; display:block; font-size:0.9rem;">Elena S.</strong>
-                        <span style="color:#666; font-size:0.75rem;">Quant Tier since Q4 2025</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="panel" style="background:#0a0a0a; border:1px solid #222; border-radius:4px; border-top: 3px solid #2962FF; position:relative; padding:25px;">
-                <div style="position:absolute; top:-15px; right:20px; background:#2962FF; color:#fff; padding:4px 8px; border-radius:2px; font-weight:bold; font-size:0.7rem; letter-spacing:1px;">API AUTOMATION</div>
-                <h3 style="color:#fff; font-size:1.2rem; margin-top:10px;">"Removing the human error variable."</h3>
-                <p style="color:#888; font-size:0.9rem; line-height:1.6;">"Connecting my Bybit architecture to the Execution Hub was the final step. The Risk Module handles position sizing, and the algorithm manages deployment. Complete isolation of capital management."</p>
-                <div style="margin-top:20px; padding-top:20px; border-top:1px solid #111; display:flex; align-items:center; gap:15px;">
-                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=100&q=80" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:1px solid #333;">
-                    <div>
-                        <strong style="color:#ccc; display:block; font-size:0.9rem;">David K.</strong>
-                        <span style="color:#666; font-size:0.75rem;">Quant Tier since Q1 2026</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div style="text-align:center; margin-top:60px; padding:40px; background:#0a0a0a; border:1px solid #222; border-radius:4px;">
-            <h2 style="color:#fff; margin-top:0; font-weight:900;">Ready to execute systematically?</h2>
-            <p style="color:#888; margin-bottom:30px; font-size:0.95rem;">Stop gambling and start trading with an institutional edge.</p>
-            <a href="pricing.html" style="padding:15px 40px; font-size:1rem; text-decoration:none; border-radius:2px; font-weight:bold; letter-spacing:1px; background:var(--gold); color:#000;">PROVISION TIER 2</a>
-        </div>
-    </div>
-    '''
-    html = get_dashboard_layout("Case Studies", content, active_page="dashboard")
-    scrivi_file("stories.html", html)
+    pass
 
 def build_tools_page():
     content = f'''
@@ -1511,7 +1508,7 @@ def build_tools_page():
         </div>
 
         <div class="stack-category">LAYER 1: EXECUTION & LIQUIDITY</div>
-        <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
+        <div class="grid">
             <div class="stack-card">
                 <span class="stack-badge" style="background:#111; color:#00C853; border:1px solid #00C853;">CAPITAL FUNDING</span>
                 <h3 style="color:#fff; font-size:1.2rem; margin-top:0;">FTMO Infrastructure</h3>
@@ -1533,7 +1530,7 @@ def build_tools_page():
         </div>
 
         <div class="stack-category">LAYER 2: DATA & ANALYTICS</div>
-        <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
+        <div class="grid">
             <div class="stack-card">
                 <span class="stack-badge" style="background:#111; color:#fff; border:1px solid #fff;">VISUALIZATION</span>
                 <h3 style="color:#fff; font-size:1.2rem; margin-top:0;">TradingView Pro</h3>
@@ -1555,7 +1552,7 @@ def build_tools_page():
         </div>
 
         <div class="stack-category">LAYER 3: COMPLIANCE & SECURITY</div>
-        <div class="grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
+        <div class="grid">
             <div class="stack-card">
                 <span class="stack-badge" style="background:#111; color:#FF3D00; border:1px solid #FF3D00;">ENCRYPTION</span>
                 <h3 style="color:#fff; font-size:1.2rem; margin-top:0;">NordVPN Protocols</h3>
@@ -1588,7 +1585,7 @@ def build_seo_files():
         "index.html", "signals.html", "api_hub.html", "brokers.html", 
         "referral.html", "pricing.html", "leaderboard.html", "legal.html",
         "academy_lez1_1.html", "academy_lez2_1.html", "academy_lez3_1.html", "academy_lez4_1.html", "academy_lez5_1.html",
-        "chat.html", "wallet.html", "vip_lounge.html", "stories.html", "tools.html"
+        "chat.html", "wallet.html", "vip_lounge.html", "tools.html"
     ]
     
     sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
