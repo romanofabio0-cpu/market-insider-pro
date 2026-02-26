@@ -9,7 +9,7 @@ from core.content import MODALS_HTML
 logger = get_logger("Builder")
 
 # =========================================================
-# CABINA DI REGIA AFFILIAZIONI (Completa e Intatta)
+# CABINA DI REGIA AFFILIAZIONI
 # =========================================================
 AMAZON_LINK_BOOK = "https://www.amazon.it/s?k=trading+in+the+zone+libro&tag=mip081-21"
 AMAZON_LINK_MONITOR = "https://www.amazon.it/s?k=monitor+lg+34+pollici+ultrawide&tag=mip081-21"
@@ -31,7 +31,7 @@ AFF_GLASSNODE = "https://glassnode.com/?via=TUO_CODICE"
 AFF_UDEMY_COURSE = "https://click.linksynergy.com/fs-bin/click?id=TUO_CODICE&offerid=UDEMY_TRADING_COURSE"
 # =========================================================
 
-# --- STILE DASHBOARD ISTITUZIONALE GLOBALE ---
+# --- STILE DASHBOARD GLOBALE E RESPONSIVE ---
 MIP_DASHBOARD_CSS = """
 :root {
     --bg-sidebar: #050505;
@@ -50,22 +50,22 @@ body {
 .sidebar {
     width: 250px; background-color: var(--bg-sidebar); 
     border-right: 1px solid var(--border-color); display: flex; flex-direction: column; z-index: 10;
-    overflow-y: auto;
+    overflow-y: auto; flex-shrink: 0;
 }
 .sidebar-logo {
     padding: 20px; display: flex; align-items: center; gap: 12px; 
     border-bottom: 1px solid var(--border-color);
 }
 .sidebar-logo img { 
-    width: 32px; height: 32px; border-radius: 50%; object-fit: cover; flex-shrink: 0;
-    border: 1px solid var(--gold);
+    width: 38px; height: 38px; border-radius: 50%; object-fit: contain; flex-shrink: 0;
+    background: #111; border: 1px solid var(--gold);
 }
 .sidebar-logo span {
     font-size: 1.05rem; font-weight: 800; letter-spacing: -0.5px; color: #fff;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .nav-group-title {
-    padding: 15px 20px 5px 20px; font-size: 0.7rem; color: #555; 
+    padding: 20px 20px 5px 20px; font-size: 0.7rem; color: #555; 
     font-weight: bold; letter-spacing: 1px; text-transform: uppercase;
 }
 .nav-item {
@@ -80,35 +80,53 @@ body {
 }
 .top-header {
     height: 65px; background-color: var(--bg-header); border-bottom: 1px solid var(--border-color);
-    display: flex; align-items: center; justify-content: flex-end; padding: 0 30px;
-    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
+    position: sticky; top: 0; z-index: 50; flex-shrink: 0;
 }
-.vip-btn-header {
-    background: var(--gold); color: #000; padding: 8px 20px; border-radius: 4px; 
-    font-weight: 800; text-decoration: none; font-size: 0.85rem; letter-spacing: 0.5px;
-    transition: opacity 0.2s;
+.lang-switcher {
+    background: #111; color: #fff; border: 1px solid #333; padding: 8px 12px; 
+    border-radius: 4px; font-weight: 600; font-size: 0.85rem; cursor: pointer; outline: none;
+    appearance: none; -webkit-appearance: none;
 }
-.vip-btn-header:hover { opacity: 0.9; }
+.lang-switcher:hover { border-color: var(--gold); }
 .dashboard-content { padding: 30px; width: 100%; box-sizing: border-box; }
 
+/* REGOLE STRUTTURALI (Griglie, Layout, Tabelle) */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.split-layout { display: flex; gap: 20px; align-items: stretch; margin-bottom: 30px; }
+.split-layout > .panel { flex: 1; min-width: 0; }
+.table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 4px; }
+
+/* RESPONSIVE MOBILE PERFETTO */
 @media (max-width: 768px) {
     body { flex-direction: column; overflow: auto; }
-    .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; }
-    .sidebar-logo { width: 100%; border-bottom: 1px solid var(--border-color); }
+    .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: nowrap; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border-color); -webkit-overflow-scrolling: touch; }
+    .sidebar::-webkit-scrollbar { display: none; }
+    .sidebar-logo { padding: 10px 15px; border-bottom: none; border-right: 1px solid var(--border-color); }
+    .sidebar-logo span { display: none; }
     .nav-group-title { display: none; }
-    .nav-item { padding: 10px; font-size: 0.85rem; border-left: none; border-bottom: 2px solid transparent; }
-    .nav-item:hover, .nav-item.active { border-left: none; border-bottom: 2px solid var(--gold); }
-    .dashboard-content { padding: 15px; }
+    .nav-item { padding: 15px 20px; border-left: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+    .nav-item:hover, .nav-item.active { border-left: none; border-bottom: 2px solid var(--gold); background: transparent; }
+    
+    .top-header { padding: 0 15px; height: 60px; }
+    .dashboard-content { padding: 15px; overflow-x: hidden; }
+    
+    .split-layout { flex-direction: column; }
+    .academy-grid { grid-template-columns: 1fr !important; }
+    .wallet-form { flex-direction: column !important; }
+    .wallet-form input, .wallet-form button { width: 100% !important; margin-left: 0; margin-top: 10px; }
+    .market-clocks { justify-content: center; }
+    .fng-value { font-size: 2rem !important; }
 }
 """
 
 def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard") -> str:
-    """Motore di layout unificato. Avvolge ogni pagina con la stessa Sidebar e Header."""
+    """Motore di layout unificato. Avvolge ogni pagina garantendo perfezione mobile."""
     
     sidebar_html = f"""
     <div class="sidebar">
         <div class="sidebar-logo">
-            <img src="logo_mip.jpg" alt="MIP Logo">
+            <img src="logo_mip.jpg" alt="MIP Logo" onerror="this.src='https://ui-avatars.com/api/?name=MIP&background=d4af37&color=000&rounded=true&bold=true'">
             <span>Market Insider Pro</span>
         </div>
         
@@ -125,15 +143,23 @@ def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard
         <a href="{BYBIT_AFFILIATE_LINK}" target="_blank" class="nav-item">Exchange (Bybit)</a>
         <a href="{AFF_TRADINGVIEW}" target="_blank" class="nav-item">TradingView Charts</a>
         
-        <div class="nav-group-title">Account</div>
-        <a href="pricing.html" class="nav-item {'active' if active_page == 'pricing' else ''}">Subscription</a>
+        <div class="nav-group-title">Account & Clearance</div>
+        <a href="pricing.html" class="nav-item {'active' if active_page == 'pricing' else ''}" style="color: var(--gold); font-weight: 800;">&#9830; VIP PASS</a>
         <a href="vip_lounge.html" class="nav-item {'active' if active_page == 'vip' else ''}">VIP Lounge</a>
     </div>
     """
     
     header_html = """
     <div class="top-header">
-        <a href="pricing.html" class="vip-btn-header">VIP PASS ($49/MO)</a>
+        <div class="header-mobile-space">
+            <span style="font-weight:bold; color:var(--text-main); font-size:1.1rem; display:none;" class="mobile-title">Market Insider Pro</span>
+        </div>
+        <select class="lang-switcher" onchange="console.log('Language changed to: ' + this.value)">
+            <option value="en">English</option>
+            <option value="it">Italiano</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+        </select>
     </div>
     """
     
@@ -141,7 +167,7 @@ def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>{title} | Market Insider Pro</title>
         {CSS_CORE}
         <style>{MIP_DASHBOARD_CSS}</style>
@@ -371,7 +397,6 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
             </script>
         </div>
         '''
-        # Generiamo le pagine dei chart con il nuovo layout
         chart_page_html = get_dashboard_layout(f"{ticker} Data", chart_content, active_page="dashboard")
         scrivi_file(f"chart_{elem_id}.html", chart_page_html)
 
@@ -395,7 +420,7 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
     
     filter_html = '''
     <div class="market-filters" style="margin-bottom: 30px; display: flex; gap: 15px; align-items:center;">
-        <input type="text" id="asset-search" placeholder="Query ticker (e.g. BTC, SOL)..." onkeyup="filterAssets()" style="padding: 12px 20px; background: #0a0a0a; border: 1px solid #222; color: #fff; width: 100%; max-width: 350px; border-radius: 4px; outline:none; font-family:monospace; font-size:0.9rem;">
+        <input type="text" id="asset-search" placeholder="Query ticker (e.g. BTC)..." onkeyup="filterAssets()" style="padding: 12px 20px; background: #0a0a0a; border: 1px solid #222; color: #fff; width: 100%; max-width: 350px; border-radius: 4px; outline:none; font-family:monospace; font-size:0.9rem;">
     </div>
     <script>
     function filterAssets() {
@@ -499,9 +524,11 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
             </div>
             <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a;">
                 <h2 class="section-title" style="font-size:1.2rem; border-bottom:1px solid #222; padding-bottom:10px;">MARKET INTELLIGENCE</h2>
-                <table style="width:100%; border-collapse:collapse;">
-                    <tbody>{news_rows}</tbody>
-                </table>
+                <div class="table-responsive">
+                    <table style="width:100%; border-collapse:collapse;">
+                        <tbody>{news_rows}</tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -561,11 +588,11 @@ def build_signals_page(assets: List[Dict]):
 
     content = f'''
     <div style="max-width: 1400px; margin: 0 auto;">
-        <div class="panel" style="margin-bottom:30px; border-left:4px solid var(--accent); background: #0a0a0a; border-radius:4px; border-top:1px solid #1a1a1a; border-right:1px solid #1a1a1a; border-bottom:1px solid #1a1a1a; padding: 25px;">
+        <div class="panel" style="margin-bottom:30px; border-left:4px solid var(--gold); background: #0a0a0a; border-radius:4px; border-top:1px solid #1a1a1a; border-right:1px solid #1a1a1a; border-bottom:1px solid #1a1a1a; padding: 25px;">
             <h3 style="margin-top:0; color:#fff; font-size:1.2rem;">QUANTITATIVE RISK MODEL</h3>
             <p style="color:#888; font-size:0.85rem;">Calculate exact position exposure based on strict institutional tolerance algorithms.</p>
             
-            <div class="wallet-form" style="padding:0; background:none; border:none; flex-wrap:wrap; gap:15px; margin-bottom:0; display:flex;">
+            <div class="wallet-form" style="padding:0; background:none; border:none; display:flex; gap:15px; align-items:flex-end;">
                 <div style="flex:1; min-width:150px;">
                     <label style="font-size:0.7rem; color:#666; text-transform:uppercase;">Capital ($)</label>
                     <input type="number" id="rm-balance" value="10000" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
@@ -578,7 +605,7 @@ def build_signals_page(assets: List[Dict]):
                     <label style="font-size:0.7rem; color:#666; text-transform:uppercase;">Invalidation Dist. (%)</label>
                     <input type="number" id="rm-sl" value="2.5" step="0.1" style="width:100%; box-sizing:border-box; margin-top:5px; background:#000; border:1px solid #222; color:#fff; font-family:monospace; border-radius:2px; outline:none; padding:10px;">
                 </div>
-                <div style="display:flex; align-items:flex-end;">
+                <div>
                     <button class="btn-trade" onclick="calcRisk()" style="padding:10px 24px; height:40px; border-radius:2px;">CALCULATE</button>
                 </div>
             </div>
@@ -611,7 +638,7 @@ def build_signals_page(assets: List[Dict]):
         
         <h2 class="section-title" style="font-size:1.5rem; letter-spacing:-0.5px;">QUANTITATIVE SIGNALS ENGINE</h2>
         
-        <div class="panel" style="padding:0; overflow-x:auto; border-radius:4px; border:1px solid #1a1a1a;">
+        <div class="panel table-responsive" style="padding:0; border-radius:4px; border:1px solid #1a1a1a;">
             <table style="width:100%; border-collapse:collapse;">
                 <thead>
                     <tr style="background:#050505; font-size:0.75rem; color:#666; text-transform:uppercase; border-bottom:1px solid #222; text-align:left;">
@@ -684,7 +711,7 @@ def build_api_hub():
                 term.innerHTML += "><span style='color:#ccc;'> connect</span><br>> Establishing secure bridge...<br>"; 
                 setTimeout(() => { term.innerHTML += "> Encrypting payload (AES-256)... <span style='color:#00C853;'>OK</span><br>"; }, 800); 
                 setTimeout(() => { term.innerHTML += "> Requesting API permissions...<br>"; }, 1800); 
-                setTimeout(() => { term.innerHTML += "<span style='color:#FF3D00; font-weight:bold;'>[!] EXECUTION REJECTED: TIER NOT AUTHORIZED</span><br>"; openWaitlist(); e.target.disabled = false; }, 3200); 
+                setTimeout(() => { term.innerHTML += "<span style='color:#FF3D00; font-weight:bold;'>[!] EXECUTION REJECTED: TIER NOT AUTHORIZED</span><br>"; e.target.disabled = false; }, 3200); 
             } else { 
                 term.innerHTML += "><span style='color:#ccc;'> " + val + "</span><br>> Command void. Type '<span style='color:#ccc;'>connect</span>'.<br>"; 
                 e.target.value = ''; 
@@ -700,9 +727,9 @@ def build_api_hub():
 
 def build_brokers_page():
     brokers = [
-        {"name": "Binance", "type": "Spot & Derivatives", "pros": "Deepest Liquidity Depth", "link": BINANCE_AFFILIATE_LINK, "cta": "PROVISION ACCOUNT"},
-        {"name": "Bybit", "type": "Perpetual Futures", "pros": "Low Latency API", "link": BYBIT_AFFILIATE_LINK, "cta": "PROVISION ACCOUNT"},
-        {"name": "MEXC", "type": "High Leverage", "pros": "0% Maker Fees", "link": AFF_MEXC, "cta": "PROVISION ACCOUNT"}
+        {"name": "Binance", "type": "Spot & Derivatives", "pros": "Deepest Liquidity", "link": BINANCE_AFFILIATE_LINK, "cta": "PROVISION"},
+        {"name": "Bybit", "type": "Perpetual Futures", "pros": "Low Latency API", "link": BYBIT_AFFILIATE_LINK, "cta": "PROVISION"},
+        {"name": "MEXC", "type": "High Leverage", "pros": "0% Maker Fees", "link": AFF_MEXC, "cta": "PROVISION"}
     ]
     html_cards = "".join([f'''
         <div class="broker-card" style="border-radius:4px; border:1px solid #1a1a1a; background:#0a0a0a; padding:20px; transition:border-color 0.2s; display:flex; justify-content:space-between; align-items:center;">
@@ -710,12 +737,12 @@ def build_brokers_page():
                 <div class="broker-info">
                     <h3 style="margin:0; color:#fff; font-size:1.2rem; font-weight:700;">{b["name"]}</h3>
                     <div class="broker-tags" style="margin-top:8px;">
-                        <span style="background:#111; color:#888; border:1px solid #222; font-size:0.75rem; padding:4px 8px; border-radius:2px; display:inline-block; margin-right:5px;">{b["type"]}</span>
-                        <span style="background:#111; color:#888; border:1px solid #222; font-size:0.75rem; padding:4px 8px; border-radius:2px; display:inline-block;">{b["pros"]}</span>
+                        <span style="background:#111; color:#888; border:1px solid #222; font-size:0.7rem; padding:4px 8px; border-radius:2px; display:inline-block; margin-right:5px; margin-bottom:5px;">{b["type"]}</span>
+                        <span style="background:#111; color:#888; border:1px solid #222; font-size:0.7rem; padding:4px 8px; border-radius:2px; display:inline-block;">{b["pros"]}</span>
                     </div>
                 </div>
             </div>
-            <a href="{b["link"]}" target="_blank" class="btn-trade" style="padding:10px 20px; text-align:center; font-size:0.85rem; border-radius:2px; background:transparent; border:1px solid #333; color:#ccc; font-weight:600; letter-spacing:1px; text-decoration:none;">{b["cta"]}</a>
+            <a href="{b["link"]}" target="_blank" style="padding:10px 20px; text-align:center; font-size:0.85rem; border-radius:2px; background:transparent; border:1px solid #333; color:#ccc; font-weight:600; letter-spacing:1px; text-decoration:none;">{b["cta"]}</a>
         </div>
     ''' for b in brokers])
     
@@ -739,9 +766,9 @@ def build_referral_page():
         <div class="ref-box" style="border-radius:4px; border:1px solid #1a1a1a; background:#0a0a0a; padding:50px;">
             <h1 style="font-size:2rem; margin-top:0; color:#fff; font-weight:900; letter-spacing:-0.5px;">NETWORK EXPANSION</h1>
             <p style="color:#888; font-size:0.95rem; line-height:1.6;">Distribute your unique cryptographic identifier. Upon 3 successful network additions, Tier 2 clearance is granted automatically.</p>
-            <div class="ref-link-container" style="background:#000; border:1px solid #222; border-radius:4px; margin-top:30px; display:flex; align-items:center; justify-content:space-between; padding-left:15px;">
-                <div class="ref-link" id="ref-url" style="color:#ccc; font-family:monospace; font-size:0.85rem; padding:15px 0;">Loading link...</div>
-                <button class="ref-copy" id="copy-btn" onclick="copyLink()" style="border-radius:2px; font-weight:600; letter-spacing:1px; background:#222; color:#fff; border:none; padding:15px 25px; cursor:pointer;">COPY LINK</button>
+            <div class="ref-link-container wallet-form" style="background:#000; border:1px solid #222; border-radius:4px; margin-top:30px; display:flex; align-items:center; justify-content:space-between; padding: 15px;">
+                <div class="ref-link" id="ref-url" style="color:#ccc; font-family:monospace; font-size:0.85rem; overflow:hidden; text-overflow:ellipsis;">Loading link...</div>
+                <button id="copy-btn" onclick="copyLink()" style="border-radius:2px; font-weight:600; letter-spacing:1px; background:#222; color:#fff; border:none; padding:15px 25px; cursor:pointer;">COPY LINK</button>
             </div>
         </div>
     </div>
@@ -781,8 +808,8 @@ def build_pricing_page():
                 <h3 style="color:#888; font-size:1rem; margin:0; letter-spacing:1px;">TIER 1 (STANDARD)</h3>
                 <div class="price-tag" style="color:#ccc; font-size:2.5rem; font-weight:900; margin:15px 0;">$0<span style="color:#666; font-size:1rem; font-weight:normal;">/mo</span></div>
                 <div style="margin-bottom:30px; font-size:0.85rem; color:#888; border-top:1px solid #111; padding-top:20px;">
-                    <div class="plan-feature" style="margin-bottom:15px;">✓ Delayed Terminal Data</div>
-                    <div class="plan-feature">✓ Basic Modeling</div>
+                    <div class="plan-feature" style="margin-bottom:15px;">&#10003; Delayed Terminal Data</div>
+                    <div class="plan-feature">&#10003; Basic Modeling</div>
                 </div>
                 <button style="width:100%; padding:15px; background:#111; color:#666; border:none; border-radius:2px; font-weight:600; font-size:0.9rem;">CURRENT TIER</button>
             </div>
@@ -792,9 +819,9 @@ def build_pricing_page():
                 <h3 style="color:var(--gold); font-size:1rem; margin:0; letter-spacing:1px;">TIER 2 (QUANT)</h3>
                 <div class="price-tag" style="color:#fff; font-size:2.5rem; font-weight:900; margin:15px 0;">$49<span style="color:#888; font-size:1rem; font-weight:normal;">/mo</span></div>
                 <div style="margin-bottom:30px; font-size:0.85rem; color:#ccc; border-top:1px solid #111; padding-top:20px;">
-                    <div class="plan-feature" style="margin-bottom:15px;">✓ Real-Time Data Feeds</div>
-                    <div class="plan-feature" style="margin-bottom:15px;">✓ Paper Trading Simulator</div>
-                    <div class="plan-feature">✓ Signals Database</div>
+                    <div class="plan-feature" style="margin-bottom:15px;">&#10003; Real-Time Data Feeds</div>
+                    <div class="plan-feature" style="margin-bottom:15px;">&#10003; Paper Trading Simulator</div>
+                    <div class="plan-feature">&#10003; Signals Database</div>
                 </div>
                 <button onclick="openCheckoutChoice('https://buy.stripe.com/dRmcN56uTbIR6N8fux2Ry00')" style="width:100%; padding:15px; font-size:0.9rem; border-radius:2px; font-weight:700; background:var(--gold); color:#000; letter-spacing:1px; border:none; cursor:pointer;">PROVISION SECURELY</button>
             </div>
@@ -803,8 +830,8 @@ def build_pricing_page():
                 <h3 style="color:#2962FF; font-size:1rem; margin:0; letter-spacing:1px;">ENTERPRISE</h3>
                 <div class="price-tag" style="color:#fff; font-size:2.5rem; font-weight:900; margin:15px 0;">$399<span style="color:#888; font-size:1rem; font-weight:normal;">/once</span></div>
                 <div style="margin-bottom:30px; font-size:0.85rem; color:#ccc; border-top:1px solid #111; padding-top:20px;">
-                    <div class="plan-feature" style="margin-bottom:15px;">✓ All Tier 2 Features</div>
-                    <div class="plan-feature">✓ Perpetual Updates</div>
+                    <div class="plan-feature" style="margin-bottom:15px;">&#10003; All Tier 2 Features</div>
+                    <div class="plan-feature">&#10003; Perpetual Updates</div>
                 </div>
                 <button onclick="openCheckoutChoice('https://buy.stripe.com/14AfZh6uT9AJ3AW5TX2Ry01')" style="width:100%; padding:15px; border-radius:2px; font-weight:700; background:#fff; color:#000; letter-spacing:1px; border:none; cursor:pointer;">ACQUIRE LICENSE</button>
             </div>
@@ -812,7 +839,7 @@ def build_pricing_page():
     </div>
     
     <div class="modal-overlay" id="checkout-choice-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:999; justify-content:center; align-items:center;">
-        <div class="modal-content" style="max-width:400px; width:100%; text-align:center; padding:40px; border-radius:4px; border:1px solid #222; background:#0a0a0a; position:relative;">
+        <div class="modal-content" style="max-width:400px; width:90%; text-align:center; padding:40px; border-radius:4px; border:1px solid #222; background:#0a0a0a; position:relative;">
             <span class="close-modal" onclick="document.getElementById('checkout-choice-modal').style.display='none'" style="position:absolute; top:15px; right:20px; font-size:1.5rem; color:#888; cursor:pointer;">&times;</span>
             <h2 style="color:#fff; margin-top:0; font-weight:900;">Authentication Required</h2>
             <p style="color:#888; font-size:0.85rem; margin-bottom:30px;">Select your provisioning pathway.</p>
@@ -842,7 +869,8 @@ def build_pricing_page():
             window.location.href = currentStripeLink; 
         } else if(method === 'login') { 
             document.getElementById('checkout-choice-modal').style.display = 'none'; 
-            openLogin(); 
+            // openLogin(); // Se hai una modal login
+            alert("Login non ancora implementato");
         } 
     }
     </script>
@@ -857,7 +885,7 @@ def build_leaderboard_page():
             <h1 style="font-size:2.5rem; margin-bottom:10px; font-weight:900; letter-spacing:-0.5px;">GLOBAL METRICS</h1>
             <p style="color:#888; font-size:0.95rem; max-width:600px; margin:0 auto;">Statistical ranking of top network profiles by realized equity curve.</p>
         </div>
-        <div class="panel" style="padding:0; border-radius:4px; overflow:hidden; border:1px solid #1a1a1a;">
+        <div class="panel table-responsive" style="padding:0; border-radius:4px; border:1px solid #1a1a1a;">
             <table style="width:100%; border-collapse:collapse;">
                 <thead>
                     <tr style="background:#050505; border-bottom:1px solid #333; font-size:0.8rem; color:#666; text-align:left;">
@@ -969,9 +997,9 @@ def build_chat():
                     <span style="background:#111; color:#888; border:1px solid #222; padding:10px 15px; border-radius:4px; display:inline-block; font-family:monospace; font-size:0.85rem;">System initialized. Awaiting parameters.</span>
                 </div>
             </div>
-            <div class="chat-input-area" style="border-top: 1px solid #1a1a1a; padding:15px; display:flex; gap:10px; background:#050505;">
+            <div class="chat-input-area wallet-form" style="border-top: 1px solid #1a1a1a; padding:15px; display:flex; gap:10px; background:#050505;">
                 <input type="text" class="chat-input" id="in" placeholder="Input query parameters..." style="flex:1; background:#000; border:1px solid #222; padding:15px; color:#fff; border-radius:2px; font-family: monospace; outline:none; font-size:0.9rem;">
-                <button class="chat-btn" onclick="send()" style="background:#fff; color:#000; border:none; padding:0 30px; border-radius: 2px; font-weight: 700; font-size:0.85rem; cursor:pointer; letter-spacing:1px;">EXECUTE</button>
+                <button class="chat-btn" onclick="send()" style="background:#fff; color:#000; border:none; padding:15px 30px; border-radius: 2px; font-weight: 700; font-size:0.85rem; cursor:pointer; letter-spacing:1px;">EXECUTE</button>
             </div>
         </div>
     </div>
@@ -1014,10 +1042,10 @@ def build_wallet():
         <div class="wallet-form" style="background:#0a0a0a; border:1px solid #222; padding:20px; border-radius:4px; display:flex; gap:10px;">
             <input type="text" id="asset-select" placeholder="Asset Ticker (e.g. BTC)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; text-transform:uppercase; font-family:monospace; border-radius:2px;">
             <input type="number" id="asset-amount" placeholder="Amount (e.g. 0.5)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; font-family:monospace; border-radius:2px;">
-            <button onclick="addAsset()" style="padding:0 30px; border-radius:2px; font-weight:bold; letter-spacing:1px; background:#fff; color:#000; border:none; cursor:pointer;">ADD HOLDING</button>
+            <button onclick="addAsset()" style="padding:12px 30px; border-radius:2px; font-weight:bold; letter-spacing:1px; background:#fff; color:#000; border:none; cursor:pointer;">ADD HOLDING</button>
         </div>
         
-        <div class="panel" style="padding:0; border-radius:4px; border:1px solid #1a1a1a; margin-top:30px; overflow:hidden;">
+        <div class="panel table-responsive" style="padding:0; border-radius:4px; border:1px solid #1a1a1a; margin-top:30px;">
             <table style="width:100%; border-collapse:collapse;">
                 <thead>
                     <tr style="background:#050505; border-bottom:1px solid #222; text-align:left; font-size:0.75rem; color:#666; text-transform:uppercase;">
@@ -1224,20 +1252,20 @@ def build_vip_lounge():
                 </div>
             </div>
             
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px; margin-bottom:40px;">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px; margin-bottom:40px;">
                 <div class="panel" style="background:#0a0a0a; border:1px solid #1a1a1a; border-radius:4px; padding:25px;">
-                    <h3 style="color:#fff; font-size:1.1rem; margin-top:0; border-bottom:1px solid #222; padding-bottom:10px;">PROPRIETARY ALPHA MODELS (PDF)</h3>
+                    <h3 style="color:#fff; font-size:1.1rem; margin-top:0; border-bottom:1px solid #222; padding-bottom:10px;">PROPRIETARY ALPHA MODELS</h3>
                     <p style="color:#888; font-size:0.85rem; line-height:1.6; margin-bottom:20px;">Review the framework before executing simulated trades.</p>
                     
-                    <div style="display:flex; gap:10px;">
-                        <button style="flex:1; padding:10px; background:transparent; border:1px solid #333; color:#ccc; border-radius:2px; font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="window.open('cheatsheet_ob.html', '_blank')">Order Block Model</button>
-                        <button style="flex:1; padding:10px; background:transparent; border:1px solid #333; color:#ccc; border-radius:2px; font-size:0.8rem; font-weight:600; cursor:pointer;" onclick="window.open('cheatsheet_risk.html', '_blank')">Risk Algorithm</button>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button style="flex:1; padding:10px; background:transparent; border:1px solid #333; color:#ccc; border-radius:2px; font-size:0.8rem; font-weight:600; cursor:pointer; min-width:140px;" onclick="window.open('cheatsheet_ob.html', '_blank')">Order Block Model</button>
+                        <button style="flex:1; padding:10px; background:transparent; border:1px solid #333; color:#ccc; border-radius:2px; font-size:0.8rem; font-weight:600; cursor:pointer; min-width:140px;" onclick="window.open('cheatsheet_risk.html', '_blank')">Risk Algorithm</button>
                     </div>
                 </div>
 
                 <div class="panel" style="background:#0a0a0a; border:1px solid #222; border-radius:4px; padding:25px;">
                     <h3 style="color:#fff; font-size:1.1rem; margin-top:0; border-bottom:1px solid #222; padding-bottom:10px;">ORDER EXECUTION</h3>
-                    <div style="display:flex; gap:10px; align-items:center; margin-top:20px;">
+                    <div class="pt-form" style="display:flex; gap:10px; align-items:center; margin-top:20px;">
                         <input type="text" id="pt-ticker" placeholder="TICKER (e.g. BTC)" style="width:130px; padding:12px; background:#000; border:1px solid #333; color:#fff; text-transform:uppercase; outline:none; font-family:monospace; border-radius:2px;">
                         <input type="number" id="pt-amount" placeholder="Size in USD ($)" style="flex:1; padding:12px; background:#000; border:1px solid #333; color:#fff; outline:none; font-family:monospace; border-radius:2px;">
                         <button id="pt-buy-btn" onclick="executePaperTrade()" style="padding:12px 25px; border-radius:2px; font-weight:bold; background:#fff; color:#000; border:none; cursor:pointer;">MARKET BUY</button>
@@ -1251,7 +1279,7 @@ def build_vip_lounge():
                 <div style="font-size:0.7rem; color:#00C853; border:1px solid #00C853; padding:2px 6px; border-radius:2px;">MARKET DATA LIVE</div>
             </div>
 
-            <div class="panel" style="padding:0; border:1px solid #1a1a1a; border-radius:4px; overflow:hidden; background:#0a0a0a;">
+            <div class="panel table-responsive" style="padding:0; border:1px solid #1a1a1a; border-radius:4px; background:#0a0a0a;">
                 <table style="width:100%; border-collapse:collapse;">
                     <thead>
                         <tr style="background:#000; border-bottom:1px solid #222; text-align:left; font-size:0.7rem; color:#666; text-transform:uppercase;">
