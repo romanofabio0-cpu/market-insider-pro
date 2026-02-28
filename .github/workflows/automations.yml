@@ -1,0 +1,36 @@
+# .github/workflows/automations.yml
+name: Market Insider Pro Automations
+
+on:
+  schedule:
+    # Esegue ogni 4 ore (per Twitter e Telegram)
+    - cron: '0 */4 * * *'
+  workflow_dispatch: # Permette l'avvio manuale
+
+jobs:
+  run-bots:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Installa dipendenze
+        run: pip install -r requirements.txt
+
+      - name: Lancia Bot Twitter (X)
+        run: python social_bot.py
+        env:
+          # Assicurati di rimuovere il while loop dal file social_bot.py originale
+          # in modo che faccia un solo post e poi si chiuda!
+          RUN_LIVE: True 
+
+      - name: Lancia Bot Telegram
+        run: python telegram_bot.py
+
+      - name: Genera VIP Report
+        run: python vip_report_gen.py

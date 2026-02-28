@@ -1,7 +1,8 @@
+import os
 import tweepy
 import logging
-import time
 import random
+import time
 
 # =====================================================================
 # CONFIGURAZIONE LOGGING (Standard CI/CD)
@@ -13,12 +14,14 @@ logging.basicConfig(
 )
 
 # =====================================================================
-# 🔑 CREDENZIALI API DI X (TWITTER) - V2
+# 🔑 CREDENZIALI API DI X (TWITTER) - BLINDATE CLOUD MODE
 # =====================================================================
-API_KEY = "vUXuQbOUmj94iO5JkaDNfheU5"
-API_SECRET = "XXfYuHYg6fGEyaY0lAQ1kGIfQ6edk7bKbWza4eX1XAOuU5x6mP"
-ACCESS_TOKEN = "2026616179452973056-zBDdAEuVI7n8QXluyDA5R8Rj2MtnvG"
-ACCESS_TOKEN_SECRET = "8mJhB0QPi9TrlE92VA5OofryyarMxYRVt5CW6ikohO52L"
+# Le chiavi ora vengono "pescate" automaticamente dalle variabili di sistema
+# (GitHub Secrets) per evitare che vengano rubate se il codice diventa pubblico.
+API_KEY = os.environ.get("TWITTER_API_KEY", "")
+API_SECRET = os.environ.get("TWITTER_API_SECRET", "")
+ACCESS_TOKEN = os.environ.get("TWITTER_ACCESS_TOKEN", "")
+ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_ACCESS_SECRET", "")
 # =====================================================================
 
 def generate_market_tweet() -> str:
@@ -78,16 +81,6 @@ def post_tweet(live_mode: bool = False):
     except Exception as ex:
         logging.error(f"Unexpected error: {ex}")
 
-def start_automation_loop(hours: int, live_mode: bool = False):
-    """Avvia il loop infinito di pubblicazione."""
-    seconds = hours * 3600
-    logging.info(f"Avvio Automazione: Pubblicazione ogni {hours} ore. (Live Mode: {live_mode})")
-    
-    while True:
-        post_tweet(live_mode=live_mode)
-        logging.info(f"Standby per {hours} ore... Il bot sta riposando.")
-        time.sleep(seconds)
-
 if __name__ == "__main__":
     print("=========================================================")
     print("🤖 MARKET INSIDER PRO - SOCIAL AUTOMATION ENGINE (X)     ")
@@ -96,5 +89,7 @@ if __name__ == "__main__":
     # RUN_LIVE = True accende i motori e pubblica sul profilo
     RUN_LIVE = True
     
-    # Avvia il loop ogni 4 ore
-    start_automation_loop(hours=4, live_mode=RUN_LIVE)
+    # Esecuzione CLOUD: Singolo invio controllato da GitHub Actions
+    logging.info("Avvio pubblicazione (Cloud Mode)...")
+    post_tweet(live_mode=RUN_LIVE)
+    logging.info("Operazione completata con successo. Motori spenti.")
