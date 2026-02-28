@@ -220,7 +220,6 @@ def get_header(active_page: str) -> str:
     </header>
     '''
 
-# ACADEMY AGGIORNATA: Affiliazioni Amazon + Blocco VIP
 ACADEMY_CONTENT = {
     "mod1": {
         "title": "MODULE 1: FOUNDATIONS",
