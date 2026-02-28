@@ -31,27 +31,19 @@ AFF_GLASSNODE = "https://glassnode.com/?via=TUO_CODICE"
 AFF_UDEMY_COURSE = "https://click.linksynergy.com/fs-bin/click?id=TUO_CODICE&offerid=UDEMY_TRADING_COURSE"
 # =========================================================
 
-# --- STILE DASHBOARD GLOBALE (Con animazioni di lampeggio API) ---
+# --- STILE DASHBOARD GLOBALE ---
 MIP_DASHBOARD_CSS = """
 :root {
     --bg-sidebar: #050505; --bg-header: #050505; --bg-main: #000000;
     --border-color: #1a1a1a; --gold: #d4af37;
     --text-main: #f8fafc; --text-muted: #888;
 }
-body {
-    margin: 0; font-family: 'Inter', system-ui, sans-serif; 
-    background-color: var(--bg-main); color: var(--text-main);
-    display: flex; height: 100vh; overflow: hidden; top: 0px !important;
-}
-/* NASCONDI LA BARRA DI GOOGLE TRANSLATE */
+body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background-color: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; top: 0px !important; }
 body > .skiptranslate, .goog-te-banner-frame.skiptranslate { display: none !important; }
-
-/* ANIMAZIONI LAMPEGGIO DATI LIVE */
 @keyframes flashGreen { 0% { color: #00C853; text-shadow: 0 0 15px rgba(0,200,83,0.8); } 100% { color: #fff; text-shadow: none; } }
 @keyframes flashRed { 0% { color: #FF3D00; text-shadow: 0 0 15px rgba(255,61,0,0.8); } 100% { color: #fff; text-shadow: none; } }
 .price-flash-up { animation: flashGreen 0.6s ease-out; }
 .price-flash-down { animation: flashRed 0.6s ease-out; }
-
 .sidebar { width: 250px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; z-index: 10; overflow-y: auto; flex-shrink: 0; }
 .sidebar-logo { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); }
 .sidebar-logo img { width: 38px; height: 38px; border-radius: 50%; object-fit: contain; flex-shrink: 0; background: #111; border: 1px solid var(--gold); }
@@ -62,14 +54,11 @@ body > .skiptranslate, .goog-te-banner-frame.skiptranslate { display: none !impo
 .main-wrapper { flex: 1; overflow-y: auto; display: flex; flex-direction: column; background-color: var(--bg-main); }
 .top-header { height: 65px; background-color: var(--bg-header); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; position: sticky; top: 0; z-index: 50; flex-shrink: 0; }
 .lang-switcher { background: #111; color: #fff; border: 1px solid #333; padding: 8px 12px; border-radius: 4px; font-weight: 600; font-size: 0.85rem; cursor: pointer; outline: none; }
-.lang-switcher:hover { border-color: var(--gold); }
 .dashboard-content { padding: 30px; width: 100%; box-sizing: border-box; }
-
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
 .split-layout { display: flex; gap: 20px; align-items: stretch; margin-bottom: 30px; }
 .split-layout > .panel { flex: 1; min-width: 0; }
 .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 4px; }
-
 @media (max-width: 768px) {
     body { flex-direction: column; overflow: auto; }
     .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: nowrap; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--border-color); -webkit-overflow-scrolling: touch; }
@@ -85,7 +74,6 @@ body > .skiptranslate, .goog-te-banner-frame.skiptranslate { display: none !impo
 }
 """
 
-# MOTORE DI TRADUZIONE MULTILINGUA GESTITO DA COOKIE
 JS_TRANSLATION_ENGINE = """
 <div id="google_translate_element" style="display:none;"></div>
 <script type="text/javascript">
@@ -115,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
 """
 
 def get_dashboard_layout(title: str, content: str, active_page: str = "dashboard") -> str:
-    """Motore di layout unificato."""
     sidebar_html = f"""
     <div class="sidebar translate-section">
         <div class="sidebar-logo">
@@ -250,7 +237,7 @@ def format_price(price):
     elif price < 1: return f"${price:.4f}"
     else: return f"${price:,.2f}"
 
-def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng: Dict):
+def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng: Dict, smart_money: List[Dict]):
     grid_html = ""
     dyn_data = {a['symbol']: a for a in assets} 
     
@@ -314,7 +301,6 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         chart_page_html = get_dashboard_layout(f"{ticker} Data", chart_content, active_page="dashboard")
         scrivi_file(f"chart_{elem_id}.html", chart_page_html)
 
-    # --- SCRIPT DATI IN TEMPO REALE CON ANIMAZIONE BLINK ---
     live_price_script = '''
     <script>
     async function fetchLivePrices() {
@@ -410,6 +396,31 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         </tr>
     ''' for n in news[:6]])
     
+    # ---------------------------------------------------------
+    # WHALE TRACKER (Gating system per VIP)
+    # ---------------------------------------------------------
+    sm_rows = ""
+    for row in smart_money:
+        if row["chi"] == "LOCKED BY VIP":
+            sm_rows += f'''
+            <tr style="border-bottom: 1px solid #111; filter: blur(3px); user-select: none;">
+                <td style="padding:12px; color:#555; font-weight:bold;">HIDDEN WHALE</td>
+                <td style="padding:12px; color:#555;">███</td>
+                <td style="padding:12px; color:#555;"><span style="background:#111; padding:2px 6px;">LOCKED</span></td>
+                <td style="padding:12px; color:#555;">$██.██M</td>
+            </tr>
+            '''
+        else:
+            act_cls = "#00C853" if "BUY" in row['azione'] or "ACC" in row['azione'] else "#FF3D00"
+            sm_rows += f'''
+            <tr style="border-bottom: 1px solid #111;">
+                <td style="padding:12px; color:#fff; font-weight:bold;">{row["chi"]}</td>
+                <td style="padding:12px; color:#ccc;">{row["asset"]}</td>
+                <td style="padding:12px;"><span style="color:{act_cls}; font-size:0.7rem; border:1px solid {act_cls}; padding:2px 6px; border-radius:2px;">{row["azione"]}</span></td>
+                <td style="padding:12px; color:var(--gold); font-family:monospace;">{row["valore"]}</td>
+            </tr>
+            '''
+
     ticker_css = '''
     <style>
     @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } } 
@@ -470,10 +481,45 @@ def build_index(assets: List[Dict], news: List[Dict], calendar: List[Dict], fng:
         </div>
         {live_price_script}
         
-        <div class="split-layout">
+        <div class="split-layout" style="margin-top:40px;">
+            <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a; position:relative;">
+                <h2 class="section-title" style="font-size:1.2rem; border-bottom:1px solid #222; padding-bottom:10px; margin-top:0; color:var(--gold);">WHALE & INSTITUTIONAL TRACKER</h2>
+                <div class="table-responsive">
+                    <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                        <thead>
+                            <tr style="text-align:left; color:#666; text-transform:uppercase;">
+                                <th style="padding:10px;">ENTITY</th>
+                                <th style="padding:10px;">ASSET</th>
+                                <th style="padding:10px;">ACTION</th>
+                                <th style="padding:10px;">VOLUME</th>
+                            </tr>
+                        </thead>
+                        <tbody>{sm_rows}</tbody>
+                    </table>
+                </div>
+                <div id="whale-vip-overlay" style="position:absolute; bottom:0; left:0; width:100%; height:40%; background:linear-gradient(transparent, #050505 80%); display:flex; justify-content:center; align-items:flex-end; padding-bottom:20px;">
+                    <a href="pricing.html" style="background:var(--gold); color:#000; padding:10px 20px; font-weight:bold; font-size:0.8rem; border-radius:2px; text-decoration:none; letter-spacing:1px; box-shadow:0 10px 20px rgba(0,0,0,0.5);">UNLOCK VIP TO SEE ALL ENTITIES</a>
+                </div>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {{ 
+                        if(localStorage.getItem('mip_vip_status') === 'active') {{ 
+                            let overlay = document.getElementById('whale-vip-overlay');
+                            if(overlay) overlay.style.display = 'none';
+                            // Unblur the rows if they are VIP
+                            let blurredRows = document.querySelectorAll('tr[style*="filter: blur"]');
+                            blurredRows.forEach(row => {{
+                                row.style.filter = 'none';
+                                row.innerHTML = '<td colspan="4" style="padding:15px; color:#00C853; text-align:center;">VIP Connection Active. Syncing Deep Data...</td>';
+                            }});
+                        }} 
+                    }});
+                </script>
+            </div>
+
             <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a;">
                 {fng_html}
             </div>
+            
             <div class="panel" style="border-radius:4px; background:#0a0a0a; padding:20px; border:1px solid #1a1a1a;">
                 <h2 class="section-title" style="font-size:1.2rem; border-bottom:1px solid #222; padding-bottom:10px; margin-top:0;">MARKET INTELLIGENCE</h2>
                 <div class="table-responsive">
@@ -771,6 +817,7 @@ def build_pricing_page():
                 <div class="price-tag notranslate" style="color:#fff; font-size:2.5rem; font-weight:900; margin:15px 0;">$49<span style="color:#888; font-size:1rem; font-weight:normal;">/mo</span></div>
                 <div style="margin-bottom:30px; font-size:0.85rem; color:#ccc; border-top:1px solid #111; padding-top:20px;">
                     <div class="plan-feature" style="margin-bottom:15px;">&#10003; Real-Time Data Feeds</div>
+                    <div class="plan-feature" style="margin-bottom:15px;">&#10003; Deep Whale Tracker</div>
                     <div class="plan-feature" style="margin-bottom:15px;">&#10003; Paper Trading Simulator</div>
                     <div class="plan-feature">&#10003; Signals Database</div>
                 </div>
@@ -812,7 +859,7 @@ def build_pricing_page():
         if(user) { window.location.href = currentStripeLink; } else { document.getElementById('checkout-choice-modal').style.display = 'flex'; } 
     } 
     function proceedToStripe(method) { 
-        if(method === 'guest') { window.location.href = currentStripeLink; } else if(method === 'login') { document.getElementById('checkout-choice-modal').style.display = 'none'; alert("Login System Pending API Link"); } 
+        if(method === 'guest') { window.location.href = currentStripeLink; } else if(method === 'login') { document.getElementById('checkout-choice-modal').style.display = 'none'; openLogin(); } 
     }
     </script>
     '''
@@ -888,9 +935,6 @@ def build_legal_page():
     '''
     html = get_dashboard_layout("Legal", content, active_page="dashboard")
     scrivi_file("legal.html", html)
-
-def build_chart_pages(assets: List[Dict]):
-    pass
 
 def build_academy():
     sidebar = "".join([f"<div class='module-title' style='color:#666; font-size:0.7rem; font-weight:bold; letter-spacing:1px; margin-top:20px; border-bottom:1px solid #1a1a1a; padding-bottom:5px; margin-bottom:10px;'>{m['title']}</div>" + "".join([f'''<div onclick="window.location.href='academy_{l['id']}.html'" class="lesson-link" style="border-left:2px solid transparent; padding:8px 0; cursor:pointer; color:#aaa; font-size:0.85rem; transition:color 0.2s;">{"[LOCK]" if l.get("vip") else "[OPEN]"} {l['title']}</div>''' for l in m['lessons']]) for _, m in ACADEMY_CONTENT.items()])
